@@ -1,0 +1,850 @@
+1	/**
+2	 * Minimum DOM shim for Luna runtime running under WeChat 小游戏.
+3	 *
+4	 * Luna 启动期实际触达的 DOM 表面非常窄,只 mock 这几条:
+5	 *   document.querySelectorAll("[data-src122]")   — 资源扫描 (微信下走 asset-inject 替代,这里返回空)
+6	 *   document.getElementById(id)                   — 拿 canvas / preloader
+7	 *   document.createElement(tag)                   — 创建 Image / video (微信走 wx.createImage)
+8	 *   URL.createObjectURL(blob)                     — 配合 <img> <video> (微信下用 wxfile://)
+9	 *   addEventListener / dispatchEvent              — DOMContentLoaded / bridge:ready / luna:starting
+10	 *   navigator.userAgent / .languages              — Luna 探测 locale
+11	 *
+12	 * 微信全局: GameGlobal === wx 主线程的 globalThis. canvas 由 wx 创建并挂载.
+13	 * 与 cocos-wx 不同, 我们不引入完整 web-adapter.js, 因为 Luna 表面更小.
+14	 */
+15	
+16	(function bootShim() {
+17	  const g = GameGlobal;
+18	  if (!g.canvas) g.canvas = wx.createCanvas();
+19	
+20	  // wx.createCanvas() 默认 2x2 — PlayCanvas/Luna 看到无效尺寸不启动渲染循环。
+21	  // 显式设为屏幕尺寸 * pixelRatio (高 DPI 能覆盖纹理); CSS 像素仍由 clientWidth/Height 报告。
+22	  // 注: 若试玩广告需要响应屏幕旋转, 后续要监听 wx.onWindowResize 重设, 现在一次性够用。
+23	  try {
+24	    const sys = wx.getSystemInfoSync();
+25	    const dpr = sys.pixelRatio || 1;
+26	    const w = sys.windowWidth  || sys.screenWidth  || 750;
+27	    const h = sys.windowHeight || sys.screenHeight || 1334;
+28	    g.canvas.width  = Math.floor(w * dpr);
+29	    g.canvas.height = Math.floor(h * dpr);
+30	    g._screen = { cssWidth: w, cssHeight: h, dpr };
+31	    // PlayCanvas / Luna 读 window.devicePixelRatio 决定 backbuffer 比例; window.inner{W,H} 读 CSS 尺寸。
+32	    if (g.devicePixelRatio == null) g.devicePixelRatio = dpr;
+33	    if (g.innerWidth  == null) g.innerWidth  = w;
+34	    if (g.innerHeight == null) g.innerHeight = h;
+35	    if (g.outerWidth  == null) g.outerWidth  = w;
+36	    if (g.outerHeight == null) g.outerHeight = h;
+37	    g.screen = g.screen || { width: w, height: h, availWidth: w, availHeight: h };
+38	    console.log('[bootShim] canvas sized to', g.canvas.width + 'x' + g.canvas.height, 'css=', w + 'x' + h, 'dpr=', dpr);
+39	  } catch (e) {
+40	    console.warn('[bootShim] canvas size fail:', e && e.message);
+41	    g.canvas.width  = 750;
+42	    g.canvas.height = 1334;
+43	  }
+44	
+45	  // canvas: 试玩 runtime 上 wx.createCanvas() 返回的对象**已带** addEventListener，但那是 playable-libs
+46	  // 拦截过的有 bug 版本（内部 fi(...).addEventListener 抛 TypeError）。**总是**挂 _bus，下游优先用 _bus。
+47	  {
+48	    const __canvasBus = (function () {
+49	      const map = new Map();
+50	      return {
+51	        on(t, cb) { (map.get(t) || map.set(t, new Set()).get(t)).add(cb); },
+52	        off(t, cb) { const s = map.get(t); if (s) s.delete(cb); },
+53	        emit(t, ev) { const s = map.get(t); if (s) for (const cb of s) try { cb(ev); } catch (e) { console.error(e); } },
+54	        // 探针: 列出已注册的事件类型 + 每类的回调数, 看 PC 真在监听啥
+55	        _stats() {
+56	          const out = {};
+57	          for (const [k, s] of map.entries()) out[k] = s.size;
+58	          return out;
+59	        },
+60	        _types() { return Array.from(map.keys()); },
+61	        _count(t) { const s = map.get(t); return s ? s.size : 0; },
+62	        _listSources(t) {
+63	          const s = map.get(t);
+64	          if (!s) return [];
+65	          const out = [];
+66	          for (const cb of s) {
+67	            try { out.push(String(cb).slice(0, 300)); } catch (e) { out.push('<toString fail>'); }
+68	          }
+69	          return out;
+70	        },
+71	      };
+72	    })();
+73	    g.canvas._bus = __canvasBus;
+74	    // 覆盖 canvas.addEventListener / removeEventListener / dispatchEvent → 走 _bus。
+75	    // 之前以为"原版有功能,留着"，错的：playable-libs 的 wrap 内部 fi(...).addEventListener 永远抛 TypeError，
+76	    // PlayCanvas init 调到（webglcontextlost / mousemove 等）就炸。改用 _bus 后所有注册都安全落地。
+77	    g.canvas.addEventListener = function (t, cb) { __canvasBus.on(t, cb); };
+78	    g.canvas.removeEventListener = function (t, cb) { __canvasBus.off(t, cb); };
+79	    g.canvas.dispatchEvent = function (ev) { __canvasBus.emit(ev && ev.type, ev); return true; };
+80	    // PlayCanvas 用 canvas.getBoundingClientRect() 取视口；wx canvas 没这方法，补一个，
+81	    // 用 canvas.width/height 当 viewport（试玩广告画布即全屏）。
+82	    if (typeof g.canvas.getBoundingClientRect !== 'function') {
+83	      g.canvas.getBoundingClientRect = function () {
+84	        // 返回 CSS 像素尺寸 (PlayCanvas 用此值 * devicePixelRatio 算 backbuffer 大小)
+85	        const w = (g._screen && g._screen.cssWidth)  || this.width  || 0;
+86	        const h = (g._screen && g._screen.cssHeight) || this.height || 0;
+87	        return { x: 0, y: 0, left: 0, top: 0, right: w, bottom: h, width: w, height: h };
+88	      };
+89	    }
+90	    // PlayCanvas 用 clientWidth/Height 配合 devicePixelRatio 算 backbuffer 像素 — 必须返回 CSS 尺寸,
+91	    // 否则会出现 backbuffer = canvas.width * dpr → 每帧翻倍直到爆显存。
+92	    const dims = ['clientWidth', 'clientHeight', 'offsetWidth', 'offsetHeight'];
+93	    for (const k of dims) {
+94	      if (g.canvas[k] == null) {
+95	        Object.defineProperty(g.canvas, k, {
+96	          configurable: true,
+97	          get() {
+98	            const w = (g._screen && g._screen.cssWidth)  || this.width  || 0;
+99	            const h = (g._screen && g._screen.cssHeight) || this.height || 0;
+100	            return k.includes('Width') ? w : h;
+101	          },
+102	        });
+103	      }
+104	    }
+105	    // 不直接覆盖 canvas.addEventListener — 留给 playable-libs 那条路径继续；下游用 _bus 安全注册。
+106	
+107	    // ---------- 触控桥接 wx.onTouch* → canvas._bus → PC TouchDevice ----------
+108	    // PlayCanvas TouchDevice 在 init 时 canvas.addEventListener('touchstart'/'move'/'end'/'cancel', ...).
+109	    // 我们的 canvas.addEventListener 已重定向到 __canvasBus.on; 这里把 wx.onTouchStart 等 fan-out
+110	    // 进 bus, 构造与 DOM TouchEvent 兼容的 evt: e.touches / changedTouches / targetTouches + preventDefault.
+111	    // wx 触点坐标 clientX/Y 已是 CSS 像素 (与 canvas.getBoundingClientRect 一致); PC 内部会自行 * dpr.
+112	    function makeTouchObj(t) {
+113	      // Touch 对象需要的字段: identifier, clientX/Y, pageX/Y, screenX/Y, target, force, radiusX/Y
+114	      const x = t.clientX, y = t.clientY;
+115	      return {
+116	        identifier: t.identifier,
+117	        clientX: x, clientY: y,
+118	        pageX: x, pageY: y,
+119	        screenX: x, screenY: y,
+120	        radiusX: 1, radiusY: 1, force: t.force == null ? 1 : t.force, rotationAngle: 0,
+121	        target: g.canvas,
+122	      };
+123	    }
+124	    // Luna PC fork 的实际游戏输入挂在 window 的 mousedown/mousemove/mouseup (不是 touchstart/move)。
+125	    // 触屏要同时合成 mouse 事件; touchstart→mousedown, touchmove→mousemove, touchend→mouseup。
+126	    const TOUCH_TO_MOUSE = { touchstart: 'mousedown', touchmove: 'mousemove', touchend: 'mouseup', touchcancel: 'mouseup' };
+127	    let __touchDispatchCnt = 0;
+128	    let __lastTouchPos = { x: 0, y: 0 };
+129	    function makeMouseEv(type, x, y) {
+130	      return {
+131	        type,
+132	        clientX: x, clientY: y, pageX: x, pageY: y, screenX: x, screenY: y,
+133	        offsetX: x, offsetY: y, x: x, y: y,
+134	        button: 0, buttons: type === 'mouseup' ? 0 : 1, which: 1, detail: 1,
+135	        movementX: 0, movementY: 0,
+136	        ctrlKey: false, shiftKey: false, altKey: false, metaKey: false,
+137	        target: g.canvas, currentTarget: g.canvas,
+138	        timeStamp: Date.now(),
+139	        preventDefault() {}, stopPropagation() {}, stopImmediatePropagation() {},
+140	        isTrusted: true, bubbles: true, cancelable: true,
+141	      };
+142	    }
+143	    function dispatchTouch(type, res) {
+144	      const list = (res.touches || []).map(makeTouchObj);
+145	      const changed = (res.changedTouches || res.touches || []).map(makeTouchObj);
+146	      const ev = {
+147	        type,
+148	        touches: list,
+149	        changedTouches: changed,
+150	        targetTouches: list,
+151	        timeStamp: res.timeStamp || Date.now(),
+152	        target: g.canvas,
+153	        currentTarget: g.canvas,
+154	        preventDefault() {}, stopPropagation() {}, stopImmediatePropagation() {},
+155	        isTrusted: true, bubbles: true, cancelable: true,
+156	      };
+157	      // 取触点坐标 (touchend 用最后已知坐标, 因为 changedTouches[0] 才有点)
+158	      const pt = list[0] || changed[0];
+159	      const px = pt ? pt.clientX : __lastTouchPos.x;
+160	      const py = pt ? pt.clientY : __lastTouchPos.y;
+161	      if (pt) __lastTouchPos = { x: px, y: py };
+162	
+163	      const __isLogTouch = __touchDispatchCnt < 5;
+164	      if (__isLogTouch) {
+165	        __touchDispatchCnt++;
+166	        console.warn('[touch#' + __touchDispatchCnt + '] type=' + type +
+167	                     ' touches=' + list.length + ' x=' + px + ' y=' + py);
+168	        // PC 内部状态 before-emit
+169	        try {
+170	          const _pc = g.pc;
+171	          const _app = (_pc && _pc.Application && _pc.Application.getApplication && _pc.Application.getApplication()) || g.app;
+172	          if (_app) {
+173	            const m = _app.mouse, t = _app.touch;
+174	            console.warn('[touch#' + __touchDispatchCnt + '] BEFORE app.mouse=' + (m ? ('en=' + m._enabled + ' tgt=' + (m._target && m._target.constructor && m._target.constructor.name) + ' btns=' + JSON.stringify(m._buttons || [])) : 'NULL') +
+175	                         ' app.touch=' + (t ? ('en=' + t._enabled + ' el=' + (t._element && t._element.constructor && t._element.constructor.name) + ' tn=' + (t._touches ? t._touches.length : 'undef')) : 'NULL'));
+176	          } else {
+177	            console.warn('[touch#' + __touchDispatchCnt + '] no app');
+178	          }
+179	        } catch (e) { console.warn('[touch#] before-probe threw:', e && e.message); }
+180	      }
+181	      // 1) 派发 touch 事件 (canvas / body / docEl / doc / window)
+182	      __canvasBus.emit(type, ev);
+183	      const doc = g.document;
+184	      if (doc) {
+185	        if (doc.body && doc.body._bus) doc.body._bus.emit(type, ev);
+186	        if (doc.documentElement && doc.documentElement._bus) doc.documentElement._bus.emit(type, ev);
+187	        if (doc._bus) doc._bus.emit(type, ev);
+188	      }
+189	      if (g._winBus) g._winBus.emit(type, ev);
+190	
+191	      // 2) 同步合成 mouse 事件 — Luna PC 实际走这条
+192	      const mouseType = TOUCH_TO_MOUSE[type];
+193	      if (mouseType) {
+194	        const mev = makeMouseEv(mouseType, px, py);
+195	        if (g._winBus) g._winBus.emit(mouseType, mev);
+196	        __canvasBus.emit(mouseType, mev);
+197	        if (doc && doc.body && doc.body._bus) doc.body._bus.emit(mouseType, mev);
+198	        if (doc && doc.documentElement && doc.documentElement._bus) doc.documentElement._bus.emit(mouseType, mev);
+199	        if (doc && doc._bus) doc._bus.emit(mouseType, mev);
+200	      }
+201	      // 3) 合成 pointer 事件 (现代游戏多用 PointerEvent, w3c 标准要求 pointerdown 先于 mousedown)
+202	      const POINTER_MAP = { touchstart: 'pointerdown', touchmove: 'pointermove', touchend: 'pointerup', touchcancel: 'pointercancel' };
+203	      const ptype = POINTER_MAP[type];
+204	      if (ptype) {
+205	        const pev = Object.assign(makeMouseEv(ptype, px, py), {
+206	          pointerId: (pt && pt.identifier) || 1, pointerType: 'touch', isPrimary: true,
+207	          width: 1, height: 1, pressure: 0.5, tangentialPressure: 0, tiltX: 0, tiltY: 0, twist: 0,
+208	        });
+209	        if (g._winBus) g._winBus.emit(ptype, pev);
+210	        __canvasBus.emit(ptype, pev);
+211	        if (doc && doc.body && doc.body._bus) doc.body._bus.emit(ptype, pev);
+212	        if (doc && doc.documentElement && doc.documentElement._bus) doc.documentElement._bus.emit(ptype, pev);
+213	      }
+214	      // 4.5) 直接写 UnityEngine.Input 内部状态 — 既然 PC mouse._buttons 更新了但 UI.GetMouseButton(0) 返回 false,
+215	      //     说明 Luna Input 不读 pc.app.mouse。从 UI 字段布局看: X$=touches array, W$=mousePosition Vector,
+216	      //     z$/A$/B$ 是 mouseButtons/mouseButtonsDown/mouseButtonsUp 三个长度3的数组。
+217	      //     直接写, 让 game UnityEngine.Input.touchCount/GetMouseButton/touches 即时拿到结果。
+218	      try {
+219	        const UI = g.UnityEngine && g.UnityEngine.Input;
+220	        if (UI) {
+221	          const isDown   = (type === 'touchstart');
+222	          const isUp     = (type === 'touchend' || type === 'touchcancel');
+223	          const isActive = (type !== 'touchend' && type !== 'touchcancel');
+224	          const scrH = (g._screen && g._screen.cssHeight) || (g.canvas && g.canvas.height) || 1334;
+225	          // Unity 坐标系 Y 朝上, DOM Y 朝下 — 翻转
+226	          const ux = px;
+227	          const uy = scrH - py;
+228	          // mousePosition (W$ 形如 {x,y,_data})
+229	          if (UI.W$ && typeof UI.W$ === 'object') {
+230	            UI.W$.x = ux; UI.W$.y = uy;
+231	            if (UI.W$._data && UI.W$._data.length >= 2) { UI.W$._data[0] = ux; UI.W$._data[1] = uy; }
+232	          }
+233	          // 备用 — 有些 mouse pos 字段命名为 J$ (相同结构)
+234	          if (UI.J$ && typeof UI.J$ === 'object' && UI.J$.x !== undefined) {
+235	            UI.J$.x = ux; UI.J$.y = uy;
+236	            if (UI.J$._data && UI.J$._data.length >= 2) { UI.J$._data[0] = ux; UI.J$._data[1] = uy; }
+237	          }
+238	          // mouseButtons[0] (left)
+239	          if (Array.isArray(UI.z$) && UI.z$.length >= 1) UI.z$[0] = isActive;
+240	          if (Array.isArray(UI.A$) && UI.A$.length >= 1) UI.A$[0] = isDown;
+241	          if (Array.isArray(UI.B$) && UI.B$.length >= 1) UI.B$[0] = isUp;
+242	          // touches array — 用 Bridge.NET Touch 类如果有, 否则 plain object 兜底
+243	          let mockT = null;
+244	          if (isActive) {
+245	            const TC = g.UnityEngine && g.UnityEngine.Touch;
+246	            if (TC && typeof TC.ctor === 'function') {
+247	              try { mockT = new TC.ctor(); } catch (e) {}
+248	            }
+249	            if (!mockT && TC && TC.$$initCtor) {
+250	              try { mockT = TC.$$initCtor(); } catch (e) {}
+251	            }
+252	            if (!mockT) {
+253	              mockT = {
+254	                fingerId: (pt && pt.identifier) || 0,
+255	                position: { x: ux, y: uy, _data: [ux, uy] },
+256	                rawPosition: { x: ux, y: uy, _data: [ux, uy] },
+257	                deltaPosition: { x: 0, y: 0, _data: [0, 0] },
+258	                deltaTime: 0.016, tapCount: 1, pressure: 1, maximumPossiblePressure: 1,
+259	                radius: 1, radiusVariance: 0, altitudeAngle: 0, azimuthAngle: 0,
+260	                phase: type === 'touchstart' ? 0 : (type === 'touchmove' ? 1 : 3),
+261	                type: 0,  // Touch.Direct
+262	              };
+263	            } else {
+264	              // 填充 Bridge.NET 实例字段
+265	              mockT.fingerId = (pt && pt.identifier) || 0;
+266	              if (mockT.position) { mockT.position.x = ux; mockT.position.y = uy; }
+267	              else mockT.position = { x: ux, y: uy };
+268	              mockT.phase = type === 'touchstart' ? 0 : (type === 'touchmove' ? 1 : 3);
+269	              mockT.pressure = 1;
+270	            }
+271	          }
+272	          if (isActive) {
+273	            UI.touches = [mockT];
+274	            UI.X$ = [mockT];
+275	            if (typeof UI.V$ === 'number' || UI.V$ === 0) UI.V$ = 1;  // touchCount maybe
+276	            if (typeof UI.G$ === 'number' || UI.G$ === 0) UI.G$ = 1;
+277	          } else {
+278	            UI.touches = [];
+279	            UI.X$ = [];
+280	            UI.V$ = 0; UI.G$ = 0;
+281	          }
+282	          if (__isLogTouch) {
+283	            console.warn('[touch#' + __touchDispatchCnt + '] UI inj: touchCount=' + UI.touchCount +
+284	                         ' GetMouseButton(0)=' + (typeof UI.GetMouseButton === 'function' ? UI.GetMouseButton(0) : 'N/A') +
+285	                         ' z$=' + JSON.stringify(Array.from(UI.z$ || [])) +
+286	                         ' W$={x:' + (UI.W$ && UI.W$.x) + ',y:' + (UI.W$ && UI.W$.y) + '}');
+287	          }
+288	        }
+289	      } catch (e) { console.warn('[UE inject] threw:', e && e.message); }
+290	
+291	      // 4) touchend 后合成 click — body._bus.click 有监听器, 多半是 CTA/UI 按钮
+292	      if (type === 'touchend') {
+293	        const cev = makeMouseEv('click', px, py);
+294	        if (g._winBus) g._winBus.emit('click', cev);
+295	        __canvasBus.emit('click', cev);
+296	        if (doc && doc.body && doc.body._bus) doc.body._bus.emit('click', cev);
+297	      }
+298	      // 派完之后再读一次 — 看 PC Mouse._buttons / TouchDevice._touches 是否被更新
+299	      if (__isLogTouch) {
+300	        try {
+301	          const _pc = g.pc;
+302	          const _app = (_pc && _pc.Application && _pc.Application.getApplication && _pc.Application.getApplication()) || g.app;
+303	          if (_app) {
+304	            const m = _app.mouse, t = _app.touch;
+305	            console.warn('[touch#' + __touchDispatchCnt + '] AFTER  app.mouse btns=' + (m ? JSON.stringify(m._buttons || []) : 'NULL') +
+306	                         ' app.touch tn=' + (t && t._touches ? t._touches.length : (t ? 'no-_touches:keys=' + Object.keys(t).slice(0,8).join(',') : 'NULL')));
+307	          }
+308	        } catch (e) { console.warn('[touch#] after-probe threw:', e && e.message); }
+309	        // UnityEngine.Input snapshot diff: 哪个 mangled 字段被改了 = touches/mouseButtons 真位置
+310	        try {
+311	          if (g.__UI_snapshotFn && g.__UI_snapshot_initial) {
+312	            const after = g.__UI_snapshotFn();
+313	            const before = g.__UI_snapshot_initial;
+314	            const diffs = [];
+315	            for (const k of Object.keys(after)) {
+316	              if (before[k] !== after[k]) diffs.push(k + ':[' + before[k] + ']→[' + after[k] + ']');
+317	            }
+318	            console.warn('[touch#' + __touchDispatchCnt + '] UI diff: ' + (diffs.length ? diffs.slice(0,12).join(' || ') : 'NO_CHANGE'));
+319	          }
+320	        } catch (e) { console.warn('[touch#] UI-diff threw:', e && e.message); }
+321	      }
+322	      // 第 1 次真触摸后, 重新 dump bus 状态: 如果 win._bus.mousedown 从 x2 → x1, 说明 PC SoundManager
+323	      // unlock handler 自删了 → 我们 emit 的 mouse 事件确实跑到了真 PC handler
+324	      if (__touchDispatchCnt === 1 && g.__busesForRedump) {
+325	        setTimeout(function () {
+326	          try {
+327	            const B = g.__busesForRedump || {};
+328	            const c = function (b, t) { return b && b._count ? b._count(t) : 'N/A'; };
+329	            console.warn('[postTouch] win._bus mousedown=' + c(B.win, 'mousedown') +
+330	                         ' mousemove=' + c(B.win, 'mousemove') +
+331	                         ' mouseup=' + c(B.win, 'mouseup') +
+332	                         ' click=' + c(B.win, 'click') +
+333	                         ' pointerdown=' + c(B.win, 'pointerdown'));
+334	            console.warn('[postTouch] body._bus touchstart=' + c(B.body, 'touchstart') +
+335	                         ' click=' + c(B.body, 'click') +
+336	                         ' pointerdown=' + c(B.body, 'pointerdown'));
+337	            console.warn('[postTouch] canvas._bus touchstart=' + c(B.canvas, 'touchstart') +
+338	                         ' mousedown=' + c(B.canvas, 'mousedown') +
+339	                         ' pointerdown=' + c(B.canvas, 'pointerdown'));
+340	            // 把目标 listener 源码再 dump 一次, 看哪些 type 多了
+341	            if (B.body && B.body._listSources) {
+342	              console.warn('[postTouch] body._bus pointerdown sources: ' + JSON.stringify((B.body._listSources('pointerdown')||[]).map(s => s.replace(/\s+/g,' '))));
+343	            }
+344	          } catch (e) { console.warn('[postTouch] dump threw:', e && e.message); }
+345	        }, 50);
+346	      }
+347	    }
+348	    let __touchBound = { start: false, move: false, end: false, cancel: false };
+349	    if (typeof wx !== 'undefined') {
+350	      try { if (typeof wx.onTouchStart  === 'function') { wx.onTouchStart (r => dispatchTouch('touchstart',  r)); __touchBound.start  = true; } } catch (e) { console.warn('[bootShim] onTouchStart  bind fail:', e && e.message); }
+351	      try { if (typeof wx.onTouchMove   === 'function') { wx.onTouchMove  (r => dispatchTouch('touchmove',   r)); __touchBound.move   = true; } } catch (e) { console.warn('[bootShim] onTouchMove   bind fail:', e && e.message); }
+352	      try { if (typeof wx.onTouchEnd    === 'function') { wx.onTouchEnd   (r => dispatchTouch('touchend',    r)); __touchBound.end    = true; } } catch (e) { console.warn('[bootShim] onTouchEnd    bind fail:', e && e.message); }
+353	      try { if (typeof wx.onTouchCancel === 'function') { wx.onTouchCancel(r => dispatchTouch('touchcancel', r)); __touchBound.cancel = true; } } catch (e) { console.warn('[bootShim] onTouchCancel bind fail:', e && e.message); }
+354	      console.warn('[bootShim] wx touch handlers wired:', JSON.stringify(__touchBound));
+355	    } else {
+356	      console.warn('[bootShim] no wx, touch wiring skipped');
+357	    }
+358	  }
+359	
+360	  // ---------- window ----------
+361	  if (!g.window) g.window = g;
+362	  g.self = g.self || g;
+363	
+364	  // ---------- location (URLSearchParams 在 luna 里用来读 ?soyoo_lang=...) ----------
+365	  if (!g.location) {
+366	    g.location = {
+367	      href: 'wx://luna/', protocol: 'https:', host: 'wx', hostname: 'wx',
+368	      port: '', pathname: '/', search: '', hash: '', origin: 'https://wx',
+369	      reload() {}, replace() {}, assign() {},
+370	    };
+371	  }
+372	
+373	  // ---------- URLSearchParams (playable runtime 不一定有) ----------
+374	  if (typeof g.URLSearchParams === 'undefined') {
+375	    g.URLSearchParams = function URLSearchParams(s) {
+376	      const map = new Map();
+377	      const str = (typeof s === 'string') ? (s[0] === '?' ? s.slice(1) : s) : '';
+378	      if (str) for (const part of str.split('&')) {
+379	        if (!part) continue;
+380	        const i = part.indexOf('=');
+381	        const k = i < 0 ? decodeURIComponent(part) : decodeURIComponent(part.slice(0, i));
+382	        const v = i < 0 ? '' : decodeURIComponent(part.slice(i + 1));
+383	        map.set(k, v);
+384	      }
+385	      this.get = (k) => map.has(k) ? map.get(k) : null;
+386	      this.has = (k) => map.has(k);
+387	      this.set = (k, v) => map.set(k, String(v));
+388	      this.toString = () => Array.from(map.entries()).map(([k, v]) =>
+389	        encodeURIComponent(k) + '=' + encodeURIComponent(v)).join('&');
+390	    };
+391	  }
+392	
+393	  // ---------- _compressedAssets (luna ready_glue 等这数组,无分包就给空) ----------
+394	  if (!g._compressedAssets) g._compressedAssets = [];
+395	
+396	  // ---------- console 阉割补丁 ----------
+397	  // 试玩 runtime 的 console 只有 log/info/warn/error；PlayCanvas 用 console.assert，Luna 偶尔用 trace/debug/table。
+398	  // 全部缺失项映射到 log，不影响主流程。
+399	  if (typeof console !== 'undefined') {
+400	    const fallback = console.log ? console.log.bind(console) : function () {};
+401	    const ensures = ['assert', 'debug', 'trace', 'table', 'group', 'groupEnd', 'groupCollapsed', 'time', 'timeEnd', 'timeLog', 'count', 'countReset', 'dir', 'dirxml'];
+402	    for (const k of ensures) {
+403	      if (typeof console[k] !== 'function') {
+404	        // assert 特殊：第一参数是断言，false 时才打印
+405	        if (k === 'assert') {
+406	          console[k] = function (cond /*, ...msg */) { if (!cond) fallback.apply(null, ['[assert]'].concat(Array.prototype.slice.call(arguments, 1))); };
+407	        } else {
+408	          console[k] = fallback;
+409	        }
+410	      }
+411	    }
+412	  }
+413	
+414	  // ---------- Luna namespace stub (静态最小集) ----------
+415	  // 历史: 之前用 auto-vivifying Proxy 占位, 期望"任意深路径写都不爆"。
+416	  // 但 Luna 自身的 type walker (`getTypeNamespace` ↔ `getTypeFullName` 互递归) 假设
+417	  // namespace 链有限; Proxy 让 `x.namespace.namespace.namespace...` 无限延伸 → 直接 RangeError 爆栈。
+418	  // 现在: 只放一个静态 root + 一个 Unity.Playable 子节点 (wx-ad-bridge 唯一会写的路径)。
+419	  // Luna runtime 自己会把真正的类型挂到 g.Luna 子树上 (它写就写覆盖, 静态对象不挡路)。
+420	  // 如果将来真出现 "Cannot set properties of undefined" 的具体路径, 在这里加那一条具体路径,
+421	  // 不要回退到 Proxy。
+422	  if (typeof g.Luna === 'undefined') {
+423	    g.Luna = { Unity: { Playable: {} } };
+424	  }
+425	
+426	  // ---------- Bridge (IAB MRAID Bridge stub) ----------
+427	  // playable-libs 编译产物里直接引用 `Bridge` 全局（<anonymous>:124:2097），没有就 ReferenceError。
+428	  // 我们没真 Bridge，给个 ready→立即回调 的 stub，让那条路径不爆。
+429	  if (typeof g.Bridge === 'undefined') {
+430	    g.Bridge = {
+431	      ready(cb) { try { cb && cb(); } catch (e) { console.error('[Bridge.ready] cb threw', e); } },
+432	      // 占位：playable-libs 可能再调 .send / .register 之类，全部 noop 不爆
+433	      send() {}, register() {}, on() {}, off() {}, emit() {},
+434	    };
+435	  }
+436	
+437	  // ---------- crypto (luna webpack 用 crypto.getRandomValues 做 uuidv4) ----------
+438	  if (typeof g.crypto === 'undefined') {
+439	    g.crypto = {
+440	      getRandomValues(arr) {
+441	        for (let i = 0; i < arr.length; i++) arr[i] = (Math.random() * 256) | 0;
+442	        return arr;
+443	      },
+444	      randomUUID() {
+445	        const b = new Uint8Array(16);
+446	        for (let i = 0; i < 16; i++) b[i] = (Math.random() * 256) | 0;
+447	        b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+448	        const h = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+449	        return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+450	      },
+451	    };
+452	  }
+453	
+454	  // ---------- WebAssembly.RuntimeError / .CompileError / .LinkError (playable WebAssembly 阉了) ----------
+455	  if (typeof g.WebAssembly !== 'undefined') {
+456	    for (const k of ['RuntimeError', 'CompileError', 'LinkError']) {
+457	      if (typeof g.WebAssembly[k] !== 'function') {
+458	        g.WebAssembly[k] = function (msg) { const e = new Error(msg); e.name = 'WebAssembly.' + k; return e; };
+459	      }
+460	    }
+461	
+462	    // ---------- WebAssembly.instantiate → WXWebAssembly.instantiate(static .wasm.br) ----------
+463	    // WeChat 试玩 runtime 的 WXWebAssembly.instantiate 只吃文件路径，不吃 buffer。
+464	    // Luna 把 Box2D + Mecanim 两份 WASM 当 base64 data: URI 直接 atob 后 instantiate(buffer,...)。
+465	    // build 时已经用 extract-wasm.cjs 把这两个模块解出来 → box2d.wasm.br / mecanim.wasm.br。
+466	    // 这里按 byteLength 把调用改路成 WXWebAssembly.instantiate('<name>.wasm.br', imports)。
+467	    // byteLength 以 extract-wasm.cjs 输出的 luna-wasm.json 为准；换 Luna 包时重跑脚本会更新两个文件，
+468	    // 然后**回来更新这张 size→file 表**(脚本在末尾 console.error 打印 manifest)。
+469	    // 路径加载 manifest（按 byteLength → 包内文件）。两份都用 .br 压缩省主包体积。
+470	    const _wasmFiles = {
+471	      168334: 'box2d.wasm.br',
+472	      271539: 'mecanim.wasm.br',
+473	    };
+474	    // imports 处理模式：'pass'(默认，原样传) / 'clean'(包一层 thunk) / 'noop'(全 noop) / 'noop-arity'(按 arity noop)
+475	    // 默认 pass：根因（monkey-patch 递归）已通过 unpatch 解决，emscripten 原 imports 直接可用。
+476	    function cleanImports(imp) {
+477	      const mode = (typeof globalThis !== 'undefined' && globalThis.__WASM_IMPORT_MODE) || 'pass';
+478	      if (!imp || typeof imp !== 'object') return imp;
+479	      const out = {};
+480	      for (const m of Object.keys(imp)) {
+481	        const mod = imp[m];
+482	        if (!mod || typeof mod !== 'object') { out[m] = mod; continue; }
+483	        const dst = {};
+484	        for (const n of Object.keys(mod)) {
+485	          const v = mod[n];
+486	          if (typeof v !== 'function') { dst[n] = v; continue; }
+487	          if (mode === 'pass') dst[n] = v;
+488	          else if (mode === 'clean') dst[n] = function () { return v.apply(null, arguments); };
+489	          else if (mode === 'noop') dst[n] = function () { return 0; };
+490	          else if (mode === 'noop-arity') {
+491	            // 用 v.length 模拟 arity（不一定准但有时候 trigger 不同 path）
+492	            dst[n] = new Function(...Array(v.length).fill(0).map((_, i) => 'a' + i), 'return 0');
+493	          }
+494	          else dst[n] = v;
+495	        }
+496	        out[m] = dst;
+497	      }
+498	      return out;
+499	    }
+500	
+501	    // 保存原始引用。WXWebAssembly bridge 内部会回调 WebAssembly.instantiate(path, ...)。
+502	    // 解法：在 redirect 前临时把 WebAssembly.instantiate 还原为原函数，emscripten 一次成功后永久不再 patch。
+503	    const _origInstantiate = g.WebAssembly.instantiate;
+504	    const _ourShim = function (arg, imports) {
+505	      console.log('[WASM-SHIM] called argType=' + (typeof arg) + (arg && arg.byteLength != null ? ' len=' + arg.byteLength : ''));
+506	      // 字符串路径 — 走原 bridge
+507	      if (typeof arg === 'string') {
+508	        return _origInstantiate.apply(this, arguments);
+509	      }
+510	      let bytes = null;
+511	      if (arg instanceof ArrayBuffer) bytes = new Uint8Array(arg);
+512	      else if (arg && arg.buffer instanceof ArrayBuffer) bytes = new Uint8Array(arg.buffer, arg.byteOffset || 0, arg.byteLength);
+513	      const len = bytes ? bytes.length : -1;
+514	      const file = _wasmFiles[len];
+515	      if (!file) {
+516	        const head = bytes ? Array.from(bytes.slice(0, 16)).map(b => b.toString(16).padStart(2,'0')).join(' ') : '<no-bytes>';
+517	        console.error('[WASM] unknown buffer len=' + len + ' head=' + head + ' — update _wasmFiles in dom-shim.js');
+518	        return Promise.reject(new Error('unmapped WASM buffer length=' + len));
+519	      }
+520	      // 默认 'pass'：原样转发 emscripten 的 imports；unpatch 切断递归后已不需要 noop 替换。
+521	      // 仍可通过 globalThis.__WASM_IMPORT_MODE 切到 clean/noop/noop-arity 调试。
+522	      const mode = (typeof globalThis !== 'undefined' && globalThis.__WASM_IMPORT_MODE) || 'pass';
+523	      if (imports && typeof imports === 'object') {
+524	        const topo = Object.keys(imports).map(k => k + ':' + (typeof imports[k]) + '(' + (imports[k] && typeof imports[k] === 'object' ? Object.keys(imports[k]).length : '?') + ')').join(',');
+525	        console.log('[WASM] imports top-level = {' + topo + '}');
+526	      }
+527	      const cleaned = cleanImports(imports);
+528	      console.log('[WASM] redirect len=' + len + ' -> ' + file + ' mode=' + mode + ' defer=setTimeout+unpatch');
+529	      // 关键：WXWebAssembly === WebAssembly (或 WXWebAssembly impl 在内部 resolves WebAssembly.instantiate at runtime)
+530	      // 若我们 patch 仍 active, 内部会递归撞回 _ourShim 死循环。
+531	      // 因此: setTimeout 切到全新栈, 还原 WebAssembly.instantiate 为原函数, 再调用. emscripten 成功后不再需要 patch.
+532	      return new Promise((resolve, reject) => {
+533	        setTimeout(() => {
+534	          console.log('[WASM] unpatching WebAssembly.instantiate, calling original with path=' + file);
+535	          g.WebAssembly.instantiate = _origInstantiate;  // 还原, 不再 patch
+536	          try {
+537	            _origInstantiate.call(g.WebAssembly, file, cleaned).then(
+538	              v => { console.log('[WASM] OK exports first=' + Object.keys(v.instance.exports).slice(0,3).join(',')); resolve(v); },
+539	              e => { console.error('[WASM] FAIL', e && e.message || e); reject(e); }
+540	            );
+541	          } catch (e) { console.error('[WASM] sync throw', e && e.message || e); reject(e); }
+542	        }, 0);
+543	      });
+544	    };
+545	    // 装上 patch
+546	    g.WebAssembly.instantiate = _ourShim;
+547	  }
+548	
+549	  // ---------- document ----------
+550	  if (!g.document) {
+551	    const eventBus = makeEmitter();
+552	    const elements = new Map();
+553	    elements.set('application-canvas', g.canvas);
+554	
+555	    // playable-libs 在 wx.onShow/onHide "manually adapt" 路径会给 documentElement / body / canvas 绑监听器，
+556	    // 都得有 addEventListener；用同一个 eventBus 让事件互通，避免出现"绑了但永不触发"的死表面。
+557	    const docElEvents = makeEmitter();
+558	    const bodyEvents = makeEmitter();
+559	    const headEvents = makeEmitter();
+560	    const canvasEvents = makeEmitter();
+561	    const evApi = (bus) => ({
+562	      addEventListener: (t, cb) => bus.on(t, cb),
+563	      removeEventListener: (t, cb) => bus.off(t, cb),
+564	      dispatchEvent: (ev) => { bus.emit(ev && ev.type, ev); return true; },
+565	    });
+566	
+567	    g.document = {
+568	      readyState: 'loading',
+569	      // PlayCanvas Application 启动期会查这俩判断窗口可见性 (页面 visibility / 焦点)
+570	      hasFocus: () => true,
+571	      hidden: false,
+572	      visibilityState: 'visible',
+573	      title: '',
+574	      documentElement: Object.assign({ style: {}, _bus: docElEvents }, evApi(docElEvents)),
+575	      body: Object.assign({ style: {}, appendChild() {}, removeChild() {}, _bus: bodyEvents }, evApi(bodyEvents)),
+576	      head: Object.assign({ appendChild() {}, removeChild() {}, _bus: headEvents }, evApi(headEvents)),
+577	
+578	      getElementById(id) {
+579	        return elements.get(id) || null;
+580	      },
+581	      // Luna 的 base122 资源扫描走这里, 微信下我们改为 asset-inject 主动喂, 这里返回空
+582	      querySelectorAll(sel) {
+583	        if (sel === '[data-src122]') return [];
+584	        return [];
+585	      },
+586	      querySelector(sel) {
+587	        if (sel === '#application-canvas') return g.canvas;
+588	        return null;
+589	      },
+590	      createElement(tag) {
+591	        tag = String(tag).toLowerCase();
+592	        if (tag === 'canvas') return wx.createCanvas();
+593	        if (tag === 'img' || tag === 'image') return new ImageShim();
+594	        if (tag === 'video') return new VideoShim();
+595	        if (tag === 'audio') return new AudioShim();
+596	        if (tag === 'style' || tag === 'link') return makeNoop(tag);
+597	        if (tag === 'script') return makeNoop(tag);
+598	        return makeNoop(tag);
+599	      },
+600	      addEventListener: (type, cb) => eventBus.on(type, cb),
+601	      removeEventListener: (type, cb) => eventBus.off(type, cb),
+602	      dispatchEvent: (ev) => eventBus.emit(ev.type, ev),
+603	      _bus: eventBus,
+604	      _registerElement(id, el) { elements.set(id, el); },
+605	    };
+606	  }
+607	
+608	  // ---------- window addEventListener ----------
+609	  if (!g.addEventListener) {
+610	    const winBus = makeEmitter();
+611	    g.addEventListener = (type, cb) => winBus.on(type, cb);
+612	    g.removeEventListener = (type, cb) => winBus.off(type, cb);
+613	    g.dispatchEvent = (ev) => winBus.emit(ev.type, ev);
+614	    g._winBus = winBus;
+615	  }
+616	
+617	  // ---------- Event ----------
+618	  if (typeof g.Event === 'undefined') {
+619	    g.Event = function Event(type, init) { this.type = type; Object.assign(this, init || {}); };
+620	  }
+621	
+622	  // ---------- URL.createObjectURL ----------
+623	  if (!g.URL) g.URL = {};
+624	  if (!g.URL.createObjectURL) {
+625	    let seq = 0;
+626	    const blobMap = new Map();
+627	    g.URL.createObjectURL = (blob) => {
+628	      const url = `blob:luna/${++seq}`;
+629	      blobMap.set(url, blob);
+630	      return url;
+631	    };
+632	    g.URL.revokeObjectURL = (url) => blobMap.delete(url);
+633	    g.URL._blobMap = blobMap;
+634	  }
+635	
+636	  // ---------- Blob ----------
+637	  if (typeof g.Blob === 'undefined') {
+638	    g.Blob = function Blob(parts, opts) {
+639	      this.parts = parts || [];
+640	      this.type = (opts && opts.type) || '';
+641	      this.size = (parts || []).reduce((a, p) =>
+642	        a + (p && p.byteLength != null ? p.byteLength : (p && p.length) || 0), 0);
+643	    };
+644	    g.Blob.prototype.arrayBuffer = function () {
+645	      const total = this.size;
+646	      const u8 = new Uint8Array(total);
+647	      let off = 0;
+648	      for (const p of this.parts) {
+649	        const view = p instanceof ArrayBuffer ? new Uint8Array(p)
+650	                   : p && p.buffer ? new Uint8Array(p.buffer, p.byteOffset || 0, p.byteLength)
+651	                   : new TextEncoder().encode(String(p));
+652	        u8.set(view, off);
+653	        off += view.byteLength;
+654	      }
+655	      return Promise.resolve(u8.buffer);
+656	    };
+657	  }
+658	
+659	  // ---------- localStorage (Luna playerPrefs) ----------
+660	  if (!g.localStorage) {
+661	    g.localStorage = {
+662	      getItem(k) { try { return wx.getStorageSync(k) || null; } catch (e) { return null; } },
+663	      setItem(k, v) { try { wx.setStorageSync(k, String(v)); } catch (e) {} },
+664	      removeItem(k) { try { wx.removeStorageSync(k); } catch (e) {} },
+665	      clear() { try { wx.clearStorageSync(); } catch (e) {} },
+666	    };
+667	  }
+668	
+669	  // ---------- navigator ----------
+670	  if (!g.navigator) {
+671	    const sys = (() => { try { return wx.getSystemInfoSync(); } catch (e) { return {}; } })();
+672	    g.navigator = {
+673	      userAgent: `Mozilla/5.0 (${sys.platform || 'wx'}) WeChat/${sys.version || ''}`,
+674	      language: sys.language || 'en-US',
+675	      languages: [sys.language || 'en-US'],
+676	      platform: sys.platform || 'wx',
+677	      vendor: 'WeChat',
+678	    };
+679	  }
+680	
+681	  // ---------- requestAnimationFrame (window + canvas 都包) ----------
+682	  // Luna/PlayCanvas 实际上很可能直接调 `canvas.requestAnimationFrame` (wx 小游戏风格 API),
+683	  // 完全绕过 window.requestAnimationFrame。同时把 window 的 RAF 路由到 canvas RAF 上,
+684	  // 保证渲染循环一定能跑起来。
+685	  {
+686	    const rawWinRaf = (typeof g.requestAnimationFrame === 'function')
+687	      ? g.requestAnimationFrame.bind(g)
+688	      : g.canvas.requestAnimationFrame.bind(g.canvas);
+689	    const rawWinCaf = (typeof g.cancelAnimationFrame === 'function')
+690	      ? g.cancelAnimationFrame.bind(g)
+691	      : g.canvas.cancelAnimationFrame.bind(g.canvas);
+692	    g.requestAnimationFrame = function (cb) { return rawWinRaf(cb); };
+693	    g.cancelAnimationFrame = rawWinCaf;
+694	  }
+695	
+696	  // ---------- performance ----------
+697	  if (!g.performance) {
+698	    g.performance = { now: () => Date.now() };
+699	  }
+700	
+701	  // 注: 不在 dom-shim 里自动 dispatch DOMContentLoaded ——
+702	  // 由 game.js 在 require 完所有主包脚本之后显式 dispatch, 保证时序正确.
+703	  g._dispatchReady = function () {
+704	    g.document.readyState = 'complete';
+705	    g.dispatchEvent(new g.Event('DOMContentLoaded'));
+706	    g.dispatchEvent(new g.Event('load'));
+707	  };
+708	
+709	  // ---------- helpers ----------
+710	  function makeEmitter() {
+711	    const map = new Map();
+712	    return {
+713	      on(type, cb) { (map.get(type) || map.set(type, new Set()).get(type)).add(cb); },
+714	      off(type, cb) { const s = map.get(type); if (s) s.delete(cb); },
+715	      emit(type, ev) { const s = map.get(type); if (s) for (const cb of s) try { cb(ev); } catch (e) { console.error(e); } },
+716	      _types() { return Array.from(map.keys()); },
+717	      _count(type) { const s = map.get(type); return s ? s.size : 0; },
+718	      _listSources(type) {
+719	        const s = map.get(type);
+720	        if (!s) return [];
+721	        const out = [];
+722	        for (const cb of s) {
+723	          try { out.push(String(cb).slice(0, 300)); } catch (e) { out.push('<toString fail>'); }
+724	        }
+725	        return out;
+726	      },
+727	    };
+728	  }
+729	  function makeNoop(tag) {
+730	    return {
+731	      tagName: tag.toUpperCase(),
+732	      style: {},
+733	      dataset: {},
+734	      setAttribute() {}, getAttribute() { return null; },
+735	      appendChild() {}, removeChild() {},
+736	      addEventListener() {}, removeEventListener() {},
+737	      parentNode: null,
+738	    };
+739	  }
+740	  function ImageShim() {
+741	    this.src = ''; this.onload = null; this.onerror = null;
+742	    this.width = 0; this.height = 0;
+743	    Object.defineProperty(this, '_real', {
+744	      get() {
+745	        if (!this.__real) this.__real = wx.createImage();
+746	        return this.__real;
+747	      }
+748	    });
+749	    const self = this;
+750	    Object.defineProperty(this, 'src', {
+751	      get() { return self._real.src; },
+752	      set(v) {
+753	        const real = self._real;
+754	        real.onload = function () {
+755	          self.width = real.width; self.height = real.height;
+756	          if (self.onload) self.onload();
+757	        };
+758	        real.onerror = (e) => { if (self.onerror) self.onerror(e); };
+759	        real.src = v;
+760	      },
+761	    });
+762	  }
+763	  function VideoShim() {
+764	    // Luna 启动期不一定播放, 仅暴露占位接口; 真要播放走 luna-to-wx/video.js
+765	    this.src = ''; this.muted = true; this.autoplay = false; this.loop = false;
+766	    this.currentTime = 0; this.duration = 0; this.paused = true;
+767	    this.style = {};
+768	    this.addEventListener = () => {};
+769	    this.play = () => Promise.resolve();
+770	    this.pause = () => {};
+771	  }
+772	  function AudioShim() {
+773	    this.src = ''; this.volume = 1; this.loop = false; this.paused = true;
+774	    this.addEventListener = () => {};
+775	    this.play = () => Promise.resolve();
+776	    this.pause = () => {};
+777	  }
+778	
+779	  // PlayCanvas Texture.setSource(t) 走:
+780	  //   t instanceof HTMLImageElement || t instanceof HTMLCanvasElement
+781	  //   || t instanceof HTMLVideoElement || t instanceof ArrayBuffer || (e = true);
+782	  // e=true 时强制 _width=4 _height=4 _levels[0]=null → 黑/白 4x4 占位。
+783	  // wx.createImage() 返的是 wx-native 对象 (constructor.name === 'nr'),
+784	  // 跟 ImageShim 不同 prototype, instanceof 必失败 → 所有材质纹理失效 → 环境黑屏。
+785	  // 修法: 用 Symbol.hasInstance 拦截 instanceof, 让 wx.Image / proxy 也通过。
+786	  function makeShimCtor(ShimImpl, duckCheck) {
+787	    function Ctor() { return new ShimImpl(); }
+788	    Object.defineProperty(Ctor, Symbol.hasInstance, {
+789	      value: function (inst) {
+790	        if (inst == null) return false;
+791	        if (ShimImpl && inst instanceof ShimImpl) return true;
+792	        try { return !!duckCheck(inst); } catch (e) { return false; }
+793	      },
+794	      configurable: true,
+795	    });
+796	    return Ctor;
+797	  }
+798	  // wx.Image 鸭子型: 有 .src (string) + 有 .width/.height (number) + 不是 video/canvas/audio
+799	  const isWxImageLike = (o) => {
+800	    if (typeof o !== 'object') return false;
+801	    if (typeof o.src !== 'string') return false;
+802	    if (typeof o.width !== 'number' || typeof o.height !== 'number') return false;
+803	    const tag = o.tagName;
+804	    if (tag === 'VIDEO' || tag === 'AUDIO' || tag === 'CANVAS') return false;
+805	    // wx 原生 Image: 看 constructor.name (probe 抓到是 'nr'), 或我们 asset-inject 注册的 wx.createImage 实例
+806	    return true;
+807	  };
+808	  const isCanvasLike = (o) => {
+809	    if (typeof o !== 'object' || o == null) return false;
+810	    if (o.tagName === 'CANVAS') return true;
+811	    return typeof o.getContext === 'function' && typeof o.width === 'number' && typeof o.height === 'number';
+812	  };
+813	  const isVideoLike = (o) => {
+814	    if (typeof o !== 'object' || o == null) return false;
+815	    return o.tagName === 'VIDEO';
+816	  };
+817	  if (typeof g.HTMLImageElement  === 'undefined') g.HTMLImageElement  = makeShimCtor(ImageShim,  isWxImageLike);
+818	  if (typeof g.HTMLVideoElement  === 'undefined') g.HTMLVideoElement  = makeShimCtor(VideoShim,  isVideoLike);
+819	  if (typeof g.HTMLAudioElement  === 'undefined') g.HTMLAudioElement  = AudioShim;
+820	  if (typeof g.HTMLCanvasElement === 'undefined') g.HTMLCanvasElement = makeShimCtor(null,        isCanvasLike);
+821	  if (typeof g.HTMLElement       === 'undefined') g.HTMLElement       = function HTMLElement() {};
+822	  if (typeof g.Element           === 'undefined') g.Element           = function Element() {};
+823	  if (typeof g.Node              === 'undefined') g.Node              = function Node() {};
+824	
+825	  // PlayCanvas SoundManager 期望 `new (window.AudioContext || window.webkitAudioContext)()`
+826	  // 试玩 runtime 没 WebAudio API; 给个最小可用 stub, 让 SoundManager 能 new 出来不立即崩。
+827	  // 真正播放走 wx.createInnerAudioContext (后面 sound 子系统再桥接)。
+828	  function AudioContextShim() {
+829	    this.state = 'running';
+830	    this.sampleRate = 44100;
+831	    this.currentTime = 0;
+832	    this.destination = { connect() {}, disconnect() {} };
+833	    this.listener = { setPosition() {}, setOrientation() {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } };
+834	    this.createGain        = () => ({ gain: { value: 1, setValueAtTime() {} }, connect() {}, disconnect() {} });
+835	    this.createBufferSource = () => ({ buffer: null, loop: false, playbackRate: { value: 1 }, connect() {}, disconnect() {}, start() {}, stop() {}, onended: null });
+836	    this.createBuffer       = (ch, len, sr) => ({ numberOfChannels: ch, length: len, sampleRate: sr, duration: len / (sr || 1), getChannelData: () => new Float32Array(len) });
+837	    this.createPanner       = () => ({ connect() {}, disconnect() {}, setPosition() {}, setOrientation() {} });
+838	    this.createAnalyser     = () => ({ connect() {}, disconnect() {}, fftSize: 2048, getByteFrequencyData() {}, getByteTimeDomainData() {} });
+839	    this.createOscillator   = () => ({ frequency: { value: 440 }, connect() {}, disconnect() {}, start() {}, stop() {} });
+840	    this.decodeAudioData    = (buf, ok, fail) => { try { ok && ok({ duration: 0, sampleRate: 44100, numberOfChannels: 2, length: 0, getChannelData: () => new Float32Array(0) }); } catch (e) { fail && fail(e); } return Promise.resolve({ duration: 0, sampleRate: 44100, numberOfChannels: 2, length: 0, getChannelData: () => new Float32Array(0) }); };
+841	    this.resume             = () => Promise.resolve();
+842	    this.suspend            = () => Promise.resolve();
+843	    this.close              = () => Promise.resolve();
+844	    this.addEventListener   = () => {};
+845	    this.removeEventListener= () => {};
+846	  }
+847	  if (typeof g.AudioContext       === 'undefined') g.AudioContext       = AudioContextShim;
+848	  if (typeof g.webkitAudioContext === 'undefined') g.webkitAudioContext = AudioContextShim;
+849	})();
+850	
