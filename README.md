@@ -13,9 +13,12 @@ luna2wechat/
 │   ├── asset-inject.js               # Luna 资源喂入器
 │   └── wx-ad-bridge.js               # wx.onShow/onHide → Luna lifecycle
 ├── snapshots/                        # 关键状态快照（回归 baseline）
-│   ├── dom-shim.may2-12-48.snapshot  # 5/2 出画面 baseline (44KB)
-│   ├── dom-shim.v18-may4.snapshot    # 5/4 v18 完整版 (54KB)
-│   └── dom-shim.may4-broken.js       # 反面教材：26 次错链尾端 patch (83KB)
+│   ├── dom-shim.may2-12-48.snapshot                # 5/2 出画面 baseline (44KB)
+│   ├── dom-shim.v18-may4.snapshot                  # 5/4 v18 globalThis+轮盘 (54KB)
+│   ├── dom-shim.v19c-may4-pure-b64.snapshot        # 5/4 音频跑通 (62KB)
+│   ├── dom-shim.v19d-may4-mixwithother.snapshot    # 5/4 BGM 不被 SFX 抢断
+│   ├── dom-shim.v19e-may4-gain-trace.snapshot      # 5/4 BGM 持续 ✅ 终态
+│   └── dom-shim.may4-broken.js                     # 反面教材：26 次错链尾端 patch
 ├── tools/
 │   ├── extract-wasm.cjs              # 从 Luna chunk 抠 \x00asm magic 出 .wasm
 │   └── decode-wasm.cjs               # WASM 头部解析辅助
@@ -24,23 +27,25 @@ luna2wechat/
     └── upload-v18.ps1                # schtasks 异步上传 wrapper
 ```
 
-## v18 当前状态（2026-05-04）
+## v19e 当前状态（2026-05-04）— ✅ DC Dark Legion 真机全跑通
 
-`luna-to-wx/dom-shim.js` = `snapshots/dom-shim.v18-may4.snapshot` (md5 `9d3edd7d…`)
+`luna-to-wx/dom-shim.js` = `snapshots/dom-shim.v19e-may4-gain-trace.snapshot`
 
-**已纳入：**
+真机验证：**画面 / 轮盘 / 松手停 / 声音 / BGM 持续** 5/5 PASS。
+
+**v19 系列累加（基于 v18）：**
+- **v19c** — `wx.createInnerAudioContext` 真桥接 + 纯 JS base64 编码器（playable-libs 的 `wx.arrayBufferToBase64` 是空 stub 返回 ArrayBuffer 自身，data URI 失效）
+- **v19d** — `wx.setInnerAudioOption({mixWithOther: true, obeyMuteSwitch: false})`（iOS 默认 InnerAudioContext 互斥，BGM 听到第一个 SFX 就死）
+- **v19e** — gain 链改成实时联动 `_inner.volume`，并跟踪所有挂载的 source（PlayCanvas fade 期 gain 一度为 0，原本 start 一次性读音量后锁死 → BGM 重启 vol=0 死寂）；`source.loop` 改 setter 支持 late-set
+
+**v18 累加（基于 baseline）：**
 - WASM 双载（Box2D + Mecanim）unpatch-before-call
 - main-require-order JSON → .js + 取消 `wx.loadSubpackage` 全部入主包
 - vConsole 强开 + HTTP probe via `Image GET` 绕 wx 域名白名单
 - 5/2 baseline + LifeCycle/Analytics/Playable 占位 + Event/Mouse/Wheel/Touch shim
 - `g.Audio = AudioShim` + AudioContextShim + ImageShim/VideoShim
-- **globalThis 镜像** —— 把 17 个构造器同步到 `globalThis`（eval'd 代码裸标识符走 globalThis 解析，仅 `GameGlobal` 不够）
-- **轮盘 keepalive 注入** —— `_setUITouchState` + `forceGetter` Bridge.NET Touch struct + `_instrumentUIRead` 三路短路（`touches`/`touchCount`/`GetTouch`）+ 16ms `setInterval` keepalive + `endedTickCount` 释放序列
-
-**剩余硬墙：**
-1. **Preview/Upload CLI fork 阶段超时** —— 微信开发者工具 IDE 守护进程 fork 子进程不起来，`Stop-Process` 全杀重启同样错。备用方案见 `project_luna2wechat_preview_fork_timeout` memory（清缓存 / 升级 / IDE GUI / 重装）。
-2. **真机视觉验证未完成** —— v18 已部署 `wx-build:luna-wx-mg/luna-to-wx/dom-shim.js`，但因 #1 没拿到新二维码，画面/轮盘/音频实机验证未做。
-3. **`wx-ad-bridge` addEventListener 链** —— DOM 子对象 (documentElement/body/head/canvas) 缺 `addEventListener`，文件已改但需要 v18 build 上去验。
+- **globalThis 镜像** — 17 个构造器同步到 `globalThis`（eval'd 代码裸标识符走 globalThis 解析）
+- **轮盘 keepalive 注入** — `_setUITouchState` + `forceGetter` Bridge.NET Touch struct + `_instrumentUIRead` 三路短路 + 16ms keepalive + 3-tick endedTickCount 释放
 
 ## 关键里程碑时间线
 
@@ -50,7 +55,10 @@ luna2wechat/
 | 2026-05-03 02:36 | ✅ 触控+音频 最后一次工作状态 | (baseline + 23 edits) |
 | 2026-05-03 末 | ❌ 黑屏回归（26 次错链尾端 patch） | `dom-shim.may4-broken.js` |
 | 2026-05-04 v17 | ✅ 回退 baseline + 3 minimal patch 出画面但轮盘+声音失效 | (baseline + 3 patch) |
-| 2026-05-04 v18 | ✅ +globalThis 镜像 +轮盘 keepalive（未真机验） | `dom-shim.v18-may4.snapshot` |
+| 2026-05-04 v18 | ✅ +globalThis 镜像 +轮盘 keepalive（真机 4/5 通过：声音失败） | `dom-shim.v18-may4.snapshot` |
+| 2026-05-04 v19c | ✅ 真桥接 wx.createInnerAudioContext + 纯 JS base64（声音 ✅，BGM 第一次点击后失） | `dom-shim.v19c-may4-pure-b64.snapshot` |
+| 2026-05-04 v19d | ✅ +setInnerAudioOption mixWithOther（BGM 出但片段后又消失） | `dom-shim.v19d-may4-mixwithother.snapshot` |
+| 2026-05-04 v19e | ✅ +gain 链实时联动 + late-loop 传播（BGM 持续 ✅ 终态） | `dom-shim.v19e-may4-gain-trace.snapshot` |
 
 详细事件链与教训见 `SKILL.md` 的"黑屏回归调试纪律"小节。
 
