@@ -1,0 +1,21 @@
+{
+  "projectname": "unity-luna-wx-mg",
+  "appid": "wx21647eaf197e9b58",
+  "compileType": "game",
+  "setting": {
+    "es6": false,
+    "enhance": false,
+    "postcss": false,
+    "minified": false,
+    "newFeature": true,
+    "nodeModules": false,
+    "minifyWXML": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    }
+  },
+  "libVersion": "3.4.0",
+  "condition": {}
+}

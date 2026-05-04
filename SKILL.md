@@ -18,6 +18,46 @@ description: 把 Luna 导出的 playable 跑在微信"试玩广告"runtime（pla
 - `WXWebAssembly.instantiate` 只吃文件路径，不吃 ArrayBuffer/Module
 - 没有 `location` / `URLSearchParams` / `crypto` / `addEventListener`（部分 DOM 子对象上）
 
+## 入口形态：源工程 vs 渠道 HTML
+
+Luna 输出有两种形态，本 skill 都覆盖：
+
+1. **源工程目录**：`luna-runtime/*.js` + `subpackage-bundle/*.js` 分立文件 + 散资源
+2. **渠道发布 HTML**：单文件 `unityChannel.html` / `applovinChannel.html` / `tiktokChannel.html` / `mintegralChannel.html` 等（5MB 量级），所有 chunk + 资源 inline 进 `<script>` / `<img>` / `<audio>`
+
+渠道 HTML **互相等价**——chunk 字节比对证明 unity 与 applovin 输出的 14 主包 + 3 分包 + `16_base122_dom_bind` 完全相同；channel 差异 100% 落在 `_skipped/01_analytics`（不同 ad-network SDK，luna2wechat 丢弃）和 `_to_rewrite/21_ad_bridge`（几个 whitespace，luna2wechat 用 wx-ad-bridge.js 重写）。详见 `project_luna_channel_html_interchangeable.md`。
+
+**渠道 HTML → luna2wechat 工程目录**：
+
+```bash
+node tools/postprocess.js channelXxx.html out/
+```
+
+输出树结构跟源工程一致：`luna-runtime/00..20_*.js` + `subpackage-bundle/12..14_compressed_asset.js` + `manifest.json` + `assets/inline/{data,src122}/*` + `main-require-order.json`。脚本按 chunk 内容结构分类（不依赖 channel 字符串），新 channel 无需写分支。
+
+### postprocess.js 已自动做的两件事（别误清）
+
+postprocess.js 内部已处理两件**漏了就黑屏**的事——但 PoC 后人工清理时容易误删，记住别动：
+
+**1. 18_bootstrap.js 末尾的 startGame 全局挂载**（已自动注入）
+
+原始 `function startGame() {...}` 在试玩 require 模块作用域里**不会**自动挂全局。postprocess.js 自动追加：
+
+```js
+;(typeof GameGlobal!=='undefined'?GameGlobal:globalThis).startGame=startGame;
+```
+
+漏 / 误删这一行 → luna 内部调 `window.startGame()` 报 `TypeError: window.startGame is not a function` → scene 不加载 → MeshInstance=0 → **黑屏**（probe 看到 `[deep] no MIs (renderers=N/A)`）。
+
+**2. manifest.json + assets/inline/**（postprocess.js 输出，别清）
+
+asset-inject.js 启动时读 `manifest.json`，遍历 `assets[]`，每个 `kind === 'data'` asset 走 `wx.createImage().src = asset.rel` 加载落盘的 `assets/inline/data/*.{png,jpg,mp4}`。
+
+清 PoC 残留时**只能删**：`box2d.wasm` / `mecanim.wasm`（保留 .br）/ `luna-wasm.json` / `_to_rewrite/` / `_skipped/`。
+**绝不能删** `manifest.json` 或 `assets/inline/`，否则 asset-inject 提前 return → Luna `_loadSimpleAssetsAsync` 拿到 null Image → `Cannot read properties of null (reading 'complete')` → **黑屏**。
+
+实证：2026-05-04 验 unityChannel.html，第一版漏 startGame patch（黑屏 v1，`window.startGame is not a function`）→ 第二版补 patch 但清掉 manifest（黑屏 v2，`null.complete`）→ 第三版 patch + 留 manifest（v3 真机 6/6 通过）。教训驱动 postprocess.js 自动化 patch + TPL_INCLUDE 默认 ship template files。
+
 ## 适配清单（按依赖顺序）
 
 ### 1. 抽 WASM 出来当静态文件
@@ -856,7 +896,7 @@ dom-shim 超 65KB 应警觉——每加一段都问"必要吗"。实际硬墙是
 
 按顺序走，跳着走会被坑链回反：
 
-1. **跑一遍 baseline** — 主代码 + 原 Luna 资源 → 看 vConsole 第一个 fatal 报错
+1. **入口形态判断** — 源工程目录直接走 §2；渠道 HTML 先跑 `node tools/postprocess.js channelXxx.html out/` 拆出 luna2wechat 目录树，再补 §入口形态 的两条必做 patch（18_bootstrap startGame 挂全局 + 留 manifest.json/assets/inline）
 2. **抠 WASM** — `extract-wasm.cjs` 找两份 emscripten module，落成 `.wasm.br`，记 byteLength
 3. **修 main-require-order** — 把 .json manifest 转成 `module.exports = [...]` 的 .js
 4. **取消分包** — 所有 `wx.loadSubpackage` 调用点改 `require()`，资源进主包，包大小 < 5MB
