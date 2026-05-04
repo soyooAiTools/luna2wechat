@@ -1063,26 +1063,18 @@
     ctx.listener = { setPosition() {}, setOrientation() {}, positionX: { value: 0 }, positionY: { value: 0 }, positionZ: { value: 0 } };
 
     // gain 节点：维持 _gain 值，connect 时挂到下游 _next，让 source.start 沿链算总 volume
-    let _gainCounter = 0;
     ctx.createGain = () => {
-      const _id = ++_gainCounter;
-      const _setG = (v, who) => {
-        const old = node._gain;
-        node._gain = v; node.gain._v = v;
-        node._sources && node._sources.forEach(src => { if (src._inner) try { src._inner.volume = src._chainVol(); } catch (e) {} });
-        if (old !== v) console.log('[XXAUDIO] gain#' + _id + ' ' + who + ' ' + (typeof old==='number'?old.toFixed(3):old) + '→' + (typeof v==='number'?v.toFixed(3):v));
-      };
       const node = {
         gain: {
           _v: 1,
           get value() { return node.gain._v; },
-          set value(v) { _setG(v, 'set'); },
-          setValueAtTime(v) { _setG(v, 'setAt'); },
-          linearRampToValueAtTime(v) { _setG(v, 'linRamp'); },
-          exponentialRampToValueAtTime(v) { _setG(v, 'expRamp'); },
-          cancelScheduledValues() {},
+          set value(v) { node.gain._v = v; node._gain = v; },
+          setValueAtTime(v) { node.gain._v = v; node._gain = v; },
+          linearRampToValueAtTime(v) { node.gain._v = v; node._gain = v; },
+          exponentialRampToValueAtTime(v) { node.gain._v = v; node._gain = v; },
         },
-        _gain: 1, _id: _id, _next: null, _sources: [],
+        _gain: 1,
+        _next: null,
         connect(target) { node._next = target; return target; },
         disconnect() { node._next = null; },
       };
@@ -1091,50 +1083,20 @@
 
     // buffer source：start 时实际起 InnerAudioContext 播放
     ctx.createBufferSource = () => {
+      let _inner = null, _started = false, _stopped = false;
       const node = {
         buffer: null,
+        loop: false,
         playbackRate: { value: 1, setValueAtTime() {} },
         _next: null,
-        _inner: null, _started: false, _stopped: false,
-        _loop: false,
-        get loop() { return node._loop; },
-        set loop(v) {
-          node._loop = !!v;
-          if (node._inner) { try { node._inner.loop = !!v; } catch (e) {} }
-        },
-        _chainVol() {
-          let vol = 1, n = node._next, hops = 0;
-          while (n && hops < 16) {
-            if (typeof n._gain === 'number') vol *= n._gain;
-            if (n._isDestination) break;
-            n = n._next; hops++;
-          }
-          return Math.max(0, Math.min(1, vol));
-        },
-        connect(target) {
-          node._next = target;
-          // 沿链注册到 gain 的 _sources，gain 变化时实时更新音量
-          let n = target, hops = 0;
-          while (n && hops < 16) {
-            if (n._sources && n._sources.indexOf(node) < 0) n._sources.push(node);
-            if (n._isDestination) break;
-            n = n._next; hops++;
-          }
-          return target;
-        },
+        connect(target) { node._next = target; return target; },
         disconnect() {
-          let n = node._next, hops = 0;
-          while (n && hops < 16) {
-            if (n._sources) { const i = n._sources.indexOf(node); if (i >= 0) n._sources.splice(i, 1); }
-            if (n._isDestination) break;
-            n = n._next; hops++;
-          }
           node._next = null;
-          if (node._inner) { try { node._inner.stop(); node._inner.destroy(); } catch (e) {} node._inner = null; }
+          if (_inner) { try { _inner.stop(); _inner.destroy(); } catch (e) {} _inner = null; }
         },
         onended: null,
         start(_when) {
-          if (node._started || node._stopped) return; node._started = true;
+          if (_started || _stopped) return; _started = true;
           const buf = node.buffer;
           if (!buf || !buf._wxDataUri) {
             try { GameGlobal.__XXAUDIO_skip = (GameGlobal.__XXAUDIO_skip || 0) + 1; } catch (e) {}
@@ -1145,34 +1107,37 @@
             console.log('[XXAUDIO] start skipped: wx.createInnerAudioContext missing');
             return;
           }
-          const vol = node._chainVol();
+          // 沿 connect 链算总 volume（gain._gain 累乘到 destination）
+          let vol = 1, n = node._next, hops = 0;
+          while (n && hops < 16) {
+            if (typeof n._gain === 'number') vol *= n._gain;
+            if (n._isDestination) break;
+            n = n._next; hops++;
+          }
+          vol = Math.max(0, Math.min(1, vol));
           try {
-            const _inner = wx.createInnerAudioContext();
-            node._inner = _inner;
+            _inner = wx.createInnerAudioContext();
             _inner.src = buf._wxDataUri;
-            _inner.loop = !!node._loop;
+            _inner.loop = !!node.loop;
             _inner.volume = vol;
             _inner.onEnded && _inner.onEnded(() => {
-              console.log('[XXAUDIO] ended bytes=' + (buf._wxBytes||0) + ' loop=' + (!!node._loop));
               try { node.onended && node.onended(); } catch (e) {}
-              try { node._inner && node._inner.destroy(); } catch (e) {}
-              node._inner = null;
+              try { _inner && _inner.destroy(); } catch (e) {}
+              _inner = null;
             });
             _inner.onError && _inner.onError((e) => {
-              console.log('[XXAUDIO] error bytes=' + (buf._wxBytes||0) + ' err=' + JSON.stringify(e||{}));
               try { GameGlobal.__XXAUDIO_err = (GameGlobal.__XXAUDIO_err || 0) + 1; } catch (er) {}
-              try { node._inner && node._inner.destroy(); } catch (er) {}
-              node._inner = null;
+              try { _inner && _inner.destroy(); } catch (er) {}
+              _inner = null;
             });
             _inner.play();
             try { GameGlobal.__XXAUDIO_play = (GameGlobal.__XXAUDIO_play || 0) + 1; } catch (e) {}
-            console.log('[XXAUDIO] play vol=' + vol.toFixed(2) + ' loop=' + (!!node._loop) + ' bytes=' + (buf._wxBytes||0) + ' mime=' + (buf._wxMime||'?'));
+            console.log('[XXAUDIO] play vol=' + vol.toFixed(2) + ' loop=' + (!!node.loop) + ' bytes=' + (buf._wxBytes||0) + ' mime=' + (buf._wxMime||'?'));
           } catch (e) { console.warn('[ACtxShim] play failed:', e && e.message); }
         },
         stop() {
-          node._stopped = true;
-          console.log('[XXAUDIO] stop bytes=' + (node.buffer && node.buffer._wxBytes||0));
-          if (node._inner) { try { node._inner.stop(); node._inner.destroy(); } catch (e) {} node._inner = null; }
+          _stopped = true;
+          if (_inner) { try { _inner.stop(); _inner.destroy(); } catch (e) {} _inner = null; }
         },
       };
       return node;
