@@ -299,6 +299,8 @@ try {
 
 注意 `Image === HTMLImageElement` 浏览器约定要保留：`g.Image = g.HTMLImageElement` 否则 `new Image()` 在 eval'd 代码里同样炸。
 
+**每个赋值都要独立 try/catch + continue**：playable runtime 偶尔把某些构造器锁成 readonly 或 non-configurable，单次失败不能让整个 mirror 循环退出。`for (const k of _mirror) { try { ... } catch (e) {} }` 把每一项隔离开——17 项里挂掉 1 项不影响其余 16 项可用。
+
 ### `Symbol.hasInstance` 反向校验（critical）
 
 **仅有构造器还不够**——PlayCanvas 内部有 `instanceof HTMLImageElement` / `instanceof HTMLVideoElement` 这类 duck-type 检查，wx 的真 Image 对象 prototype 链对不上 → `instanceof` 返 false → 走错分支（典型：纹理上传被跳过 → 黑屏）。
@@ -395,6 +397,16 @@ Luna 用 PlayCanvas 接 Unity, 但摇杆/Touch 直接吃 `UnityEngine.Input.touc
 
 完整 `_setUITouchState` + `_injectUIState` + `_instrumentUIRead` 实现见 `/tmp/luna-wasm-extract/.dom-shim.v18-may4.snapshot`（这一坨 ~250 行）。
 
+### 易遗漏：mkV2/mkV3 多构造签名探测 + `h$/o$` 双层写
+
+写 mock Touch 时，构造 Vector2/Vector3 不能只试 `new V2.ctor()` 一种：Bridge.NET 给值类型生成 0/1/2 参三种重载，少哪个都可能 fallback 到 plain `{x,y}` 对象，下游 `instanceof` 校验直接 false。**优先级**：`new V2.$ctor1(x,y)` → `new V2.ctor()` + 写 `.x/.y` + 写 `_data[0..1]` → plain `{x, y, _data:[x,y]}` 兜底。
+
+`forceGetter` 覆盖 `position/deltaPosition` accessor 之后**还要**直接写 mockT 的 backing field `h$.x/y` + `h$._data[]` 和 `o$.x/y` + `o$._data[]`：Bridge.NET 部分代码路径（编译优化）会绕过 accessor 直接读 backing field，accessor hook 这一层就失效。两层都写才稳，少哪层概率都是"摇杆有时识别有时不"。
+
+### 易遗漏：`__uiInjectFrameCnt` 限频快照（1/30/100 帧）
+
+`_injectUIState` 每 16ms 跑一次 = ~60 次/秒，全打日志会爆控制台。dom-shim 用 `__uiInjectFrameCnt` 计数器，仅在第 **1 / 30 / 100** 帧打 readback 快照（mousePos / touchCount / mockT.phase），覆盖了"首帧错"/"稳态"/"长时漂移"三个时间点。改频率前先想清楚要看什么——这套是定位 race 的关键采样点。
+
 ## asset-inject.js：图像/音视频代理的隐藏陷阱
 
 asset-inject.js 把 Luna 资源喂给 dom-shim 的代理元素。三个**不易察觉**的坑：
@@ -425,6 +437,33 @@ proxy.load = function () {
 ```
 
 `readyState=4` 这个常量必须保留——PC 内部 `if (readyState >= 4)` 判断就绪。
+
+### 易遗漏：`n.remove()` no-op 必须存在
+
+Luna 的 texture handler 走 `texture.setSource(n); n.remove(); /* mipmaps... */` 模式，调用真 `wx.createImage()` 返回的对象上的 `.remove()`——但 wx 真 Image **没**这方法，访问 undefined 抛 TypeError → 整张纹理上传失败 → 黑屏或马赛克。asset-inject 必须给每个代理 image 注入空 stub：
+
+```js
+if (typeof img.remove !== 'function') img.remove = function () {};
+```
+
+`removeChild` 同理（document.body / document.head 上）。注 stub 而不是省略——Luna 不检查存在性，直接调。
+
+## RAF 双源同源化（window + canvas）
+
+wx 小游戏风格 API 给 `canvas.requestAnimationFrame`，浏览器风格给 `window.requestAnimationFrame`。Luna/PlayCanvas 视版本可能调任一边——dom-shim 必须**同源化**，把 window RAF 路由到 canvas RAF 上保证渲染循环一定起：
+
+```js
+const rawWinRaf = (typeof g.requestAnimationFrame === 'function')
+  ? g.requestAnimationFrame.bind(g)
+  : g.canvas.requestAnimationFrame.bind(g.canvas);
+const rawWinCaf = (typeof g.cancelAnimationFrame === 'function')
+  ? g.cancelAnimationFrame.bind(g)
+  : g.canvas.cancelAnimationFrame.bind(g.canvas);
+g.requestAnimationFrame = function (cb) { return rawWinRaf(cb); };
+g.cancelAnimationFrame = rawWinCaf;
+```
+
+不同源化会出现：单边路径起得来，另一边静默不调用——多半是 PC 内部某 timing 切换后整段画面卡住但 vConsole 无错。
 
 ## wx-ad-bridge.js：lifecycle + 渲染矫正
 
