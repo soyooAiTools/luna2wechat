@@ -177,21 +177,65 @@ dom-shim 末尾 `[XXAUDIO]` 探针（instantiate / decode bytes/mime/b64Len / pl
 
 ## HTTP probe：绕 wx 域名白名单看真机日志
 
-试玩广告 vConsole 在真机上不可视，`wx.request` 受域名白名单限制。绕开方法：dom-shim 接管 `console.log/warn/error/info`，把 message 通过 `new Image().src = 'http://LAN_IP:PORT/log?m=...'` 发出去（图片 GET 不走域名白名单），本机起一个 HTTP server 接收。
+试玩广告 vConsole 在真机不可视，`wx.request` 受域名白名单限制。绕开方法：dom-shim 接管 `console.log/warn/error/info`，把 message 通过 HTTP GET 发到 LAN 内的 probe server。
+
+### v20.12 fire-and-forget 模式（生产路径，实测稳定）
+
+经过 v20.6 → v20.12 七版本血泪迭代，下面是**已知唯一稳定**的 probe 客户端模式。任何偏离都会落到 7 个已知失败根因中（详见 `project_luna2wechat_probe_pipeline.md`）。
 
 ```js
-// /tmp/probe-server.js（在测试机或开发机跑）
-const http = require('http'), fs = require('fs');
-const LOG = process.argv[2] || 'C:\\Users\\Nick\\probe.log';
-http.createServer((req, res) => {
-  fs.appendFileSync(LOG, '[' + new Date().toISOString() + '] ' + req.method + ' ' + req.url + '\n');
-  res.writeHead(200, {'Access-Control-Allow-Origin': '*'}); res.end('ok');
-}).listen(38080, '0.0.0.0');
+const PROBE_HOST = '192.168.1.3:53017';   // wx-build LAN IPv4，绝不能用 Tailscale 100.x
+const _spamPatterns = [/escapeGuideCount/, /Skipping event sample/, /^\[XXAUDIO\] gain#/];
+const _buf = [];
+function pushLine(line) {
+  for (const p of _spamPatterns) if (p.test(line)) return;   // 启动期 burst 短，spam 会挤掉关键日志
+  _buf.push(line);
+}
+function fireOne(line) {
+  const url = 'http://' + PROBE_HOST + '/log?m=' + encodeURIComponent(line.slice(0, 1500));
+  try { const img = wx.createImage && wx.createImage(); if (img) img.src = url; } catch (e) {}
+  try { if (wx.request) wx.request({ url, method: 'GET', enableHttp2: false, enableCache: false }); } catch (e) {}
+}
+// 5 行 / 20ms = 250 行/秒；跟得上启动 burst 又不打爆 wx 内核
+setInterval(() => { let n = 5; while (n-- > 0 && _buf.length > 0) fireOne(_buf.shift()); }, 20);
 ```
 
-dom-shim 端：每次 console.log 把 args 拼成 `?m=[level] msg` query 发出去。手机和测试机在同一 LAN 才行（`192.168.1.3:38080` 之类）。`wx-build` 上跑后用 `scp wx-build:C:/Users/Nick/probe.log /tmp/probe.log` 拉回来 grep。
+四条硬约束（任一违反 = 启动期日志全丢）：
+- **必须 `wx.createImage()`**，不是 `new Image()` —— 试玩 runtime 的 globalThis 不一定桥到 GameGlobal
+- **fire-and-forget**：不挂任何 callback，`wx.request` 的 `complete` 在试玩 runtime 不可靠
+- **本地 setInterval drain**：完全不依赖远端反馈推进队列
+- **单 host + 双 transport**：multi-host round-robin 一旦有一个不可达就拖死整条队列
 
-每次 build 前 `Remove-Item probe.log` 清空，避免老条干扰判断。
+### probe server v3（仓库 `deploy/probe_server_v3.js`）
+
+支持 `GET /log?m=...` + `POST /batch` 双路径，listen `0.0.0.0:53017`，写文件 `C:\Users\Nick\probe.log`。
+
+部署：`scp deploy/probe_server_v3.js wx-build:C:/Users/Nick/probe_server_v3.js` → schtasks 启动（**必须** schtasks，不能直接 ssh node 启动，详见排查清单 #1）。完整 schtasks 命令模板在 `project_luna2wechat_probe_pipeline.md`。
+
+### 7 条已知失败模式（probe 不出日志时按序排查）
+
+完整诊断在 `project_luna2wechat_probe_pipeline.md`，速查：
+
+1. VS Code SSH tunnel 抢占 `127.0.0.1` → probe server **必须 schtasks 启动**脱离 SSH 会话；`Get-NetTCPConnection -LocalPort 53017` 必须 `0.0.0.0`
+2. 手机不在 Tailscale → 用 `ipconfig` LAN IPv4，不要 `100.x`
+3. wx.request 默认并发上限 ~5-10 → 单 host + Image 主路
+4. wx.request `complete` callback 不可靠 → 不依赖 callback 推进队列（fire-and-forget）
+5. stalled 不可达 host 拖死 round-robin → 单 host
+6. 启动期稳态 spam 挤掉关键日志 → 源头 `_spamPatterns` 过滤
+7. 截图/vConsole 当退路 → **硬纪律：强迫修通 probe**，两次扫码拿不到日志立刻停下按 1-6 排查
+
+### 抓日志循环
+
+```bash
+# 一次性：启动 probe server（schtasks 脱离 SSH）
+ssh wx-build 'powershell -Command "schtasks /Delete /TN ProbeServer /F 2>$null; schtasks /Create /SC ONCE /ST 23:59 /TN ProbeServer /TR ''cmd /c node C:\\Users\\Nick\\probe_server_v3.js > C:\\Users\\Nick\\probe-stdout.log 2>&1'' /F; schtasks /Run /TN ProbeServer"'
+ssh wx-build 'powershell -Command "Get-NetTCPConnection -LocalPort 53017 | Select State,LocalAddress"'   # 期望 0.0.0.0
+
+# 每轮 build
+ssh wx-build 'powershell -Command "Remove-Item C:\\Users\\Nick\\probe.log -ErrorAction SilentlyContinue"'
+# … 改 dom-shim → scp → preview → 用户扫 …
+scp wx-build:C:/Users/Nick/probe.log /tmp/probe-vXX.log
+```
 
 ## 部署 / 预览循环
 

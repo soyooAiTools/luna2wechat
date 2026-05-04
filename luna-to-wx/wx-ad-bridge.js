@@ -21,6 +21,28 @@
   const g = GameGlobal;
   const win = g;
 
+  // ---- 视频纹理驱动: 全局共享 state (必须在所有 IIFE 之前初始化) ----
+  GameGlobal.__lunaVideoTextures = GameGlobal.__lunaVideoTextures || new Set();
+  GameGlobal.__lunaVideoDirtyTimer = GameGlobal.__lunaVideoDirtyTimer || null;
+  function startVideoDirtyTimer() {
+    if (GameGlobal.__lunaVideoDirtyTimer) return;
+    GameGlobal.__lunaVideoDirtyTimer = setInterval(() => {
+      const set = GameGlobal.__lunaVideoTextures;
+      if (!set || !set.size) return;
+      for (const tex of set) {
+        try {
+          const src = tex && tex._levels && tex._levels[0];
+          if (!src || !src._isLunaVideo) continue;
+          if (src.paused === true) continue;
+          if (typeof tex.dirtyAll === 'function') tex.dirtyAll();
+          else { tex._needsUpload = true; if (tex._levelsUpdated) tex._levelsUpdated[0] = true; }
+        } catch (e) {}
+      }
+    }, 33);
+    console.log('[wx-ad-bridge] video dirty timer started (33ms)');
+  }
+  GameGlobal.__lunaStartVideoDirtyTimer = startVideoDirtyTimer;
+
   // ---- 早期 fix: pc.platform.touch=true ----
   // wx-ad-bridge require 时 pc 还没 load (deferred 探针确认 pc.platform 当时是 NULL),
   // 等到 deepProbe 时才看到 pc.platform={} 空对象 — 真 PC Application 在 luna:build 之后构造,
@@ -45,41 +67,132 @@
     tick();
   })();
 
-  // ---- 早期 hook: pc.Texture.prototype.setSource — 想抓 InitializeAsync 期的纹理 upload ----
-  // 这里 wx-ad-bridge 在 game.js 里的 require 顺序在 main scripts 之后, asset-inject 之前,
-  // 但 InitializeAsync (调 setSource) 要等 luna:build 才启动 → 此时 hook 来得及。
-  try {
-    const TexProto = g.pc && g.pc.Texture && g.pc.Texture.prototype;
-    if (TexProto && typeof TexProto.setSource === 'function' && !TexProto.__probed) {
-      const orig = TexProto.setSource;
-      let cnt = 0;
-      TexProto.setSource = function (t) {
-        const N = ++cnt;
-        if (N <= 12) {
-          try {
-            const isImg    = (g.HTMLImageElement  && t instanceof g.HTMLImageElement);
-            const isCanvas = (g.HTMLCanvasElement && t instanceof g.HTMLCanvasElement);
-            const isVideo  = (g.HTMLVideoElement  && t instanceof g.HTMLVideoElement);
-            const isAB     = (t instanceof ArrayBuffer);
-            console.log('[setSource#' + N + '] tex.name=' + this.name + ' arg.ctor=' + (t && t.constructor && t.constructor.name) +
-                         ' isImg=' + isImg + ' isCanvas=' + isCanvas + ' isVideo=' + isVideo + ' isAB=' + isAB +
-                         ' tag=' + (t && t.tagName) + ' src=' + (t && typeof t.src) +
-                         ' w=' + (t && t.width) + 'x' + (t && t.height));
-          } catch (e) { console.log('[setSource#' + N + '] log err:', e && e.message); }
+  // ---- 兜底 wrap GL ctx: 视频纹理 upload 重定向 ----
+  // dom-shim 已经在 canvas.getContext 上挂了 wrapper, 但若 wx canvas 的 getContext 被锁死或
+  // PC 在 dom-shim require 之前抢先调过 getContext (理论上不会, 但兜底保险), 这里重 wrap 一次。
+  // 用 graphicsDevice.gl 反查到 GL ctx 直接 wrap.
+  (function lateWrapGL() {
+    let attempts = 0;
+    function tick() {
+      attempts++;
+      try {
+        const pcMod = g.pc || (typeof pc !== 'undefined' ? pc : null);
+        const app = pcMod && pcMod.Application && typeof pcMod.Application.getApplication === 'function'
+          ? pcMod.Application.getApplication() : null;
+        const gl = (app && app.graphicsDevice && app.graphicsDevice.gl)
+          || (g.canvas && g.canvas.__webgl);
+        if (gl && typeof gl.texImage2D === 'function' && !gl.__lunaVideoWrapped
+            && typeof GameGlobal.__lunaWrapGL === 'function') {
+          GameGlobal.__lunaWrapGL(gl);
+          console.log('[wx-ad-bridge] late-wrapped GL ctx (attempt ' + attempts + ')');
+          return;
         }
-        const r = orig.apply(this, arguments);
-        if (N <= 12) {
-          console.log('[setSource#' + N + '] post: tex._width=' + this._width + ' _levels[0]=' +
-            (this._levels && this._levels[0] ? this._levels[0].constructor.name : 'null'));
-        }
-        return r;
-      };
-      TexProto.__probed = true;
-      console.log('[wx-ad-bridge] hooked pc.Texture.prototype.setSource');
-    } else {
-      console.log('[wx-ad-bridge] cannot hook setSource — pc.Texture missing or already probed');
+      } catch (e) {}
+      if (attempts < 30) setTimeout(tick, 200);
     }
-  } catch (e) { console.log('[wx-ad-bridge] setSource hook threw:', e && e.message); }
+    tick();
+  })();
+
+  // ---- 兜底: 扫 graphicsDevice.textures 找出 _levels[0]._isLunaVideo===true 的纹理, 注册到驱动表 ----
+  // 防 setSource hook 没装上 / 漏掉首次 setSource 调用 / Luna 改了 setSource path 的极端情况.
+  (function backupScanVideoTextures() {
+    let attempts = 0;
+    function tick() {
+      attempts++;
+      try {
+        const pcMod = g.pc || (typeof pc !== 'undefined' ? pc : null);
+        const app = pcMod && pcMod.Application && typeof pcMod.Application.getApplication === 'function'
+          ? pcMod.Application.getApplication() : null;
+        const dev = app && (app.graphicsDevice || app._graphicsDevice);
+        const texs = dev && (dev.textures || dev._textures);
+        if (texs && texs.length) {
+          let found = 0;
+          for (const t of texs) {
+            const src = t && t._levels && t._levels[0];
+            if (src && src._isLunaVideo) {
+              if (!GameGlobal.__lunaVideoTextures.has(t)) {
+                GameGlobal.__lunaVideoTextures.add(t);
+                found++;
+                if (typeof src.play === 'function' && src.paused !== false) {
+                  try { src.play(); } catch (e) {}
+                }
+              }
+            }
+          }
+          if (found > 0) {
+            startVideoDirtyTimer();
+            console.log('[wx-ad-bridge] backup scan registered ' + found + ' video texture(s) (attempt ' + attempts + ')');
+          }
+        }
+      } catch (e) {}
+      // 持续扫: 视频纹理可能在 luna:build +Ns 后才 setSource (Network.GetVideoAsync 异步)
+      if (attempts < 120) setTimeout(tick, 500);
+    }
+    setTimeout(tick, 1000);
+  })();
+
+  // ---- pc.Texture.prototype.setSource hook: 视频帧驱动 + InitializeAsync 期 upload 探针 ----
+  // 根因(必读): PC 的 Texture.setSource(t) 只在 t !== this._levels[0] 时把 _levelsUpdated[0]=true,
+  // 之后 uploadTexture 一次后清零, 永不再 re-upload。Luna 的 VideoTexture (class Dn extends Texture)
+  // 没有 per-frame upload 钩子(没用 requestVideoFrameCallback, 无 update method)。
+  // 所以 PC 视频纹理在 setSource(videoProxy) 后只 upload 一次 → 视频卡在第一帧。
+  // 修法: 当 setSource 被调用且参数是我们的 video proxy 时, 捕获 texture 实例;
+  // 启动一个 33ms 间隔, 反复 tex.dirtyAll() (= _needsUpload=true + _levelsUpdated[0]=true),
+  // PC 下一次 uploadTexture 调用走 texImage2D(target,..., proxy) → 我们的 GL wrap 拉新帧 → 视频动起来。
+  // wx-ad-bridge 在 game.js 里的 require 顺序在 main scripts 之后, asset-inject 之前,
+  // 但 InitializeAsync (调 setSource) 要等 luna:build 才启动 → 此时 hook 来得及。
+  // pc.Texture 在 wx-ad-bridge require 时通常还没加载 — retry 直到拿到 prototype
+  (function installSetSourceHook() {
+    let attempts = 0;
+    function tick() {
+      attempts++;
+      try {
+        const TexProto = g.pc && g.pc.Texture && g.pc.Texture.prototype;
+        if (TexProto && typeof TexProto.setSource === 'function' && !TexProto.__lunaVideoHooked) {
+          const orig = TexProto.setSource;
+          let cnt = 0;
+          TexProto.setSource = function (t) {
+            const N = ++cnt;
+            if (N <= 12) {
+              try {
+                const isImg    = (g.HTMLImageElement  && t instanceof g.HTMLImageElement);
+                const isCanvas = (g.HTMLCanvasElement && t instanceof g.HTMLCanvasElement);
+                const isVideo  = (g.HTMLVideoElement  && t instanceof g.HTMLVideoElement);
+                const isAB     = (t instanceof ArrayBuffer);
+                console.log('[setSource#' + N + '] tex.name=' + this.name + ' arg.ctor=' + (t && t.constructor && t.constructor.name) +
+                             ' isImg=' + isImg + ' isCanvas=' + isCanvas + ' isVideo=' + isVideo + ' isAB=' + isAB +
+                             ' tag=' + (t && t.tagName) + ' src=' + (t && typeof t.src) +
+                             ' w=' + (t && t.width) + 'x' + (t && t.height));
+              } catch (e) { console.log('[setSource#' + N + '] log err:', e && e.message); }
+            }
+            const r = orig.apply(this, arguments);
+            try {
+              if (t && t._isLunaVideo) {
+                GameGlobal.__lunaVideoTextures.add(this);
+                if (typeof t.play === 'function' && t.paused !== false) {
+                  try { t.play(); } catch (e) {}
+                }
+                startVideoDirtyTimer();
+                console.log('[setSource#' + N + '] registered video texture (count=' + GameGlobal.__lunaVideoTextures.size + ')');
+              }
+            } catch (e) { console.log('[setSource#' + N + '] video register threw:', e && e.message); }
+            if (N <= 12) {
+              console.log('[setSource#' + N + '] post: tex._width=' + this._width + ' _levels[0]=' +
+                (this._levels && this._levels[0] ? this._levels[0].constructor.name : 'null'));
+            }
+            return r;
+          };
+          TexProto.__lunaVideoHooked = true;
+          TexProto.__probed = true; // 兼容老探针标记
+          console.log('[wx-ad-bridge] hooked pc.Texture.prototype.setSource (attempt ' + attempts + ')');
+          return;
+        }
+      } catch (e) { console.log('[wx-ad-bridge] setSource hook tick threw:', e && e.message); }
+      if (attempts < 60) setTimeout(tick, 200);
+      else console.log('[wx-ad-bridge] setSource hook gave up after ' + attempts + ' attempts');
+    }
+    tick();
+  })();
 
   // 整个 IIFE 的每个顶层动作都包 try/catch；目标是 require() 一定 OK，
   // 不让任何一条 playable-libs 内部的崩溃把 bridge 整个拉下水。
@@ -268,240 +381,9 @@
       return true;
     }
     function deepProbe() {
-      // ---- 1. _lights ----
+      // 1.x 系列纯 logging 探针(_lights/uniform/fog/tex/registry/manifest)已剪除 — 调试期遗留
       try {
-        const pc = win.pc || g.pc;
-        const pcApp = (pc && pc.Application && typeof pc.Application.getApplication === 'function') ? pc.Application.getApplication() : (win.app || g.app);
-        const scene = pcApp && (pcApp.scene || pcApp._scene);
-        const lights = scene && (scene._lights || scene.lights);
-        if (!lights) {
-          console.log('[deep] no scene._lights at ' + (Date.now()) + '; scene keys=', scene ? Object.keys(scene).slice(0,20) : 'no scene');
-        } else {
-          console.log('[deep] _lights.count=' + lights.length);
-          for (let i = 0; i < Math.min(lights.length, 6); i++) {
-            const L = lights[i];
-            const lc = (L && L.light) || L;
-            const node = L && L._node;
-            console.log('[deep] light[' + i + '] name=' + (node && node.name) +
-                         ' type=' + (lc && (lc.type || lc._type)) +
-                         ' enabled=' + (lc && lc.enabled) +
-                         ' intensity=' + (lc && lc.intensity) +
-                         ' colorRGB=' + (lc && (lc._color || lc.color) && JSON.stringify({r:(lc._color||lc.color).r,g:(lc._color||lc.color).g,b:(lc._color||lc.color).b})) +
-                         ' lum=' + (lc && lc._luminance) +
-                         ' renderMode=' + (lc && lc._renderMode));
-          }
-        }
-      } catch (e) { console.log('[deep] lights probe threw:', e && e.message); }
-
-      // ---- 1.5 全局 light uniform — URP shader 真正读的 _MainLightColor / _MainLightPosition / _AdditionalLights* ----
-      // Luna dispatchGlobalLights 只 dispatch ambient+reflection 没 dispatch URP main/additional light uniform
-      // → URP/Lit/CausticLit shader 拿到 0 光照 → 几何体黑色剪影
-      try {
-        const pc = win.pc || g.pc;
-        const pcApp = (pc && pc.Application && typeof pc.Application.getApplication === 'function') ? pc.Application.getApplication() : (win.app || g.app);
-        const dev = pcApp && (pcApp.graphicsDevice || pcApp._graphicsDevice);
-        const scope = dev && dev.scope;
-        if (!scope || typeof scope.resolve !== 'function') {
-          console.log('[deep] no graphicsDevice.scope');
-        } else {
-          const dump = (name) => {
-            try {
-              const id = scope.resolve(name);
-              const v = id && id.value;
-              if (v == null) return name + '=NULL';
-              if (typeof v === 'number') return name + '=' + v;
-              if (v.length != null) return name + '=arr[' + v.length + ']:' + Array.from(v).slice(0,4).map(x=>typeof x==='number'?x.toFixed(3):x).join(',');
-              return name + '=obj';
-            } catch (e) { return name + '=ERR:' + e.message; }
-          };
-          const urpKeys = [
-            '_MainLightPosition', '_MainLightColor',
-            '_AdditionalLightsCount',
-            'unity_SHAr', 'unity_SHAg', 'unity_SHAb', 'unity_SHBr', 'unity_SHBg', 'unity_SHBb', 'unity_SHC',
-            // FOG — 水下场景嫌疑最大
-            'unity_FogColor', 'unity_FogParams', 'fog_color', 'fog_params',
-            // 后处理/曝光/伽马
-            'unity_Exposure', '_Exposure', 'unity_AmbientIntensity',
-          ];
-          console.log('[deep] URP/Unity light uniforms:');
-          for (const k of urpKeys) console.log('[deep]  ' + dump(k));
-        }
-      } catch (e) { console.log('[deep] uniform probe threw:', e && e.message); }
-
-      // ---- 1.6 scene 级 fog/exposure/gamma 配置 ----
-      try {
-        const pc = win.pc || g.pc;
-        const pcApp = (pc && pc.Application && typeof pc.Application.getApplication === 'function') ? pc.Application.getApplication() : (win.app || g.app);
-        const scene = pcApp && (pcApp.scene || pcApp._scene);
-        if (scene) {
-          const fogInfo = {
-            fog: scene.fog,
-            _fog: scene._fog,
-            fogColor: scene.fogColor && {r:scene.fogColor.r,g:scene.fogColor.g,b:scene.fogColor.b,a:scene.fogColor.a},
-            fogStart: scene.fogStart, fogEnd: scene.fogEnd, fogDensity: scene.fogDensity,
-            exposure: scene.exposure, _exposure: scene._exposure,
-            gammaCorrection: scene.gammaCorrection, toneMapping: scene.toneMapping,
-          };
-          console.log('[deep] scene fog/exposure:', JSON.stringify(fogInfo));
-        }
-      } catch (e) { console.log('[deep] scene-config probe threw:', e && e.message); }
-
-      // ---- 1.7 检查 sample MI 贴图实际上传状态 (_width/_height/gpuTexture) ----
-      try {
-        const pc = win.pc || g.pc;
-        const pcApp = (pc && pc.Application && typeof pc.Application.getApplication === 'function') ? pc.Application.getApplication() : (win.app || g.app);
-        const scene = pcApp && (pcApp.scene || pcApp._scene);
-        if (scene && scene._renderers) {
-          let firstFew = [];
-          for (const rr of scene._renderers) {
-            const mis = rr && (rr._meshInstances || rr.meshInstances);
-            if (mis) for (const m of mis) { firstFew.push(m); if (firstFew.length >= 3) break; }
-            if (firstFew.length >= 3) break;
-          }
-          for (let i = 0; i < firstFew.length; i++) {
-            const mat = firstFew[i] && firstFew[i].material;
-            const params = mat && mat.parameters;
-            if (!params) continue;
-            const texInfo = {};
-            for (const k of ['_MainTex', '_BaseMap', '_Normal', '_NormalMap']) {
-              const p = params[k];
-              const tex = p && p.data;
-              if (!tex) continue;
-              const src = tex._source;
-              const lvls = tex._levels;
-              texInfo[k] = {
-                w: tex._width, h: tex._height, fmt: tex._format,
-                keys: Object.keys(tex).filter(x=>!x.startsWith('__')).slice(0,15),
-                src: src ? {
-                  type: (src.constructor && src.constructor.name) || typeof src,
-                  w: src.width, h: src.height,
-                  url: src.src && String(src.src).slice(-40),
-                  complete: src.complete,
-                } : null,
-                lvls: lvls ? { len: lvls.length, l0: lvls[0] && ((lvls[0].constructor && lvls[0].constructor.name) || typeof lvls[0]) } : null,
-                needsUpload: tex._needsUpload, loaded: tex._loaded, _gpuSize: tex._gpuSize,
-                impl: tex._impl ? Object.keys(tex._impl).slice(0,8) : (tex.impl ? Object.keys(tex.impl).slice(0,8) : null),
-              };
-            }
-            console.log('[deep] tex MI[' + i + ']: ' + JSON.stringify(texInfo));
-          }
-        }
-      } catch (e) { console.log('[deep] tex probe threw:', e && e.message); }
-
-      // ---- 1.8 全局注册表盘点 ----
-      try {
-        // (a) dom-shim 注册的 img 元素 (asset-inject 写入)
-        const doc = g.document;
-        const elems = doc && (doc._elements || doc.elements);
-        if (elems) {
-          const ids = Object.keys(elems);
-          let imgCnt = 0, withWH = 0, sample = [];
-          for (const id of ids) {
-            const el = elems[id];
-            if (!el) continue;
-            if (el.tagName === 'IMG' || (el.constructor && el.constructor.name === 'Image')) {
-              imgCnt++;
-              if (el.width > 0) withWH++;
-              if (sample.length < 3) sample.push({id: id.slice(0,30), w: el.width, h: el.height, complete: el.complete, src: (el.src||'').slice(-30)});
-            }
-          }
-          console.log('[deep] doc._elements: total=' + ids.length + ' img=' + imgCnt + ' withWH=' + withWH);
-          console.log('[deep] doc._elements sample:', JSON.stringify(sample));
-        } else {
-          console.log('[deep] no doc._elements');
-        }
-
-        // (b) graphicsDevice.textures — 真实创建的 GL 纹理
-        const pc = win.pc || g.pc;
-        const pcApp = (pc && pc.Application && typeof pc.Application.getApplication === 'function') ? pc.Application.getApplication() : (win.app || g.app);
-        const dev = pcApp && (pcApp.graphicsDevice || pcApp._graphicsDevice);
-        const scene = pcApp && (pcApp.scene || pcApp._scene);
-        const texs = dev && (dev.textures || dev._textures);
-        if (texs) {
-          let total = 0, real = 0, named = {};
-          for (const t of texs) {
-            total++;
-            if (t && t._width > 4) real++;
-            if (t && t.name) named[t.name] = (named[t.name] || 0) + 1;
-          }
-          const namedKeys = Object.keys(named);
-          console.log('[deep] gd.textures: total=' + total + ' realW>4=' + real + ' uniqueNames=' + namedKeys.length);
-          console.log('[deep] gd.textures top names:', JSON.stringify(namedKeys.slice(0, 10).map(n => n + ':' + named[n])));
-        }
-
-        // (c) 看其中一个真实 width>4 的 tex 的 name/glTex 状态
-        if (texs) {
-          let bigTex = null;
-          for (const t of texs) if (t && t._width > 16) { bigTex = t; break; }
-          if (bigTex) {
-            console.log('[deep] sample big tex: name=' + bigTex.name + ' w=' + bigTex._width + 'x' + bigTex._height +
-                         ' src=' + (bigTex._source ? (bigTex._source.constructor && bigTex._source.constructor.name) : 'null') +
-                         ' lvl0=' + (bigTex._levels && bigTex._levels[0] ? (bigTex._levels[0].constructor && bigTex._levels[0].constructor.name) : 'null') +
-                         ' impl=' + !!bigTex._impl);
-          } else {
-            console.log('[deep] NO texture in gd.textures has width > 16 — all are 4x4 placeholders');
-          }
-        }
-
-        // (d) sample MI 的 _MainTex.name/$id
-        if (scene && scene._renderers) {
-          let firstFew = [];
-          for (const rr of scene._renderers) {
-            const mis = rr && (rr._meshInstances || rr.meshInstances);
-            if (mis) for (const m of mis) { firstFew.push(m); if (firstFew.length >= 3) break; }
-            if (firstFew.length >= 3) break;
-          }
-          for (let i = 0; i < firstFew.length; i++) {
-            const params = firstFew[i] && firstFew[i].material && firstFew[i].material.parameters;
-            if (!params) continue;
-            const mt = params._MainTex && params._MainTex.data;
-            const nm = params._Normal && params._Normal.data;
-            console.log('[deep] tex-id MI[' + i + ']: _MainTex.name="' + (mt && mt.name) + '" $id=' + (mt && mt.$id) +
-                         ' / _Normal.name="' + (nm && nm.name) + '" $id=' + (nm && nm.$id));
-          }
-        }
-      } catch (e) { console.log('[deep] registry probe threw:', e && e.message); }
-
-      // ---- 1.9 测试 doc.getElementById 是否返回 asset-inject 注册的 wx.Image ----
-      try {
-        const doc = g.document;
-        if (doc && typeof doc.getElementById === 'function') {
-          // 试几个 manifest 里的 image id
-          const probeIds = [
-            'assets/bundles/-1/-1015042.png',
-            'assets/bundles/-1/105042.jpeg',
-            'assets/bundles/-1/2128.png',
-          ];
-          for (const id of probeIds) {
-            const el = doc.getElementById(id);
-            if (!el) {
-              console.log('[deep] getElementById("' + id.slice(-30) + '")=NULL');
-            } else {
-              console.log('[deep] getElementById("' + id.slice(-30) + '"): w=' + el.width + ' h=' + el.height + ' complete=' + el.complete + ' tag=' + el.tagName + ' ctor=' + (el.constructor && el.constructor.name));
-            }
-          }
-          // 计数: 遍历 manifest, 多少 id 能找到
-          try {
-            const fs = wx.getFileSystemManager();
-            const mf = JSON.parse(fs.readFileSync('manifest.json', 'utf8'));
-            const imgs = (mf.assets || []).filter(a => a.tag === 'img');
-            let found = 0, withWH = 0;
-            for (const a of imgs) {
-              const e = doc.getElementById(a.id);
-              if (e) { found++; if (e.width > 0) withWH++; }
-            }
-            console.log('[deep] manifest img total=' + imgs.length + ' getElementById-found=' + found + ' withWH=' + withWH);
-          } catch (e) { console.log('[deep] manifest-walk threw:', e && e.message); }
-        }
-        // _decode122Promise 状态
-        const p = g._decode122Promise;
-        if (p) {
-          console.log('[deep] _decode122Promise present (Promise instance:' + (p.constructor && p.constructor.name) + ')');
-        } else {
-          console.log('[deep] _decode122Promise=NULL');
-        }
-
-        // ---- 1.9a 各 _bus 已注册的事件类型 (找 PC TouchDevice 实际监听在哪) ----
+        // 仅保留: _bus 引用挂到 GameGlobal (dom-shim 第一次触摸后会 redump 用)
         try {
           function busDump(bus) {
             if (!bus) return 'NULL';
@@ -560,43 +442,11 @@
             }
           } catch (e) { console.log('[deep] input probe threw:', e && e.message); }
 
-          // UnityEngine.Input 状态 (Luna Bridge.NET emulation)
+          // UnityEngine.Input snapshot 函数(给 dom-shim dispatchTouch diff 用) — 仅留必要部分
           try {
             const UE = (g.UnityEngine || (g.win && g.win.UnityEngine));
             const UI = UE && UE.Input;
             if (UI) {
-              console.log('[deep] UnityEngine.Input keys=' + Object.keys(UI).slice(0, 30).join(','));
-              const tc = (typeof UI.touchCount === 'function') ? UI.touchCount() : UI.touchCount;
-              console.log('[deep] UnityEngine.Input.touchCount=' + tc);
-              if (UI.mousePosition) {
-                try {
-                  const mp = (typeof UI.mousePosition === 'function') ? UI.mousePosition() : UI.mousePosition;
-                  console.log('[deep] UnityEngine.Input.mousePosition=' + JSON.stringify({x: mp && mp.x, y: mp && mp.y}));
-                } catch (e2) {}
-              }
-              if (typeof UI.GetMouseButton === 'function') {
-                console.log('[deep] UnityEngine.Input.GetMouseButton(0)=' + UI.GetMouseButton(0));
-              }
-              // 全 keys 的 type/value, 看 mangled 里哪个是 touches/mouseButtons
-              const fullKeys = Object.keys(UI);
-              console.log('[deep] UI fullKeysCount=' + fullKeys.length);
-              const samples = [];
-              for (const k of fullKeys) {
-                let v;
-                try { v = UI[k]; } catch (e) { samples.push(k + '=GET_THREW'); continue; }
-                if (typeof v === 'function') continue;
-                if (v == null) { samples.push(k + '=' + String(v)); continue; }
-                if (typeof v === 'number' || typeof v === 'boolean') samples.push(k + '=' + v);
-                else if (typeof v === 'string') samples.push(k + '=str:' + v.slice(0, 20));
-                else if (Array.isArray(v)) samples.push(k + '=arr[' + v.length + ']');
-                else if (typeof v === 'object') {
-                  try { samples.push(k + '=obj{' + Object.keys(v).slice(0,4).join(',') + '}'); }
-                  catch (_) { samples.push(k + '=obj?'); }
-                } else samples.push(k + '=' + typeof v);
-              }
-              console.log('[deep] UI nonFn fields: ' + samples.join(' | '));
-
-              // 留 snapshot 函数给 dispatchTouch diff 用
               g.__UI_snapshotFn = function () {
                 const out = {};
                 for (const k of Object.keys(UI)) {
@@ -611,53 +461,8 @@
                 return out;
               };
               g.__UI_snapshot_initial = g.__UI_snapshotFn();
-
-              // 关键字段的 property descriptor — 是 plain field 还是 getter/setter
-              const descKeys = ['touches', 'X$', 'V$', 'W$', 'z$', 'A$', 'B$', 'multiTouchEnabled', 'anyKey', 'mousePosition'];
-              const descs = {};
-              for (const k of descKeys) {
-                const d = Object.getOwnPropertyDescriptor(UI, k);
-                if (!d) { descs[k] = 'NONE'; continue; }
-                descs[k] = (d.get ? 'GET' : '') + (d.set ? 'SET' : '') + (d.value !== undefined ? 'V:' + typeof d.value : '') + (d.writable ? '|w' : '') + (d.configurable ? '|c' : '');
-              }
-              console.log('[deep] UI descriptors: ' + JSON.stringify(descs));
-
-              // 字段内容详情
-              try { console.log('[deep] UI.W$ value=' + JSON.stringify(UI.W$ && {x: UI.W$.x, y: UI.W$.y, _data: UI.W$._data && Array.from(UI.W$._data)})); } catch (e) {}
-              try { console.log('[deep] UI.z$ value=' + JSON.stringify(Array.from(UI.z$ || []))); } catch (e) {}
-              try { console.log('[deep] UI.A$ value=' + JSON.stringify(Array.from(UI.A$ || []))); } catch (e) {}
-              try { console.log('[deep] UI.B$ value=' + JSON.stringify(Array.from(UI.B$ || []))); } catch (e) {}
-              try {
-                const Z = UI.Z$;
-                if (Z) console.log('[deep] UI.Z$ keys=' + Object.keys(Z).slice(0,20).join(',') + ' values: ' + JSON.stringify(Object.fromEntries(Object.entries(Z).slice(0,10).map(([k,v])=>[k, typeof v === 'function' ? 'fn' : (v == null ? String(v) : (typeof v === 'object' ? (v.constructor && v.constructor.name)+':'+Object.keys(v).slice(0,4).join(',') : v))]))));
-              } catch (e) {}
-              try {
-                const C = UI.C$;
-                if (C) console.log('[deep] UI.C$ keys=' + Object.keys(C).slice(0,20).join(',') + ' isClass=' + ('$init' in C) + ' name=' + (C.$$name || C.$$fullname || '?'));
-              } catch (e) {}
-
-              // 检查 window/document/canvas 上的 ontouchstart 直赋值 (不走 addEventListener)
-              const onTouchStarts = {
-                'win.ontouchstart':    typeof g.ontouchstart,
-                'doc.ontouchstart':    g.document && typeof g.document.ontouchstart,
-                'body.ontouchstart':   g.document && g.document.body && typeof g.document.body.ontouchstart,
-                'canvas.ontouchstart': g.canvas && typeof g.canvas.ontouchstart,
-                'win.ontouchmove':     typeof g.ontouchmove,
-                'win.ontouchend':      typeof g.ontouchend,
-              };
-              console.log('[deep] ontouch* properties: ' + JSON.stringify(onTouchStarts));
-
-              // UnityEngine.Touch 类 (用于构造真 Touch 实例)
-              const TC = (g.UnityEngine && g.UnityEngine.Touch);
-              if (TC) {
-                console.log('[deep] UnityEngine.Touch exists, keys=' + Object.keys(TC).slice(0, 25).join(','));
-              } else {
-                console.log('[deep] no UnityEngine.Touch');
-              }
-            } else {
-              console.log('[deep] no UnityEngine.Input');
             }
-          } catch (e) { console.log('[deep] UE.Input probe threw:', e && e.message); }
+          } catch (e) {}
 
           // pc.platform 检查 — touch=false 会让 PC 不创建 TouchDevice
           try {
@@ -703,38 +508,7 @@
           console.log('[deep] new ArrayBuffer(4) instanceof ArrayBuffer=' + (buf instanceof ArrayBuffer));
         } catch (e) { console.log('[deep] hasInstance probe threw:', e && e.message); }
 
-        // ---- 1.9c 找 pc.Texture.prototype.setSource, hook 它打印每次调用看 t 是什么类型 ----
-        try {
-          const pcMod = g.pc || (typeof pc !== 'undefined' ? pc : null);
-          const TexProto = pcMod && pcMod.Texture && pcMod.Texture.prototype;
-          if (TexProto && typeof TexProto.setSource === 'function' && !TexProto.__probed) {
-            const orig = TexProto.setSource;
-            let cnt = 0;
-            TexProto.setSource = function (t) {
-              if (cnt < 8) {
-                cnt++;
-                try {
-                  const isImg = (g.HTMLImageElement && t instanceof g.HTMLImageElement);
-                  const isCanvas = (g.HTMLCanvasElement && t instanceof g.HTMLCanvasElement);
-                  const isVideo = (g.HTMLVideoElement && t instanceof g.HTMLVideoElement);
-                  const isAB = (t instanceof ArrayBuffer);
-                  console.log('[setSource] this.name=' + this.name + ' arg.ctor=' + (t && t.constructor && t.constructor.name) +
-                               ' isImg=' + isImg + ' isCanvas=' + isCanvas + ' isVideo=' + isVideo + ' isAB=' + isAB +
-                               ' tag=' + (t && t.tagName) + ' src=' + (t && typeof t.src));
-                } catch (e) {}
-              }
-              const r = orig.apply(this, arguments);
-              if (cnt < 8) {
-                console.log('[setSource] post: this._width=' + this._width + ' _levels[0]=' + (this._levels && this._levels[0] ? this._levels[0].constructor.name : 'null'));
-              }
-              return r;
-            };
-            TexProto.__probed = true;
-            console.log('[deep] hooked pc.Texture.prototype.setSource');
-          } else {
-            console.log('[deep] cannot hook setSource (already probed or no pc.Texture)');
-          }
-        } catch (e) { console.log('[deep] setSource hook threw:', e && e.message); }
+        // 1.9c (setSource hook) 已迁到文件顶部 installSetSourceHook IIFE — 见上方
       } catch (e) { console.log('[deep] elem-lookup probe threw:', e && e.message); }
 
       // ---- 2. lightmaps (核心嫌疑) ----
