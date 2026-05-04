@@ -1035,8 +1035,6 @@
   // 原始 ogg/mp3 bytes，不需要真解码，喂给 InnerAudioContext 让它自己解。
   function AudioContextShim() {
     const ctx = this;
-    try { GameGlobal.__XXAUDIO_ctxNew = (GameGlobal.__XXAUDIO_ctxNew || 0) + 1; } catch (e) {}
-    console.log('[XXAUDIO] AudioContext instantiated, count=' + (GameGlobal.__XXAUDIO_ctxNew || 1));
     ctx.state = 'running';
     ctx.sampleRate = 44100;
     ctx.currentTime = 0;
@@ -1081,13 +1079,9 @@
           const buf = node.buffer;
           if (!buf || !buf._wxDataUri) {
             try { GameGlobal.__XXAUDIO_skip = (GameGlobal.__XXAUDIO_skip || 0) + 1; } catch (e) {}
-            console.log('[XXAUDIO] start skipped: buf=' + !!buf + ' uri=' + !!(buf && buf._wxDataUri));
             return;
           }
-          if (typeof wx === 'undefined' || typeof wx.createInnerAudioContext !== 'function') {
-            console.log('[XXAUDIO] start skipped: wx.createInnerAudioContext missing');
-            return;
-          }
+          if (typeof wx === 'undefined' || typeof wx.createInnerAudioContext !== 'function') return;
           // 沿 connect 链算总 volume（gain._gain 累乘到 destination）
           let vol = 1, n = node._next, hops = 0;
           while (n && hops < 16) {
@@ -1147,21 +1141,14 @@
                    : (u8[0] === 0x52 && u8[1] === 0x49 && u8[2] === 0x46 && u8[3] === 0x46) ? 'audio/wav'
                    : (u8[0] === 0x66 && u8[1] === 0x4C && u8[2] === 0x61 && u8[3] === 0x43) ? 'audio/flac'
                    : 'audio/mpeg';
-        // 自家 base64 编码器：playable-libs 的 wx.arrayBufferToBase64 是空 stub
-        // 返回 ArrayBuffer 自身（truthy non-string），导致拼出 'data:...;base64,undefined'
-        // 触发 wxgame-playable-lib atob InvalidCharacterError
         let b64 = '';
         try {
-          const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-          let s = '', i = 0, n = u8.length;
-          for (; i + 3 <= n; i += 3) {
-            const v = (u8[i] << 16) | (u8[i+1] << 8) | u8[i+2];
-            s += A[(v>>18)&63] + A[(v>>12)&63] + A[(v>>6)&63] + A[v&63];
+          if (typeof wx !== 'undefined' && typeof wx.arrayBufferToBase64 === 'function') {
+            b64 = wx.arrayBufferToBase64(u8.buffer.slice(u8.byteOffset, u8.byteOffset + u8.byteLength));
+          } else if (typeof btoa === 'function') {
+            let bin = ''; for (let i = 0; i < u8.length; i++) bin += String.fromCharCode(u8[i]);
+            b64 = btoa(bin);
           }
-          const r = n - i;
-          if (r === 1) { const v = u8[i] << 16; s += A[(v>>18)&63] + A[(v>>12)&63] + '=='; }
-          else if (r === 2) { const v = (u8[i] << 16) | (u8[i+1] << 8); s += A[(v>>18)&63] + A[(v>>12)&63] + A[(v>>6)&63] + '='; }
-          b64 = s;
         } catch (e) { console.warn('[ACtxShim] base64 encode failed:', e && e.message); }
         const buffer = {
           duration: 0, sampleRate: 44100, numberOfChannels: 2, length: 0,
@@ -1171,7 +1158,6 @@
           _wxBytes: u8.length,
         };
         try { GameGlobal.__XXAUDIO_dec = (GameGlobal.__XXAUDIO_dec || 0) + 1; GameGlobal.__XXAUDIO_lastMime = mime; GameGlobal.__XXAUDIO_lastBytes = u8.length; } catch (e) {}
-        console.log('[XXAUDIO] decode bytes=' + u8.length + ' mime=' + mime + ' b64Len=' + (typeof b64 === 'string' ? b64.length : ('!str:'+typeof b64)));
         ok && ok(buffer);
         return Promise.resolve(buffer);
       } catch (e) {
