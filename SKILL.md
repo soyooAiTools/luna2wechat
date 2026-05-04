@@ -299,6 +299,53 @@ try {
 
 注意 `Image === HTMLImageElement` 浏览器约定要保留：`g.Image = g.HTMLImageElement` 否则 `new Image()` 在 eval'd 代码里同样炸。
 
+### `Symbol.hasInstance` 反向校验（critical）
+
+**仅有构造器还不够**——PlayCanvas 内部有 `instanceof HTMLImageElement` / `instanceof HTMLVideoElement` 这类 duck-type 检查，wx 的真 Image 对象 prototype 链对不上 → `instanceof` 返 false → 走错分支（典型：纹理上传被跳过 → 黑屏）。
+
+dom-shim 必须在 ImageShim/VideoShim/AudioShim 上装 `Symbol.hasInstance`：
+
+```js
+function makeShimCtor(Ctor, isLike) {
+  Object.defineProperty(Ctor, Symbol.hasInstance, {
+    value: function (obj) { return obj instanceof Ctor || isLike(obj); }
+  });
+  return Ctor;
+}
+const isWxImageLike = (o) => o && typeof o.src === 'string' && typeof o.width === 'number' && typeof o.height === 'number';
+makeShimCtor(ImageShim, isWxImageLike);
+```
+
+`isLike` 用 duck-type 字段嗅探（src/width/height 都在 wx 真对象上），不靠 prototype 链。这条修对了之后纹理上传链路通的几率大很多。
+
+### ImageShim 懒构造（defineProperty getter）
+
+PC 资源加载器先访问 `img.src`，**onload 还没绑定**。ImageShim 把 `_real = wx.createImage()` 放在 src setter 第一次写入时触发：
+
+```js
+function ImageShim() {
+  const self = this;
+  let _real = null, _src = '';
+  Object.defineProperty(self, 'src', {
+    configurable: true,
+    get() { return _src; },
+    set(v) {
+      _src = v;
+      if (!_real) _real = wx.createImage();
+      _real.onload  = () => { self.complete = true; self.onload  && self.onload(); };
+      _real.onerror = (e) => { self.onerror && self.onerror(e); };
+      _real.src = v;
+    }
+  });
+}
+```
+
+`self.complete` 同样 defineProperty 双层 fallback（见 asset-inject 章节）。
+
+### `makeNoop(tag)` for style/script/link
+
+Luna 偶尔注入 `<style>` 或 `<script>` tag。`document.createElement('style').appendChild(...)` 不能炸。给非交互 tag 一个空对象 stub（appendChild/insertBefore/setAttribute 全 no-op），返回前先 setEnableDebug。
+
 ## 触摸/轮盘注入：Bridge.NET struct + Input.Update keepalive
 
 Luna 用 PlayCanvas 接 Unity, 但摇杆/Touch 直接吃 `UnityEngine.Input.touches/touchCount/GetTouch(0)`，**不走** `pc.app.touch`。所以 dom-shim 里 dispatchTouch 同步合成 mouse/pointer 事件不够，必须直接写 UnityEngine.Input 内部状态。坑链：
@@ -447,11 +494,99 @@ if (noLMData && withLM > 0) {
 
 `noLMData && withLM > 0` 这个 gating 很重要——如果 lightmap 真的有数据就别动；只有 manager 空 + 场景需要时才修。0x4/0x8 是 PC 内部 SHADERDEF 位，硬编码值。
 
-## tools/extract-wasm.cjs
+## tools/extract-wasm.cjs：抠 WASM 完整链
 
-- 扫 chunk 找 `\x00asm` magic（4 bytes: 0x00 0x61 0x73 0x6d）才认 WASM payload
-- `brotli -q 11` 最大压缩 + 给 `SIZE_HINT` 让压缩器选最优窗口（br 后 60-85KB 是经验范围）
-- 输出 byteLength → 文件名 manifest，dom-shim `_wasmFiles[bytes.length]` 查表用
+**输入文件依赖**（缺一不行）：
+- `luna-runtime/04_brotli.js` — 必须先 require/eval 它，把 `window.decompress` 注入全局
+- `subpackage-bundle/14_compressed_asset.js` — Luna 的资源 chunk，里面藏 `data:application/octet-stream;base64,...` 内联 WASM
+
+**完整流程**：
+1. `eval(04_brotli.js)` → 全局多出 `window.decompress`
+2. 读 14_compressed_asset.js，正则 `data:application/octet-stream;base64,([A-Za-z0-9+/=]+)` 抠每段 base64
+3. 每段 atob → Uint8Array → 头 4 字节 `0x00 0x61 0x73 0x6d` 验 WASM magic（不匹配跳过）
+4. 字符串嗅探分类：找到 `b2Body|b2Joint|b2World` → `box2d`；找到 `Animator|Mecanim|MotionField` → `mecanim`；都没命中输出 `luna-wasm-unknown-${size}.wasm`
+5. `zlib.brotliCompressSync(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11, [zlib.constants.BROTLI_PARAM_SIZE_HINT]: buf.length } })` 最大压缩
+6. 输出 `luna-wasm.json` manifest：`{ "box2d": {raw_size, br_size}, "mecanim": {...} }`
+
+**Node.js 内置 brotli 即可**，不用外部 binary。Quality=11 是上限；SIZE_HINT 给窗口选择，br 后 Box2D 168→60KB / Mecanim 272→85KB 是经验范围。
+
+**dom-shim 端**：`_wasmFiles[bytes.length] = 'box2d.wasm.br'` 这种 byteLength→文件名静态表。所以**手抠完后必须把每个 byteLength 写进 dom-shim**，否则 redirect 的 lookup 会 miss → `unmapped WASM length=...` reject。
+
+## 诊断套件（不止 vConsole）
+
+试玩广告真机看不到 vConsole，单靠 stack trace 解黑屏太慢。dom-shim/wx-ad-bridge 留了一组**主动诊断探针**，调试时按需调用：
+
+### canvas `_bus._stats()` / `_types()` / `_listSources(type)`
+
+`g.canvas._bus` 是自家 emitter（见 §canvas）。
+
+```js
+canvas._bus._stats()  // {touchstart: 2, touchmove: 2, mousedown: 1, ...}
+canvas._bus._listSources('touchstart')  // 列每个回调的 toString 头 300 字符
+```
+
+PC TouchDevice / mousedown 监听器到底来了几个、长什么样，一目了然。**第一波黑屏** 时先看这——回调数 0 = TouchDevice 没 init = 上游链断。
+
+### wx-ad-bridge `deepProbe()` (启动后 3s)
+
+幂等探针，扫一遍：
+- `pc.app.scenes._index` —— 场景注册数
+- `doc._elements` 注册表 —— 资源代理元素总数 + 状态分布
+- `gd.textures` —— 按 `_width × _height` 桶分组（如果全是 4×4 一定是占位纹理没替换 → 资源没真上传）
+- `pc.app.stats.frame` —— 渲染帧统计
+
+3s 不是死的，等 luna build 完 + 第一帧渲染。早调（< 1s）多半空。
+
+### `_instrumentUIRead()` —— Unity Input 字段探针
+
+装 getter hook，每次游戏读 `UnityEngine.Input.X$` / `Y$` 之类时记录字段名 + caller stack 头部，输出快照。**新 Luna 版本第一件事跑这个**，然后跟 v18 base 的快照 diff，新 mangled 字段名一目了然。
+
+### `[XXAUDIO]` 音频探针
+
+dom-shim 末尾，所有音频路径都打 console.log（见 §音频桥接 调试套路）。配合 HTTP probe 拉日志。
+
+### Snapshot diff 工作流（重要）
+
+回归出现时**第一动作**：
+
+```bash
+diff -u snapshots/dom-shim.may2-12-48.snapshot luna-to-wx/dom-shim.js | grep "^[+-]" | head -50
+```
+
+或者 `diff snapshots/dom-shim.v18-may4.snapshot snapshots/dom-shim.v19c-may4-pure-b64.snapshot` 看两版之间动了什么。
+
+**比顺 stack trace 高效一个数量级**——5/3 那次 26 个错链尾端 patch 把画面修没，就是没第一时间走这个。详见 `dom-shim.may4-broken.js` 反面教材。
+
+## 包大小预算（5MB 硬上限）
+
+试玩广告主包 5MB 硬上限，不能分包。当前预算：
+
+| 项 | 大小 | 备注 |
+|---|---|---|
+| Luna 主 JS（br 后） | ~1MB | cleaner 去 source map / polyfill 重复 |
+| Box2D WASM (br) | ~60KB | extract-wasm 出 |
+| Mecanim WASM (br) | ~85KB | 同上 |
+| dom-shim.js | ≤65KB | v19e 当前 62KB，软上限 65KB（再加要紧编辑） |
+| asset-inject.js | ~10KB | 几乎不长 |
+| wx-ad-bridge.js | ~30KB | ambient/lightmap 修正一直在加 |
+| 资源（图片/音视频/字体） | 余量 | 主要预算去这 |
+
+dom-shim 超 65KB 应警觉——每加一段都问"必要吗"。实际硬墙是 5MB total，不是单文件，但单文件过大说明在堆 hack。
+
+## 工具/版本/坐标固定项
+
+复用迁移时下面这堆**先 diff 自家环境**再开工：
+
+| 项 | 值 | 说明 |
+|---|---|---|
+| playable-libs 版本 | 2.0.15 | vConsole `[system] playable-libs: X.Y.Z` 自报；其它版本未测，三大坑可能漂移 |
+| 微信开发者工具 | `C:\Program Files (x86)\Tencent\微信web开发者工具\cli.bat` | 中文路径需 wxcli.bat UTF-8 wrapper |
+| 测试机 | tailscale `wx-build` (Windows) | 详见 `reference_wx_build_host.md` |
+| AppID | `wx21647eaf197e9b58` | luna-wx-mg 项目用；新项目自申 |
+| 项目路径 | `C:\Users\Nick\luna-wx-mg` | scp/ssh 路径硬编码 |
+| cli.bat | `D:\wechatDev\cli.bat` | wxcli.bat wrapper 转发 |
+| Brotli | Node `zlib.brotliCompressSync` | 不用外部 binary |
+| Preview 等待 | 50 秒 | schtasks 异步包装；不到 50s 就报 fork timeout 多半真 IDE 故障 |
 
 ## 黑屏回归调试纪律
 
