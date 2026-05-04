@@ -196,10 +196,10 @@
             });
             this._decoder.on('ended', () => {
               self.paused = true;
+              console.log('[video-proxy] decoder ended (1-shot): ' + self.id);
               if (typeof self.onended === 'function') {
                 try { self.onended({ type: 'ended' }); } catch (e) {}
               }
-              console.log('[video-proxy] decoder ended: ' + self.id);
             });
           }
         } catch (e) {
@@ -212,47 +212,57 @@
       load() {
         const dec = this._ensureDecoder();
         if (!dec) {
-          // 没 decoder, 假装 ready 让 _loadSimpleAssetsAsync 不挂; 视频静默丢
           setTimeout(() => {
             try { if (typeof this.onloadeddata === 'function') this.onloadeddata({ type: 'loadeddata' }); } catch (e) {}
             try { if (typeof this.oncanplay     === 'function') this.oncanplay({ type: 'canplay' }); } catch (e) {}
           }, 0);
           return;
         }
+        // **不立即 dec.start()** — 视频 duration 仅 ~1s, 但 luna:build → PC render loop spinup
+        // 需要 ~800ms+. 立即启动 → ended 时 PC 才刚 upload 1 帧 → 视觉上"只一帧". 加 loop 又
+        // 让内嵌音轨反复播 (用户反馈 "音频反复播放"). 唯一干净的方案: deferred start —
+        // 标记 _wantsStart=true, 等 PC 真的来调 _pullFrame 时再 dec.start, 这样 video timeline
+        // 起点 = PC 准备好 upload 第一帧的时刻, 1066ms 内 PC 能稳定 upload 多帧, 1-shot 完整播完.
+        this._wantsStart = true;
+        // _loadSimpleAssetsAsync 等 onloadeddata 才放行加载流水. 立即 fire — PC 不必等 video 真起.
+        const self = this;
+        setTimeout(() => {
+          try { if (typeof self.onloadeddata === 'function') self.onloadeddata({ type: 'loadeddata' }); } catch (e) {}
+          try { if (typeof self.oncanplay     === 'function') self.oncanplay({ type: 'canplay' }); } catch (e) {}
+        }, 0);
+        console.log('[video-proxy] deferred start armed: ' + this.id);
+      },
+
+      _ensureDecoderStarted() {
+        if (this._decoderStarted || this._startInFlight) return;
+        const dec = this._decoder;
+        if (!dec) return;
+        this._startInFlight = true;
+        const self = this;
         try {
-          // mode=0: 按 pts 解码, 适合开头视频实时同步; abortAudio=false 让 wx 内部播放视频音轨
-          // (开头视频自带音频, 不走 InnerAudioContext). loop 留默认 false.
-          const startP = dec.start({ source: this.src, mode: 0, abortAudio: false });
-          const self = this;
+          // abortAudio: false — 视频内嵌音轨 (旁白/BGM) 1-shot 完整播放 1 次
+          const p = dec.start({ source: this.src, mode: 0, abortAudio: false });
           const onStarted = () => {
             self._decoderStarted = true;
             self.paused = false;
             self._startWallTime = Date.now();
-            // PC 的 VideoTexture 用 currentTime 变化判 dirty → 不推进 currentTime 就只 upload 一次,
-            // 表现为视频卡在第一帧. 30fps tick (33ms) 模拟真实播放时间轴.
             if (self._timeAdvancer) clearInterval(self._timeAdvancer);
             self._timeAdvancer = setInterval(() => {
               if (!self.paused && self._decoderStarted) {
                 self.currentTime = (Date.now() - self._startWallTime) / 1000;
               }
             }, 33);
-            // 立即 fire onloadeddata - 不等首帧, 否则 _loadSimpleAssetsAsync await 卡住整体加载流水 → 黑屏 5s.
-            // GL wrapper 收到 _pullFrame()=null 时会 skip 这次 upload, 下一帧再来, 不阻塞画面.
-            try { if (typeof self.onloadeddata === 'function') self.onloadeddata({ type: 'loadeddata' }); } catch (e) {}
-            try { if (typeof self.oncanplay     === 'function') self.oncanplay({ type: 'canplay' }); } catch (e) {}
-            // 仍然轮询首帧用来填 videoWidth/videoHeight (decoder 'start' event 里如果 info 没带 size 时兜底)
             self._pollFirstFrame();
+            console.log('[video-proxy] deferred-started ' + self.id + ' at PC-pull-trigger');
           };
-          if (startP && typeof startP.then === 'function') {
-            startP.then(onStarted, (e) => {
-              console.warn('[video-proxy] decoder.start failed:', e && (e.errMsg || e.message));
-              if (typeof this.onerror === 'function') this.onerror(e);
-            });
-          } else {
-            onStarted();
-          }
+          if (p && typeof p.then === 'function') p.then(onStarted, (e) => {
+            self._startInFlight = false;
+            console.warn('[video-proxy] deferred dec.start failed:', e && (e.errMsg || e.message));
+          });
+          else onStarted();
         } catch (e) {
-          console.warn('[video-proxy] decoder.start threw:', e && e.message);
+          self._startInFlight = false;
+          console.warn('[video-proxy] deferred dec.start threw:', e && e.message);
         }
       },
 
@@ -279,15 +289,42 @@
 
       // GL wrapper 每次 PC 上传纹理时调; 拉一帧最新数据, 没新数据就返回上一帧 (PC 复用即可).
       _pullFrame() {
-        if (!this._decoder) return this._latestFrame;
-        if (!this.paused && this._decoderStarted) {
+        this._pullCnt = (this._pullCnt || 0) + 1;
+        // **第一次 PC 来拉帧 = PC render loop ready 信号**: 这里触发 deferred dec.start(),
+        // 让视频 timeline 起点对齐 PC 第一次想 upload 的时刻 — 完整 1066ms 都给 PC 用.
+        if (this._wantsStart && !this._decoderStarted && !this._startInFlight) {
+          console.log('[video-pull-trigger#' + this._pullCnt + '] ' + this.id + ' starting decoder on PC first pull');
+          this._ensureDecoderStarted();
+        }
+        if (!this._decoder) {
+          if (this._pullCnt === 1 || this._pullCnt === 30) {
+            console.log('[video-pull#' + this._pullCnt + '] ' + this.id + ' no-decoder paused=' + this.paused);
+          }
+          return this._latestFrame;
+        }
+        let fr = null;
+        if (this._decoderStarted) {
           try {
-            const fr = this._decoder.getFrameData();
+            fr = this._decoder.getFrameData();
             if (fr && fr.data && fr.width) {
+              const newPts = fr.pkPts;
               this._latestFrame = fr;
               if (this.videoWidth === 0) { this.videoWidth = fr.width; this.videoHeight = fr.height; }
+              this._lastPts = newPts;
+              this._frameUpdates = (this._frameUpdates || 0) + 1;
+            } else {
+              this._frameNullPolls = (this._frameNullPolls || 0) + 1;
             }
-          } catch (e) {}
+          } catch (e) { this._frameErrs = (this._frameErrs || 0) + 1; }
+        }
+        if (this._pullCnt === 1 || this._pullCnt === 10 || this._pullCnt === 30 || this._pullCnt === 100 || this._pullCnt === 300) {
+          console.log('[video-pull#' + this._pullCnt + '] ' + this.id +
+            ' paused=' + this.paused + ' started=' + this._decoderStarted +
+            ' frameUpdates=' + (this._frameUpdates || 0) +
+            ' nullPolls=' + (this._frameNullPolls || 0) +
+            ' errs=' + (this._frameErrs || 0) +
+            ' lastPts=' + (this._lastPts || 'none') +
+            ' hasLatest=' + (!!this._latestFrame));
         }
         return this._latestFrame;
       },

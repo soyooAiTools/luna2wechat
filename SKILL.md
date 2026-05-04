@@ -175,6 +175,156 @@ dom-shim 末尾 `[XXAUDIO]` 探针（instantiate / decode bytes/mime/b64Len / pl
 
 **复用提示**：v19e 的 AudioShim/AudioContextShim 整段直接拷到下个 Luna 试玩。USER_DATA_PATH 落盘那条路（5/3 写过）**不要走**——data URI base64 是已验证唯一路径。
 
+## 视频桥接（v20 — wx.createVideoDecoder + texImage2D wrap）
+
+Luna 的 `VideoTexture` 走 `Network.GetVideoAsync → pc.Texture.setSource(videoElement)`，PC 内部 `gl.texImage2D(target, level, ifmt, fmt, type, source)` 6 参形态。wx 试玩 runtime 的 GL 实现**只认 `wx.createImage` / `wx.createCanvas` 返回的真实对象**，不认 video proxy → `Failed to execute 'texImage2D': invalid pixels`。
+
+**整体策略**：用 `wx.createVideoDecoder().getFrameData()` 拿到 RGBA `ArrayBuffer`，dom-shim wrap GL ctx 的 `texImage2D` / `texSubImage2D`，检测 `_isLunaVideo` 后改走 9 参 byteView 形态调原版。这样 PC 把 video 当普通纹理，无需感知是 video 源；每帧 PC 复用 setSource 触发 upload 时我们顺势 pull 最新帧。
+
+### 坑 1：PC 不会主动 re-upload 视频纹理（v20 修）
+
+PC 的 `Texture.setSource(t)` 只在 `t !== this._levels[0]` 时把 `_levelsUpdated[0]=true`，之后 uploadTexture 一次后清零，**永不再 re-upload**。Luna 的 `VideoTexture` (class `Dn extends Texture`) 没 per-frame upload 钩子（无 `requestVideoFrameCallback`，无 `update()` method）。表现：`setSource(videoProxy)` 后**只 upload 一次** → 视频卡在第一帧。
+
+**修法**：wx-ad-bridge 加 `dirtyTimer` 33ms 反复调 `tex.dirtyAll()`（= `_needsUpload=true` + `_levelsUpdated[0]=true`），PC 下一次 uploadTexture 时走 texImage2D(target, ..., proxy) → GL wrap 拉新帧 → 视频动起来。`startVideoDirtyTimer` 在 setSource hook 里第一次见 `_isLunaVideo` 时启动。
+
+### 坑 2：PC render loop spinup 慢于 video duration（v20 deferred-start 修）
+
+视频常常很短（实测 1066ms / fps 30 / ~32 帧 = 典型 UI intro 动画）。但 luna:build 触发到 PC 第一次调 `_pullFrame` 之间约 **800-1500ms**（PC.Application 构造 + scene init + first render frame）。如果 video decoder 在 setSource 时立即 start，等 PC 第一次 _pullFrame 时 video 已经播完 → ended → paused=true → 用户感知"只看到一帧"。
+
+**dirtyTimer + paused skip 的死循环**：之前的逻辑 `if (src.paused === true) continue;`，video ended → paused=true → dirtyTimer 永远 skip → texture 永远定格。
+
+**修法（双管）**：
+1. **deferred-start**：`load()` 不立即 `dec.start()`，只设 `_wantsStart=true`。等 PC 第一次 `_pullFrame` 时（= PC render loop ready 信号）才触发 `dec.start()`。这样 video 1066ms 完整对齐 PC render 窗口。
+2. **dirtyTimer 不再 skip paused**：即使 paused 也 dirty，让 PC 持续 upload 当前 latestFrame（视觉上保留最后一帧而不是黑掉）。
+
+```js
+// asset-inject 视频 proxy
+load() {
+  this._ensureDecoder();
+  this._wantsStart = true;        // 不立即 dec.start, 等 PC 来要帧
+  setTimeout(() => onloadeddata + oncanplay, 0);  // PC 资源加载流水不阻塞
+}
+_pullFrame() {
+  if (this._wantsStart && !this._decoderStarted && !this._startInFlight) {
+    this._ensureDecoderStarted();   // 第一次 PC pull → 触发 dec.start
+  }
+  // ... getFrameData() 即使 paused 也试 (ended 后 wx 仍可能有 buffered frame)
+}
+```
+
+### 坑 3：abortAudio 决策 — auto-restart loop ↔ 1-shot
+
+试图让画面 loop 起来"持续动"，会让 wx decoder 内嵌音轨也跟着 loop → 用户感知"音频反复播放" + 音画错位。三种模式实测对比：
+
+| 模式 | 画面 | 音频 | 适用场景 |
+|---|---|---|---|
+| auto-restart loop + abortAudio:false | 循环动 | **反复播放** ✗ | 不可用 |
+| auto-restart loop + abortAudio:true | 循环动 | 视频音轨完全消失 | 视频是装饰元素 |
+| **1-shot + abortAudio:false** ✓ | 完整播 1 次后定格 | **音轨完整播 1 次** | 通用最优 |
+
+deferred-start 让 1-shot 模式下 PC 也能完整 upload ~30 帧，画面+音轨 1 秒动画完整呈现。
+
+### 坑 4：first frame race（_pollFirstFrame vs PC first pull）
+
+`_pollFirstFrame()` 16ms tick × 60 attempts 后台轮询拉首帧填 `videoWidth/Height`。如果 PC 第一次 `_pullFrame` 时 wx decoder 还没准备好首帧（启动 latency ~30-80ms），返回 null；GL wrap 检测到 null 直接 skip 这次 upload，下一帧再来。**不要在 null 时 reject 或 throw**，PC 容忍 deferred upload。
+
+### 调试套路
+
+dom-shim / asset-inject / wx-ad-bridge 已经埋了完整探针：
+- `[video-proxy] decoder start: {duration, fps, width, height, ...}` — wx 给的 video metadata
+- `[video-proxy] first frame WxH attempts=N` — _pollFirstFrame 拿到首帧
+- `[video-proxy] deferred-started ID at PC-pull-trigger` — dec.start 实际触发时刻
+- `[video-pull-trigger#N]` — PC 第一次 _pullFrame
+- `[video-pull#1/10/30/100/300]` — 采样 frameUpdates / nullPolls / errs / lastPts / hasLatest
+- `[video-tex6#1/10/30/100/300]` / `[video-tex9#...]` — PC 实际 texImage2D 调用次数 + frame 状态
+- `[dirty-tick#1/10/30/60/150/300]` — 33ms tick 状态：dirtied / skippedPaused / viaDirtyAll
+- `[video-proxy] decoder ended (1-shot)` — 1 秒视频结束
+
+**定位顺序**：
+1. `decoder start: ...` 没出 → wx.createVideoDecoder 失败/不可用
+2. `first frame ... attempts=` 没出 → wx 解码失败（mp4 编码不兼容？source 路径错？）
+3. `deferred-started` 没出但 `[video-pull-trigger]` 出了 → `_ensureDecoderStarted` 失败（看 warn）
+4. `[video-tex6#1] hasFrame=false` 持续出 → PC 在 video ended 之后才 pull（启动慢，已经是 deferred-start 修的场景）
+5. `[dirty-tick#N] dirtied=0 skippedPaused=N` → texture 全 paused，dirtyTimer 无效（应该已经 fix 了）
+
+## 启动期性能（v20 — 4.5s → ~3s）
+
+试玩广告启动慢的真凶**不在 luna runtime parse**（小 .js 都是 ms 级），而在三个 wx event loop 抢占点。
+
+### 坑 1：`wx.setEnableDebug({enableDebug:true})` 占 200-500ms
+
+vConsole 在试玩 runtime 启动期 hook 全 console + 加载 vConsole UI 资源。**生产路径关掉**——HTTP probe（dom-shim 内 wrap console → 53017）独立工作，不依赖 vConsole。
+
+```js
+// game.js 入口
+// try { wx.setEnableDebug({ enableDebug: true }); } catch (e) {}  // 生产关
+```
+
+调试时改回 true。试玩广告本来就没"打开调试"按钮，vConsole UI 在真机不可视，**setEnableDebug 真正作用只在 wx 内部 console 路径**——关了不影响我们的诊断。
+
+### 坑 2：game.js 自己的 `wrapConsoleForProbe` 同步打 wx.createImage 占 ~1s
+
+之前 game.js 有一段：
+```js
+GameGlobal.PROBE_URL = 'http://192.168.1.3:38080/log';
+console.log = function() {
+  ...
+  wx.createImage().src = PROBE_URL + '?m=' + ...;  // 同步！
+};
+```
+
+启动期 ~50 条 console.log = ~50 次 sync `wx.createImage()` 调用，每次都进 wx 网络栈（**而且 38080 通常没 server，全失败**）。
+
+**修法**：删除整段。dom-shim L31-79 已经 wrap console → 53017，**fire-and-forget Image transport + buffer + setInterval 20ms 拍发**——不阻塞。两套并存是浪费。
+
+### 坑 3：splash 用 setInterval 抢 GPU 队列 → 拖慢 luna init 600ms-2.7s
+
+first-screen.js 如果用 `setInterval(50ms, frame)` 持续画 splash 进度条，每帧 GL `clear / scissor / clear` 4 次进 wx GPU 队列。**实测**：
+- 不用 splash：18_bootstrap require ~3ms
+- splash setInterval 50ms：18_bootstrap require **2.7 秒**
+- splash 单帧（无 timer）：18_bootstrap require ~3ms
+
+luna PC InitializeAsync 内部用 GPU 队列做纹理上传 / WASM init，splash setInterval 抢占 → luna init wait → require 链 hold。
+
+**修法**：splash **只画 1 帧**，静态进度条。深色背景 + 半填进度条已经是足够的"在加载"视觉反馈。
+
+```js
+// first-screen.js
+(function bootSplash() {
+  const c = GameGlobal.canvas || (GameGlobal.canvas = wx.createCanvas());
+  const gl = c.getContext('webgl2') || c.getContext('webgl');
+  if (!gl) return;
+  // 设 viewport / clearColor / clear / scissor 1 次, 不 setInterval, 不 setTimeout 链.
+  // luna 起来后 PC 自己接管 GL ctx, 自然覆盖.
+})();
+```
+
+### 不能优化的固有开销（实测下限）
+
+| 阶段 | 时长 | 原因 |
+|---|---|---|
+| game.js entry → require main scripts | ~30-100ms | dom-shim parse |
+| 14 个 luna-runtime require | ~50ms | 每个 .js 几个 ms |
+| **18_bootstrap → 19_pi_runtime** | **~2 秒** | **luna PC.Application + WASM + scene init** |
+| 19_pi_runtime → luna:build | ~250ms | inline subpackage + asset-inject + wx-ad-bridge |
+| luna:build → setSource#1 | ~250-400ms | PC graphicsDevice 初始化 |
+| setSource#1 → video first frame | ~1.5 秒 | PC render warmup + video deferred-start 解码 |
+
+总从 game.js entry 到第一帧 ≈ **3-3.5 秒**（最优）。从扫码到画面再加 wx 试玩 runtime 启动 + 包下载 1-2 秒 → 用户感知 4-5 秒。**进一步加速只能从减小包体（图片/视频压缩）或 luna 引擎层优化**，超出 dom-shim 边界。
+
+### 关键时刻表（参考）
+
+| 阶段 | 累积时间 | 视觉 |
+|---|---|---|
+| game.js entry | T+0 | 黑屏 |
+| dom-shim done | T+50ms | 黑屏 |
+| first-screen splash 画完 | T+70ms | **深蓝 + 进度条** ← 用户首次反馈 |
+| luna:build dispatched | T+2.5s | splash 仍在 |
+| setSource#1 → splash 停 | T+2.7s | luna 接管，可能短暂闪 |
+| video first frame upload | T+4.5s | **正式画面** |
+
+splash 在 T+70ms 出现已经把"黑屏感"压到最低（其余时间都看得到内容）。再快只能优化 dom-shim parse 时间（几十 ms 级，不显著）。
+
 ## HTTP probe：绕 wx 域名白名单看真机日志
 
 试玩广告 vConsole 在真机不可视，`wx.request` 受域名白名单限制。绕开方法：dom-shim 接管 `console.log/warn/error/info`，把 message 通过 HTTP GET 发到 LAN 内的 probe server。
@@ -710,9 +860,11 @@ dom-shim 超 65KB 应警觉——每加一段都问"必要吗"。实际硬墙是
 2. **抠 WASM** — `extract-wasm.cjs` 找两份 emscripten module，落成 `.wasm.br`，记 byteLength
 3. **修 main-require-order** — 把 .json manifest 转成 `module.exports = [...]` 的 .js
 4. **取消分包** — 所有 `wx.loadSubpackage` 调用点改 `require()`，资源进主包，包大小 < 5MB
-5. **跑 dom-shim baseline** — 从 v18 整段拷过来，先看出不出画面
+5. **跑 dom-shim baseline** — 从 v20 整段拷过来，先看出不出画面
 6. **跑 _instrumentUIRead** — 自家 build 的 UnityEngine.Input mangled 字段名 snapshot
 7. **接触摸/轮盘** — 用观测出的字段名替换 dom-shim 里的 `W$/X$/V$/G$/z$/A$/B$`
 8. **接音频** — v19e 的 AudioShim/AudioContextShim 整段照搬，**不**碰
-9. **真机扫码** — 画面 / 轮盘 / 松手停 / 声音 / 0 fatal error 五项
-10. **0 error 后**才考虑视觉优化（ambient/lightmap/shader 等 wx-ad-bridge 修正）
+9. **接视频**（如有 VideoTexture）— v20 deferred-start 整段拷 asset-inject `makeVideoDecoderProxy` + wx-ad-bridge `startVideoDirtyTimer` + dom-shim GL `texImage2D` wrap
+10. **真机扫码** — 画面 / 轮盘 / 松手停 / 声音 / 视频 / 0 fatal error 六项
+11. **启动加速三件套** — 关 `setEnableDebug` + 删 game.js 自己的 console wrap + first-screen splash 单帧
+12. **0 error 后**才考虑视觉优化（ambient/lightmap/shader 等 wx-ad-bridge 修正）

@@ -26,17 +26,28 @@
   GameGlobal.__lunaVideoDirtyTimer = GameGlobal.__lunaVideoDirtyTimer || null;
   function startVideoDirtyTimer() {
     if (GameGlobal.__lunaVideoDirtyTimer) return;
+    let _tickN = 0;
     GameGlobal.__lunaVideoDirtyTimer = setInterval(() => {
+      _tickN++;
       const set = GameGlobal.__lunaVideoTextures;
       if (!set || !set.size) return;
+      let dirtied = 0, skippedPaused = 0, skippedNoSrc = 0, hasDirtyAll = 0;
       for (const tex of set) {
         try {
           const src = tex && tex._levels && tex._levels[0];
-          if (!src || !src._isLunaVideo) continue;
-          if (src.paused === true) continue;
-          if (typeof tex.dirtyAll === 'function') tex.dirtyAll();
+          if (!src || !src._isLunaVideo) { skippedNoSrc++; continue; }
+          // 即使 paused 也 dirty — auto-restart loop 期间 paused 短暂为 true,
+          // skip 会让 PC 错过 restart 后的新帧. dirty 始终保持, GL wrap 自决是否有新帧可上传.
+          if (src.paused === true) skippedPaused++;
+          if (typeof tex.dirtyAll === 'function') { tex.dirtyAll(); hasDirtyAll++; }
           else { tex._needsUpload = true; if (tex._levelsUpdated) tex._levelsUpdated[0] = true; }
+          dirtied++;
         } catch (e) {}
+      }
+      if (_tickN === 1 || _tickN === 10 || _tickN === 30 || _tickN === 60 || _tickN === 150 || _tickN === 300) {
+        console.log('[dirty-tick#' + _tickN + '] set.size=' + set.size +
+          ' dirtied=' + dirtied + ' skippedPaused=' + skippedPaused +
+          ' skippedNoSrc=' + skippedNoSrc + ' viaDirtyAll=' + hasDirtyAll);
       }
     }, 33);
     console.log('[wx-ad-bridge] video dirty timer started (33ms)');
@@ -153,6 +164,12 @@
           let cnt = 0;
           TexProto.setSource = function (t) {
             const N = ++cnt;
+            // 第 1 次 setSource = luna PC 开始 render → 关 splash, 让 PC 接管 GL ctx
+            // 不然 splash setInterval 和 PC render loop 互相覆盖会闪.
+            if (N === 1) {
+              GameGlobal.__lunaSplashStop = true;
+              console.log('[first-screen] splash stopped on first setSource (luna render began)');
+            }
             if (N <= 12) {
               try {
                 const isImg    = (g.HTMLImageElement  && t instanceof g.HTMLImageElement);
