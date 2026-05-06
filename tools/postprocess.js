@@ -178,6 +178,141 @@ function extractMedia() {
 }
 extractMedia();
 
+// ---------- 4b. extract loading logo (per-locale) from languageSettings ----------
+// luna 标准 loading 流程依赖 DOM (`<div id="application-preloader">` + CSS @keyframes + `<img class="loading-logo">`),
+// `loadingImgBase64` 是 base64 PNG 嵌在 lang_config chunk 里的 languageSettings JSON 内.
+// wx 试玩 runtime 没 DOM, 整套 loading UI 失效 → logo + bar 都丢.
+// postprocess 提取每个 locale 的 logo 落到 assets/inline/loading-logo-<locale>.<ext>,
+// first-screen.js 启动时按 wx.getSystemInfoSync().language 选 + GL 画 logo + 进度条.
+function extractLoadingAssets() {
+  const langChunk = scripts.find(s => s.kind === 'lang_config');
+  if (!langChunk) return;
+  const i = langChunk.body.indexOf('languageSettings');
+  if (i < 0) return;
+  const eq = langChunk.body.indexOf('{', i);
+  if (eq < 0) return;
+  // brace-balance 取整段 (字段值可能含 `}`)
+  let depth = 0, end = -1, inStr = false, strCh = 0, esc = false;
+  for (let j = eq; j < langChunk.body.length; j++) {
+    const ch = langChunk.body[j];
+    if (inStr) {
+      if (esc) { esc = false; continue; }
+      if (ch === '\\') { esc = true; continue; }
+      if (ch === strCh) inStr = false;
+      continue;
+    }
+    if (ch === '"' || ch === "'") { inStr = true; strCh = ch; continue; }
+    if (ch === '{') depth++;
+    else if (ch === '}') { depth--; if (depth === 0) { end = j + 1; break; } }
+  }
+  if (end < 0) return;
+  let settings;
+  try { settings = JSON.parse(langChunk.body.slice(eq, end)); } catch (e) {
+    console.warn('postprocess: failed to JSON.parse languageSettings:', e.message);
+    return;
+  }
+  // 加载体感优化: PNG 大于 ~80KB resize 到 256x256 (双线性) — 启动期 wx.createImage 加载时间
+  // 跟字节数大致成正比, 175KB → 67KB 让 logo onload 从 ~1.14s 降到 ~440ms (1316px 屏宽下 256/1316=19% 视觉占比仍可见).
+  // pngjs 是可选依赖: 装了就 resize, 没装就用原图 (postprocess 不死).
+  let PNG = null;
+  try { PNG = require('pngjs').PNG; }
+  catch (e) {
+    try {
+      const npmRoot = require('child_process').execSync('npm root -g', { encoding: 'utf8' }).trim();
+      PNG = require(npmRoot + '/pngjs').PNG;
+    } catch (e2) {
+      console.warn('postprocess: pngjs 未安装 (npm i -g pngjs), logo PNG 不会 resize, 启动 splash 慢 ~700ms');
+    }
+  }
+  function resizePng(srcBuf, target) {
+    if (!PNG) return null;
+    let png;
+    try { png = PNG.sync.read(srcBuf); } catch (e) { return null; }
+    const sw = png.width, sh = png.height;
+    if (sw <= target && sh <= target) return null; // 已经够小
+    const scale = Math.min(target / sw, target / sh);
+    const dw = Math.max(1, Math.round(sw * scale));
+    const dh = Math.max(1, Math.round(sh * scale));
+    const out = new PNG({ width: dw, height: dh });
+    for (let y = 0; y < dh; y++) {
+      for (let x = 0; x < dw; x++) {
+        const sx = x / scale, sy = y / scale;
+        const x0 = Math.floor(sx), y0 = Math.floor(sy);
+        const x1 = Math.min(x0 + 1, sw - 1), y1 = Math.min(y0 + 1, sh - 1);
+        const fx = sx - x0, fy = sy - y0;
+        const idx = (y * dw + x) * 4;
+        for (let c = 0; c < 4; c++) {
+          const i00 = (y0 * sw + x0) * 4 + c;
+          const i10 = (y0 * sw + x1) * 4 + c;
+          const i01 = (y1 * sw + x0) * 4 + c;
+          const i11 = (y1 * sw + x1) * 4 + c;
+          const top = png.data[i00] * (1 - fx) + png.data[i10] * fx;
+          const bot = png.data[i01] * (1 - fx) + png.data[i11] * fx;
+          out.data[idx + c] = Math.round(top * (1 - fy) + bot * fy);
+        }
+      }
+    }
+    return PNG.sync.write(out, { deflateLevel: 9 });
+  }
+
+  const logos = {};
+  const writtenHashes = {};   // md5 → rel: 多 locale 共用同一图时去重 (zh-CN/default 常常字节完全相同)
+  const crypto = require('crypto');
+  const RESIZE_THRESHOLD = 80 * 1024;
+  const RESIZE_TARGET = 256;
+  for (const [locale, cfg] of Object.entries(settings)) {
+    if (!cfg || typeof cfg !== 'object') continue;
+    const b64 = cfg.loadingImgBase64;
+    if (typeof b64 !== 'string') continue;
+    const m2 = b64.match(/^data:image\/([a-z]+);base64,(.+)$/);
+    if (!m2) continue;
+    let buf = Buffer.from(m2[2], 'base64');
+    const origSize = buf.length;
+    if (m2[1] === 'png' && buf.length > RESIZE_THRESHOLD) {
+      const resized = resizePng(buf, RESIZE_TARGET);
+      if (resized && resized.length < buf.length) buf = resized;
+    }
+    const hash = crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
+    let rel = writtenHashes[hash];
+    if (!rel) {
+      rel = `assets/inline/loading-logo-${hash}.${m2[1]}`;
+      fs.mkdirSync(path.dirname(path.join(OUT, rel)), { recursive: true });
+      fs.writeFileSync(path.join(OUT, rel), buf);
+      writtenHashes[hash] = rel;
+    }
+    logos[locale] = {
+      rel,
+      mime: 'image/' + m2[1],
+      size: buf.length,
+      origSize,
+      barStyle: typeof cfg.loadingBarStyle === 'string' ? cfg.loadingBarStyle : '',
+    };
+  }
+  if (Object.keys(logos).length) {
+    manifest.loadingLogos = logos;
+    console.error(`postprocess: extracted ${Object.keys(logos).length} loading logo(s) — ` +
+      Object.entries(logos).map(([l, x]) => `${l}:${(x.size/1024).toFixed(1)}KB`).join(' / '));
+
+    // **关键优化**: 从 lang_config chunk 里 strip 掉 loadingImgBase64 (3 个 logo 字段实测占 99.6% 体积).
+    // base64 在 wx 试玩 runtime 下没用 (DOM 不存在, SET_LOADING_IMAGE 路径被 _skipped, logo 已落 .png),
+    // 留着只会让 lang_config 558KB → 2.5KB 多 200-500ms boot 链 JS parse 时间, 也让主包体积虚增 0.55MB.
+    // 落盘后 chunk 文件已经写在 5b 章节 (postprocess 阶段 3), 这里只回写已落盘的 lang_config.js.
+    const langEntry = manifest.main.find(x => x.kind === 'lang_config');
+    if (langEntry) {
+      const langPath = path.join(OUT, langEntry.rel);
+      const orig = fs.readFileSync(langPath, 'utf8');
+      const stripped = orig.replace(/"loadingImgBase64":"data:image\/[a-z]+;base64,[^"]+"/g, '"loadingImgBase64":""');
+      const saved = orig.length - stripped.length;
+      if (saved > 0) {
+        fs.writeFileSync(langPath, stripped);
+        langEntry.size = stripped.length;
+        console.error(`postprocess: stripped ${(saved/1024).toFixed(1)}KB of loadingImgBase64 from lang_config (boot-chain parse 估省 200-500ms)`);
+      }
+    }
+  }
+}
+extractLoadingAssets();
+
 // ---------- 5. copy templates ----------
 function copyTree(srcDir, dstDir) {
   if (!fs.existsSync(srcDir)) return;
