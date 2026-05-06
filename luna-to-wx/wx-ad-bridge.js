@@ -164,11 +164,13 @@
           let cnt = 0;
           TexProto.setSource = function (t) {
             const N = ++cnt;
-            // 第 1 次 setSource = luna PC 开始 render → 关 splash, 让 PC 接管 GL ctx
-            // 不然 splash setInterval 和 PC render loop 互相覆盖会闪.
+            // splash stop 在 setSource#1 立刻停 — 绝不跟 luna 共享 GL ctx 重叠期.
+            // 之前改 #10 给 logo 多曝光时间, 但导致 splash RAF 跟 luna 渲染共享 ctx →
+            // viewport 污染让 splash bar 错位 + GL state 冲突让 luna 素材出黑方块.
+            // 教训: GL ctx 是全局共享的, 任何 splash + luna 同时 draw 都会污染.
             if (N === 1) {
               GameGlobal.__lunaSplashStop = true;
-              console.log('[first-screen] splash stopped on first setSource (luna render began)');
+              console.log('[first-screen] splash stopped at setSource#1 (luna render began)');
             }
             if (N <= 12) {
               try {
@@ -293,15 +295,10 @@
   // try/catch 包不住 → 根本不调用。试玩广告也不需要这些生命周期, 直接 skip。
 
   // ---------- 试玩结束信号 (CTA 点击后通知 wx 弹结束页) ----------
-  // **API 在试玩广告 runtime 真实存在且执行成功** (2026-05-06 升武器_unity probe 实证):
-  //   每次点击都看到 `notifyMiniProgramPlayableStatus({isEnd:true}) sent`,
-  //   typeof === 'function' 返 true, 调用没抛, 没短路. 不在 runtime 缺失清单里.
-  //
-  // 注意 1: API 名是 PlayableStatus (大 S), 不是 Playablestatus. 大小写错 → undefined → 静默无操作.
-  // 注意 2: **预览环境调用成功但不绘结束页 UI** — 微信侧设计.
-  //         调用层 (sent log 出) 与 UI 层 (微信内核绘制) 是两回事:
-  //         开发者工具扫码预览不绘 UI, 线上广告投放才绘. 别误以为 "API 不工作".
-  // 注意 3: 基础库 3.5.4+ 调不存在的 wx 方法会 console.error, typeof 检查仍保留作 baseLib 兼容垫.
+  // 注意 1: API 名是 PlayableStatus (大 S), 不是 Playablestatus.
+  // 注意 2: 仅线上广告生效, 开发预览不会弹结束页 (微信官方明确, 2024 已修 bug).
+  // 注意 3: 基础库 3.5.4+ 在试玩环境调用不存在的方法会 console.error,
+  //        所以这里用 typeof 检查而不是 && (避免 wx 内部噪音).
   if (typeof GameGlobal.endUnityGame !== 'function') {
     GameGlobal.endUnityGame = function () {
       try {
@@ -309,7 +306,7 @@
           wx.notifyMiniProgramPlayableStatus({ isEnd: true });
           console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent');
         } else {
-          console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus API 缺失 (基础库太老?)');
+          console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus 不存在 (预览环境正常,线上才有)');
         }
       } catch (e) {
         console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus FAIL', e);

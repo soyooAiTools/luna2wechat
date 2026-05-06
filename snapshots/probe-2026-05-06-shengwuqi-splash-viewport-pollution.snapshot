@@ -1,0 +1,492 @@
+[2026-05-06 14:06:38.622] GET 192.168.1.4 [L] [probe] HTTP probe attached → 192.168.1.3:53017
+[2026-05-06 14:06:38.626] GET 192.168.1.4 [L] [bootShim] canvas sized to 1316x2835 css= 400x862 dpr= 3.29
+[2026-05-06 14:06:38.630] GET 192.168.1.4 [L] [video-tex] wrapped getContext on canvas (first instance)
+[2026-05-06 14:06:38.633] GET 192.168.1.4 [W] [bootShim] wx touch handlers wired: {"start":true,"move":true,"end":true,"cancel":true}
+[2026-05-06 14:06:38.636] GET 192.168.1.4 [L] [video-tex] wrapped GL texImage2D/texSubImage2D
+[2026-05-06 14:06:38.757] GET 192.168.1.4 [L] [first-screen] init canvas=1316x2835
+[2026-05-06 14:06:38.761] GET 192.168.1.4 [L] [first-screen] backdrop+bar drawn (raf=true)
+[2026-05-06 14:06:38.764] GET 192.168.1.4 [L] [first-screen] logo entry: assets/inline/loading-logo-6971af65.png
+[2026-05-06 14:06:38.767] GET 192.168.1.4 [L] used langugae: default
+[2026-05-06 14:06:38.770] GET 192.168.1.4 [L] π: Not logging event load as no endpoint URL is provided!
+[2026-05-06 14:06:38.777] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: hook bundle handlers (NONESSENTIAL swallow)
+[2026-05-06 14:06:38.781] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: register luna:build
+[2026-05-06 14:06:38.784] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: ambient lighting probe+fix
+[2026-05-06 14:06:38.787] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: canvas touchend
+[2026-05-06 14:06:38.790] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 14:06:38.841] GET 192.168.1.4 [L] [boot] entry done
+[2026-05-06 14:06:38.845] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=168334
+[2026-05-06 14:06:38.848] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(8)}
+[2026-05-06 14:06:38.851] GET 192.168.1.4 [L] [WASM] redirect len=168334 -> box2d.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 14:06:38.855] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=271539
+[2026-05-06 14:06:39.778] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(19)}
+[2026-05-06 14:06:39.783] GET 192.168.1.4 [L] [WASM] redirect len=271539 -> mecanim.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 14:06:39.787] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 14:06:39.790] GET 192.168.1.4 [W] [UI.instrument] hooks installed
+[2026-05-06 14:06:39.795] GET 192.168.1.4 [W] [UI.read#1] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:39.853] GET 192.168.1.4 [W] [UI.read#2] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:39.856] GET 192.168.1.4 [W] [UI.read#3] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:39.860] GET 192.168.1.4 [W] [UI.read#4] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:39.863] GET 192.168.1.4 [W] [UI.read#1] GetMouseButton (0) → false
+[2026-05-06 14:06:39.866] GET 192.168.1.4 [W] [UI.keep#1] readback: mousePos={x:0,y:0} GetMouseButton(0)=false touchCount=0 z$[0]=false
+[2026-05-06 14:06:39.905] GET 192.168.1.4 [L] [UI.warmup] Input state injected (idle), UI ready=true
+[2026-05-06 14:06:39.908] GET 192.168.1.4 [L] [UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=400 cssH=862)
+[2026-05-06 14:06:39.911] GET 192.168.1.4 [E] {"promise":{},"type":3}
+[2026-05-06 14:06:39.915] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=box2d.wasm.br
+[2026-05-06 14:06:39.918] GET 192.168.1.4 [L] [WASM] OK exports first=i,j,k
+[2026-05-06 14:06:39.951] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=mecanim.wasm.br
+[2026-05-06 14:06:39.955] GET 192.168.1.4 [L] [wx-ad-bridge] hooked pc.Texture.prototype.setSource (attempt 2)
+[2026-05-06 14:06:39.959] GET 192.168.1.4 [L] [first-screen] logo drawn 256x256
+[2026-05-06 14:06:39.963] GET 192.168.1.4 [L] [WASM] OK exports first=t,u,v
+[2026-05-06 14:06:39.967] GET 192.168.1.4 [L] π: Not logging event starting as no endpoint URL is provided!
+[2026-05-06 14:06:39.975] GET 192.168.1.4 [I] %cProject Settings loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:39.979] GET 192.168.1.4 [L] [setSource#1] tex.name=texture_grabPass arg.ctor=e isImg=false isCanvas=true isVideo=false isAB=false tag=undefined src=undefined w=1316x2835
+[2026-05-06 14:06:39.985] GET 192.168.1.4 [L] [setSource#1] post: tex._width=1316 _levels[0]=e
+[2026-05-06 14:06:39.988] GET 192.168.1.4 [W] setInnerAudioOption() is not implemented on wx
+[2026-05-06 14:06:39.993] GET 192.168.1.4 [L] [XXAUDIO] setInnerAudioOption mixWithOther=true
+[2026-05-06 14:06:39.999] GET 192.168.1.4 [L] [XXAUDIO] AudioContext instantiated, count=1
+[2026-05-06 14:06:40.002] GET 192.168.1.4 [L] [setSource#2] tex.name=UnityAttenuationTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:40.006] GET 192.168.1.4 [L] [setSource#2] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:40.010] GET 192.168.1.4 [L] [setSource#3] tex.name=UnitySpotTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:40.015] GET 192.168.1.4 [L] [setSource#3] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:40.038] GET 192.168.1.4 [L] [setSource#4] tex.name=unityNHxRoughnessTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:40.042] GET 192.168.1.4 [L] [setSource#4] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:40.046] GET 192.168.1.4 [I] %cBundle chain loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:40.049] GET 192.168.1.4 [L] [setSource#5] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x256
+[2026-05-06 14:06:40.054] GET 192.168.1.4 [L] [setSource#5] post: tex._width=512 _levels[0]=nr
+[2026-05-06 14:06:40.077] GET 192.168.1.4 [L] [setSource#6] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=1024x1024
+[2026-05-06 14:06:40.081] GET 192.168.1.4 [L] [setSource#6] post: tex._width=1024 _levels[0]=nr
+[2026-05-06 14:06:40.085] GET 192.168.1.4 [L] [setSource#7] tex.name=0 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=51x58
+[2026-05-06 14:06:40.090] GET 192.168.1.4 [L] [setSource#7] post: tex._width=51 _levels[0]=nr
+[2026-05-06 14:06:40.094] GET 192.168.1.4 [L] [setSource#8] tex.name=警告边框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=288x512
+[2026-05-06 14:06:40.116] GET 192.168.1.4 [L] [setSource#8] post: tex._width=288 _levels[0]=nr
+[2026-05-06 14:06:40.121] GET 192.168.1.4 [L] [setSource#9] tex.name=操纵底 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x512
+[2026-05-06 14:06:40.124] GET 192.168.1.4 [L] [setSource#9] post: tex._width=512 _levels[0]=nr
+[2026-05-06 14:06:40.128] GET 192.168.1.4 [L] [first-screen] splash stopped at setSource#10 (luna render began)
+[2026-05-06 14:06:40.131] GET 192.168.1.4 [L] [setSource#10] tex.name=矿石 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=119x135
+[2026-05-06 14:06:40.150] GET 192.168.1.4 [L] [setSource#10] post: tex._width=119 _levels[0]=nr
+[2026-05-06 14:06:40.154] GET 192.168.1.4 [L] [setSource#11] tex.name=道具框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=158x158
+[2026-05-06 14:06:40.158] GET 192.168.1.4 [L] [setSource#11] post: tex._width=158 _levels[0]=nr
+[2026-05-06 14:06:40.162] GET 192.168.1.4 [L] [setSource#12] tex.name=image13 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=110x110
+[2026-05-06 14:06:40.165] GET 192.168.1.4 [L] [setSource#12] post: tex._width=110 _levels[0]=nr
+[2026-05-06 14:06:40.185] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=38078 mime=audio/mpeg b64Len=50772
+[2026-05-06 14:06:40.189] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 14:06:40.193] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=33062 mime=audio/mpeg b64Len=44084
+[2026-05-06 14:06:40.197] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=120390 mime=audio/mpeg b64Len=160520
+[2026-05-06 14:06:40.201] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=47691 mime=audio/mpeg b64Len=63588
+[2026-05-06 14:06:40.222] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 14:06:40.227] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=9657 mime=audio/mpeg b64Len=12876
+[2026-05-06 14:06:40.232] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=27629 mime=audio/mpeg b64Len=36840
+[2026-05-06 14:06:40.236] GET 192.168.1.4 [I] %cSimple assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:40.241] GET 192.168.1.4 [I] %cComplex assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:40.256] GET 192.168.1.4 [I] %cPrefabs loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:40.260] GET 192.168.1.4 [I] %cScenes loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:40.264] GET 192.168.1.4 [W] Missing motion for state "New State". Make sure it's intentional and clip wasn't excluded by mistake. Otherwise it won't play.
+[2026-05-06 14:06:40.268] GET 192.168.1.4 [L] zh_CN英文名称
+[2026-05-06 14:06:40.272] GET 192.168.1.4 [L] {"$boxed":true,"fn":{},"v":-1}
+[2026-05-06 14:06:40.289] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:40.293] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:40.297] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:40.302] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:40.307] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:40.325] GET 192.168.1.4 [W] [UI.read#5] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:40.347] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:40.352] GET 192.168.1.4 [W] [UI.read#6] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:40.358] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:40.367] GET 192.168.1.4 [W] [UI.read#2] GetMouseButton (0) → false
+[2026-05-06 14:06:40.371] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:40.376] GET 192.168.1.4 [W] [UI.read#1] GetKey (119) → false
+[2026-05-06 14:06:40.379] GET 192.168.1.4 [W] [UI.read#2] GetKey (273) → false
+[2026-05-06 14:06:40.383] GET 192.168.1.4 [W] [UI.read#3] GetKey (115) → false
+[2026-05-06 14:06:40.387] GET 192.168.1.4 [W] [UI.read#4] GetKey (274) → false
+[2026-05-06 14:06:40.392] GET 192.168.1.4 [W] [UI.read#5] GetKey (97) → false
+[2026-05-06 14:06:40.396] GET 192.168.1.4 [W] [UI.read#6] GetKey (276) → false
+[2026-05-06 14:06:40.400] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:40.403] GET 192.168.1.4 [W] [UI.read#3] GetMouseButton (0) → false
+[2026-05-06 14:06:40.407] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:40.425] GET 192.168.1.4 [W] [UI.read#4] GetMouseButton (0) → false
+[2026-05-06 14:06:40.428] GET 192.168.1.4 [W] [UI.read#1] GetKeyDown (106) → false
+[2026-05-06 14:06:40.431] GET 192.168.1.4 [L] π: Not logging event started as no endpoint URL is provided!
+[2026-05-06 14:06:40.434] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:40.437] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:40.458] GET 192.168.1.4 [W] [UI.read#5] GetMouseButton (0) → false
+[2026-05-06 14:06:40.461] GET 192.168.1.4 [W] [UI.read#6] GetMouseButton (0) → false
+[2026-05-06 14:06:40.465] GET 192.168.1.4 [W] [UI.read#2] GetKeyDown (106) → false
+[2026-05-06 14:06:40.468] GET 192.168.1.4 [L] π: Not logging event frame as no endpoint URL is provided!
+[2026-05-06 14:06:40.472] GET 192.168.1.4 [L] [ambient] probe.data= [0.16788379848003387,-0.016591649502515793,-0.011379829607903957,0.0065696099773049355,0.004985158797353506,-0.008635048754513264,0.00973481871187687,-0.0103005301207304,0.023336190730333328,0.21073630452156067,0.02701665088534355,-0.018886100500822067,0.010903730057179928,0.008416964672505856,-0.014579039998352528,0.014163370244204998,-0.015723219141364098,0.03351214900612831,0.28994131088256836,0.10996650159358978,-0.03480939939618111,0.020094219595193863,0.016304729506373405,-0.02824404090642929,0.01814264990389347,-0.023746440187096596,0.04080035910010338]
+[2026-05-06 14:06:40.490] GET 192.168.1.4 [L] [ambient] skyColor= [0.21199999749660492,0.22699999809265137,0.2590000033378601,1] equator= [0.11400000005960464,0.125,0.13300000131130219,1] ground= [0.04699999839067459,0.0430000014603138,0.03500000014901161,1]
+[2026-05-06 14:06:40.494] GET 192.168.1.4 [L] [ambient] zero flags: probe= false sky= false eq= false gr= false
+[2026-05-06 14:06:40.499] GET 192.168.1.4 [L] [ambient] patched (attempt 1)
+[2026-05-06 14:06:40.503] GET 192.168.1.4 [W] [UI.read#3] GetKeyDown (106) → false
+[2026-05-06 14:06:40.508] GET 192.168.1.4 [W] [UI.read#4] GetKeyDown (106) → false
+[2026-05-06 14:06:40.524] GET 192.168.1.4 [W] [UI.read#5] GetKeyDown (106) → false
+[2026-05-06 14:06:40.528] GET 192.168.1.4 [W] [UI.read#6] GetKeyDown (106) → false
+[2026-05-06 14:06:40.532] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=50
+[2026-05-06 14:06:40.535] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=50
+[2026-05-06 14:06:40.541] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=50
+[2026-05-06 14:06:40.555] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=50
+[2026-05-06 14:06:40.559] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=50
+[2026-05-06 14:06:40.563] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=200
+[2026-05-06 14:06:40.568] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=200
+[2026-05-06 14:06:40.571] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=200
+[2026-05-06 14:06:40.689] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=50
+[2026-05-06 14:06:40.981] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=200
+[2026-05-06 14:06:41.490] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=200
+[2026-05-06 14:06:42.838] GET 192.168.1.4 [L] [deep] canvas._bus={"touchend":1,"webglcontextlost":1,"webglcontextrestored":1}
+[2026-05-06 14:06:42.861] GET 192.168.1.4 [L] [deep] doc._bus={"focusChange":1,"visibilitychange":1}
+[2026-05-06 14:06:43.058] GET 192.168.1.4 [L] [deep] body._bus={"keydown":1,"keyup":1,"click":1,"touchstart":1}
+[2026-05-06 14:06:43.103] GET 192.168.1.4 [L] [deep] docEl._bus={}
+[2026-05-06 14:06:43.108] GET 192.168.1.4 [L] [deep] win._bus={"DOMContentLoaded":3,"bridge:ready":1,"luna:unsafe:mute":1,"luna:unsafe:unmute":1,"luna:unsafe:pause":1,"luna:unsafe:resume":1,"luna:resume":2,"luna:start":1,"luna:initialized":1,"luna:started":3,"luna:build":2,"luna:unmute":1,"luna:mute":1,"luna:pause":1,"luna:ended":2,"message":1,"error":1,"visibilitychange":1,"mousedown":2,"touchend":1,"mouseup":1,"mousemove":1,"wheel":1}
+[2026-05-06 14:06:43.113] GET 192.168.1.4 [L] [deep] win._bus mousedown x2: [#0:()=>{this.context.resume(),this.suspended=!1,this.events.fire("resume",this.resumeFromAwake),this.resumeFromAwake=!1,window.removeEventListener("mousedown",this.resumeContext),window.removeEventListener("touchend",this.resumeContext)} ||| #1:function () { [native code] }]
+[2026-05-06 14:06:43.118] GET 192.168.1.4 [L] [deep] win._bus mousemove x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:43.122] GET 192.168.1.4 [L] [deep] win._bus mouseup x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:43.128] GET 192.168.1.4 [L] [deep] win._bus touchstart=NONE
+[2026-05-06 14:06:43.133] GET 192.168.1.4 [L] [deep] win._bus touchend x1: [#0:()=>{this.context.resume(),this.suspended=!1,this.events.fire("resume",this.resumeFromAwake),this.resumeFromAwake=!1,window.removeEventListener("mousedown",this.resumeContext),window.removeEventListener("touchend",this.resumeContext)}]
+[2026-05-06 14:06:43.136] GET 192.168.1.4 [L] [deep] canvas._bus touchstart=NONE
+[2026-05-06 14:06:43.163] GET 192.168.1.4 [L] [deep] canvas._bus touchmove=NONE
+[2026-05-06 14:06:43.189] GET 192.168.1.4 [L] [deep] canvas._bus touchend x1: [#0:function tryJump() { if (!shouldJump) return; shouldJump = false; doJump(); }]
+[2026-05-06 14:06:43.221] GET 192.168.1.4 [L] [deep] canvas._bus mousedown=NONE
+[2026-05-06 14:06:43.235] GET 192.168.1.4 [L] [deep] canvas._bus mousemove=NONE
+[2026-05-06 14:06:43.240] GET 192.168.1.4 [L] [deep] canvas._bus mouseup=NONE
+[2026-05-06 14:06:43.244] GET 192.168.1.4 [L] [deep] body._bus touchstart x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:43.247] GET 192.168.1.4 [L] [deep] body._bus touchmove=NONE
+[2026-05-06 14:06:43.251] GET 192.168.1.4 [L] [deep] body._bus touchend=NONE
+[2026-05-06 14:06:43.254] GET 192.168.1.4 [L] [deep] body._bus click x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:43.258] GET 192.168.1.4 [L] [deep] body._bus keydown x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:43.261] GET 192.168.1.4 [L] [deep] body._bus keyup x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:43.264] GET 192.168.1.4 [L] [deep] body._bus mousedown=NONE
+[2026-05-06 14:06:43.268] GET 192.168.1.4 [L] [deep] app.mouse=en=undefined tgt=e btns=[false,false,false] lastBtns=[false,false,false]
+[2026-05-06 14:06:43.272] GET 192.168.1.4 [L] [deep] app.touch=NULL
+[2026-05-06 14:06:43.277] GET 192.168.1.4 [L] [deep] app.keyboard=en=undefined tgt=undefined
+[2026-05-06 14:06:43.281] GET 192.168.1.4 [W] [UI.read#1] get anyKey → false
+[2026-05-06 14:06:43.285] GET 192.168.1.4 [W] [UI.read#1] get anyKeyDown → false
+[2026-05-06 14:06:43.289] GET 192.168.1.4 [L] [deep] pc.platform={}
+[2026-05-06 14:06:43.293] GET 192.168.1.4 [L] [deep] pcApp touch/input/mouse fields: keyboard,mouse,touch
+[2026-05-06 14:06:43.298] GET 192.168.1.4 [L] [deep] mouse.events.types=mouseup,mousedown,mousemove,mousewheel
+[2026-05-06 14:06:43.302] GET 192.168.1.4 [L] [deep] HTMLImageElement defined=function name=Ctor hasSymbolHasInstance=YES
+[2026-05-06 14:06:43.308] GET 192.168.1.4 [L] [deep] hasInstance probe threw: doc is not defined
+[2026-05-06 14:06:43.312] GET 192.168.1.4 [L] [deep] LightmapSettings.manager.lightmaps.length=0
+[2026-05-06 14:06:43.316] GET 192.168.1.4 [L] [deep] scene._renderers.length=165 collected MIs=159
+[2026-05-06 14:06:43.320] GET 192.168.1.4 [L] [deep] MI total=159 withLightmap=0 without=159 sceneIdxs=[]
+[2026-05-06 14:06:43.324] GET 192.168.1.4 [L] [deep] LM-fallback: noLMData=true forced=0 / withLM=0
+[2026-05-06 14:06:43.336] GET 192.168.1.4 [L] [deep] shader state by name: {"Sprites/Default":{"total":87,"hasMat":87,"hasShader":87,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Custom/NavPathArrowNoAplha":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton Fill":{"total":70,"hasMat":70,"hasShader":70,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0}}
+[2026-05-06 14:06:43.343] GET 192.168.1.4 [L] [deep] sample MIs: [{"idx":0,"name":"bg","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":1,"name":"外墙-上左","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":2,"name":"外墙-上右","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":3,"name":"地块-金币","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"nu
+[2026-05-06 14:06:43.347] GET 192.168.1.4 [L] [deep] done
+[2026-05-06 14:06:43.351] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=200
+[2026-05-06 14:06:45.586] GET 192.168.1.4 [L] [probe] HTTP probe attached → 192.168.1.3:53017
+[2026-05-06 14:06:45.590] GET 192.168.1.4 [L] [bootShim] canvas sized to 1316x2835 css= 400x862 dpr= 3.29
+[2026-05-06 14:06:45.594] GET 192.168.1.4 [L] [video-tex] wrapped getContext on canvas (first instance)
+[2026-05-06 14:06:45.597] GET 192.168.1.4 [W] [bootShim] wx touch handlers wired: {"start":true,"move":true,"end":true,"cancel":true}
+[2026-05-06 14:06:45.601] GET 192.168.1.4 [L] [video-tex] wrapped GL texImage2D/texSubImage2D
+[2026-05-06 14:06:45.704] GET 192.168.1.4 [L] [first-screen] init canvas=1316x2835
+[2026-05-06 14:06:45.708] GET 192.168.1.4 [L] [first-screen] backdrop+bar drawn (raf=true)
+[2026-05-06 14:06:45.712] GET 192.168.1.4 [L] [first-screen] logo entry: assets/inline/loading-logo-6971af65.png
+[2026-05-06 14:06:45.716] GET 192.168.1.4 [L] used langugae: default
+[2026-05-06 14:06:45.721] GET 192.168.1.4 [L] π: Not logging event load as no endpoint URL is provided!
+[2026-05-06 14:06:45.756] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: hook bundle handlers (NONESSENTIAL swallow)
+[2026-05-06 14:06:45.760] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: register luna:build
+[2026-05-06 14:06:45.764] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: ambient lighting probe+fix
+[2026-05-06 14:06:45.768] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: canvas touchend
+[2026-05-06 14:06:45.773] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 14:06:46.591] GET 192.168.1.4 [L] [boot] entry done
+[2026-05-06 14:06:46.597] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=168334
+[2026-05-06 14:06:46.609] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(8)}
+[2026-05-06 14:06:46.620] GET 192.168.1.4 [L] [WASM] redirect len=168334 -> box2d.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 14:06:46.624] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=271539
+[2026-05-06 14:06:46.637] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(19)}
+[2026-05-06 14:06:46.642] GET 192.168.1.4 [L] [WASM] redirect len=271539 -> mecanim.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 14:06:46.646] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 14:06:46.650] GET 192.168.1.4 [W] [UI.instrument] hooks installed
+[2026-05-06 14:06:46.654] GET 192.168.1.4 [W] [UI.read#1] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:46.691] GET 192.168.1.4 [W] [UI.read#2] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:46.695] GET 192.168.1.4 [W] [UI.read#3] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:46.699] GET 192.168.1.4 [W] [UI.read#4] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:46.703] GET 192.168.1.4 [W] [UI.read#1] GetMouseButton (0) → false
+[2026-05-06 14:06:46.708] GET 192.168.1.4 [W] [UI.keep#1] readback: mousePos={x:0,y:0} GetMouseButton(0)=false touchCount=0 z$[0]=false
+[2026-05-06 14:06:46.752] GET 192.168.1.4 [L] [UI.warmup] Input state injected (idle), UI ready=true
+[2026-05-06 14:06:46.759] GET 192.168.1.4 [L] [UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=400 cssH=862)
+[2026-05-06 14:06:46.763] GET 192.168.1.4 [E] {"promise":{},"type":3}
+[2026-05-06 14:06:46.772] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=box2d.wasm.br
+[2026-05-06 14:06:46.776] GET 192.168.1.4 [L] [WASM] OK exports first=i,j,k
+[2026-05-06 14:06:46.784] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=mecanim.wasm.br
+[2026-05-06 14:06:46.788] GET 192.168.1.4 [L] [wx-ad-bridge] hooked pc.Texture.prototype.setSource (attempt 2)
+[2026-05-06 14:06:46.847] GET 192.168.1.4 [L] [first-screen] logo drawn 256x256
+[2026-05-06 14:06:46.852] GET 192.168.1.4 [L] [WASM] OK exports first=t,u,v
+[2026-05-06 14:06:46.857] GET 192.168.1.4 [L] π: Not logging event starting as no endpoint URL is provided!
+[2026-05-06 14:06:46.861] GET 192.168.1.4 [I] %cProject Settings loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:46.865] GET 192.168.1.4 [L] [setSource#1] tex.name=texture_grabPass arg.ctor=e isImg=false isCanvas=true isVideo=false isAB=false tag=undefined src=undefined w=1316x2835
+[2026-05-06 14:06:46.869] GET 192.168.1.4 [L] [setSource#1] post: tex._width=1316 _levels[0]=e
+[2026-05-06 14:06:46.872] GET 192.168.1.4 [W] setInnerAudioOption() is not implemented on wx
+[2026-05-06 14:06:46.877] GET 192.168.1.4 [L] [XXAUDIO] setInnerAudioOption mixWithOther=true
+[2026-05-06 14:06:46.880] GET 192.168.1.4 [L] [XXAUDIO] AudioContext instantiated, count=1
+[2026-05-06 14:06:46.884] GET 192.168.1.4 [L] [setSource#2] tex.name=UnityAttenuationTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:46.887] GET 192.168.1.4 [L] [setSource#2] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:46.890] GET 192.168.1.4 [L] [setSource#3] tex.name=UnitySpotTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:46.894] GET 192.168.1.4 [L] [setSource#3] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:46.897] GET 192.168.1.4 [L] [setSource#4] tex.name=unityNHxRoughnessTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:46.901] GET 192.168.1.4 [L] [setSource#4] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:46.904] GET 192.168.1.4 [I] %cBundle chain loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:46.907] GET 192.168.1.4 [L] [setSource#5] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x256
+[2026-05-06 14:06:46.910] GET 192.168.1.4 [L] [setSource#5] post: tex._width=512 _levels[0]=nr
+[2026-05-06 14:06:46.914] GET 192.168.1.4 [L] [setSource#6] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=1024x1024
+[2026-05-06 14:06:46.918] GET 192.168.1.4 [L] [setSource#6] post: tex._width=1024 _levels[0]=nr
+[2026-05-06 14:06:46.921] GET 192.168.1.4 [L] [setSource#7] tex.name=0 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=51x58
+[2026-05-06 14:06:46.925] GET 192.168.1.4 [L] [setSource#7] post: tex._width=51 _levels[0]=nr
+[2026-05-06 14:06:46.930] GET 192.168.1.4 [L] [setSource#8] tex.name=警告边框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=288x512
+[2026-05-06 14:06:46.953] GET 192.168.1.4 [L] [setSource#8] post: tex._width=288 _levels[0]=nr
+[2026-05-06 14:06:46.989] GET 192.168.1.4 [L] [setSource#9] tex.name=操纵底 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x512
+[2026-05-06 14:06:47.011] GET 192.168.1.4 [L] [setSource#9] post: tex._width=512 _levels[0]=nr
+[2026-05-06 14:06:47.023] GET 192.168.1.4 [L] [first-screen] splash stopped at setSource#10 (luna render began)
+[2026-05-06 14:06:47.058] GET 192.168.1.4 [L] [setSource#10] tex.name=矿石 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=119x135
+[2026-05-06 14:06:47.066] GET 192.168.1.4 [L] [setSource#10] post: tex._width=119 _levels[0]=nr
+[2026-05-06 14:06:47.074] GET 192.168.1.4 [L] [setSource#11] tex.name=道具框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=158x158
+[2026-05-06 14:06:47.258] GET 192.168.1.4 [L] [setSource#11] post: tex._width=158 _levels[0]=nr
+[2026-05-06 14:06:47.289] GET 192.168.1.4 [L] [setSource#12] tex.name=image13 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=110x110
+[2026-05-06 14:06:47.375] GET 192.168.1.4 [L] [setSource#12] post: tex._width=110 _levels[0]=nr
+[2026-05-06 14:06:47.387] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=38078 mime=audio/mpeg b64Len=50772
+[2026-05-06 14:06:47.409] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 14:06:47.420] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=33062 mime=audio/mpeg b64Len=44084
+[2026-05-06 14:06:47.425] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=120390 mime=audio/mpeg b64Len=160520
+[2026-05-06 14:06:47.435] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=47691 mime=audio/mpeg b64Len=63588
+[2026-05-06 14:06:47.441] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=9657 mime=audio/mpeg b64Len=12876
+[2026-05-06 14:06:47.447] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=27629 mime=audio/mpeg b64Len=36840
+[2026-05-06 14:06:47.452] GET 192.168.1.4 [I] %cSimple assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:47.456] GET 192.168.1.4 [I] %cComplex assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:47.460] GET 192.168.1.4 [I] %cPrefabs loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:47.466] GET 192.168.1.4 [I] %cScenes loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:47.471] GET 192.168.1.4 [W] Missing motion for state "New State". Make sure it's intentional and clip wasn't excluded by mistake. Otherwise it won't play.
+[2026-05-06 14:06:47.479] GET 192.168.1.4 [L] zh_CN英文名称
+[2026-05-06 14:06:47.485] GET 192.168.1.4 [L] {"$boxed":true,"fn":{},"v":-1}
+[2026-05-06 14:06:47.489] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:47.493] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:47.497] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:47.501] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:47.505] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:47.509] GET 192.168.1.4 [W] [UI.read#5] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:47.513] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:47.518] GET 192.168.1.4 [W] [UI.read#6] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:47.522] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:47.526] GET 192.168.1.4 [W] [UI.read#2] GetMouseButton (0) → false
+[2026-05-06 14:06:47.531] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:47.535] GET 192.168.1.4 [W] [UI.read#1] GetKey (119) → false
+[2026-05-06 14:06:47.540] GET 192.168.1.4 [W] [UI.read#2] GetKey (273) → false
+[2026-05-06 14:06:47.545] GET 192.168.1.4 [W] [UI.read#3] GetKey (115) → false
+[2026-05-06 14:06:47.549] GET 192.168.1.4 [W] [UI.read#4] GetKey (274) → false
+[2026-05-06 14:06:47.554] GET 192.168.1.4 [W] [UI.read#5] GetKey (97) → false
+[2026-05-06 14:06:47.558] GET 192.168.1.4 [W] [UI.read#6] GetKey (276) → false
+[2026-05-06 14:06:47.563] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:47.567] GET 192.168.1.4 [W] [UI.read#3] GetMouseButton (0) → false
+[2026-05-06 14:06:47.571] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:47.575] GET 192.168.1.4 [W] [UI.read#4] GetMouseButton (0) → false
+[2026-05-06 14:06:47.579] GET 192.168.1.4 [W] [UI.read#1] GetKeyDown (106) → false
+[2026-05-06 14:06:47.583] GET 192.168.1.4 [L] π: Not logging event started as no endpoint URL is provided!
+[2026-05-06 14:06:47.587] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:47.591] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:47.596] GET 192.168.1.4 [W] [UI.read#5] GetMouseButton (0) → false
+[2026-05-06 14:06:47.600] GET 192.168.1.4 [W] [UI.read#6] GetMouseButton (0) → false
+[2026-05-06 14:06:47.604] GET 192.168.1.4 [W] [UI.read#2] GetKeyDown (106) → false
+[2026-05-06 14:06:47.610] GET 192.168.1.4 [L] π: Not logging event frame as no endpoint URL is provided!
+[2026-05-06 14:06:47.617] GET 192.168.1.4 [L] [ambient] probe.data= [0.16788379848003387,-0.016591649502515793,-0.011379829607903957,0.0065696099773049355,0.004985158797353506,-0.008635048754513264,0.00973481871187687,-0.0103005301207304,0.023336190730333328,0.21073630452156067,0.02701665088534355,-0.018886100500822067,0.010903730057179928,0.008416964672505856,-0.014579039998352528,0.014163370244204998,-0.015723219141364098,0.03351214900612831,0.28994131088256836,0.10996650159358978,-0.03480939939618111,0.020094219595193863,0.016304729506373405,-0.02824404090642929,0.01814264990389347,-0.023746440187096596,0.04080035910010338]
+[2026-05-06 14:06:47.623] GET 192.168.1.4 [L] [ambient] skyColor= [0.21199999749660492,0.22699999809265137,0.2590000033378601,1] equator= [0.11400000005960464,0.125,0.13300000131130219,1] ground= [0.04699999839067459,0.0430000014603138,0.03500000014901161,1]
+[2026-05-06 14:06:47.630] GET 192.168.1.4 [L] [ambient] zero flags: probe= false sky= false eq= false gr= false
+[2026-05-06 14:06:47.635] GET 192.168.1.4 [L] [ambient] patched (attempt 1)
+[2026-05-06 14:06:47.639] GET 192.168.1.4 [W] [UI.read#3] GetKeyDown (106) → false
+[2026-05-06 14:06:47.653] GET 192.168.1.4 [W] [UI.read#4] GetKeyDown (106) → false
+[2026-05-06 14:06:47.659] GET 192.168.1.4 [W] [UI.read#5] GetKeyDown (106) → false
+[2026-05-06 14:06:47.664] GET 192.168.1.4 [W] [UI.read#6] GetKeyDown (106) → false
+[2026-05-06 14:06:47.670] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=50
+[2026-05-06 14:06:47.674] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=50
+[2026-05-06 14:06:47.679] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=50
+[2026-05-06 14:06:47.684] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=50
+[2026-05-06 14:06:47.688] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=50
+[2026-05-06 14:06:47.692] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=200
+[2026-05-06 14:06:47.698] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=200
+[2026-05-06 14:06:47.702] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=200
+[2026-05-06 14:06:47.706] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=50
+[2026-05-06 14:06:47.762] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=200
+[2026-05-06 14:06:48.311] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=200
+[2026-05-06 14:06:50.608] GET 192.168.1.4 [L] [probe] HTTP probe attached → 192.168.1.3:53017
+[2026-05-06 14:06:50.634] GET 192.168.1.4 [L] [bootShim] canvas sized to 1316x2835 css= 400x862 dpr= 3.29
+[2026-05-06 14:06:50.667] GET 192.168.1.4 [L] [video-tex] wrapped getContext on canvas (first instance)
+[2026-05-06 14:06:50.685] GET 192.168.1.4 [W] [bootShim] wx touch handlers wired: {"start":true,"move":true,"end":true,"cancel":true}
+[2026-05-06 14:06:50.718] GET 192.168.1.4 [L] [video-tex] wrapped GL texImage2D/texSubImage2D
+[2026-05-06 14:06:50.742] GET 192.168.1.4 [L] [first-screen] init canvas=1316x2835
+[2026-05-06 14:06:50.746] GET 192.168.1.4 [L] [first-screen] backdrop+bar drawn (raf=true)
+[2026-05-06 14:06:50.752] GET 192.168.1.4 [L] [first-screen] logo entry: assets/inline/loading-logo-6971af65.png
+[2026-05-06 14:06:50.757] GET 192.168.1.4 [L] used langugae: default
+[2026-05-06 14:06:50.761] GET 192.168.1.4 [L] π: Not logging event load as no endpoint URL is provided!
+[2026-05-06 14:06:50.799] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: hook bundle handlers (NONESSENTIAL swallow)
+[2026-05-06 14:06:50.803] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: register luna:build
+[2026-05-06 14:06:50.807] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: ambient lighting probe+fix
+[2026-05-06 14:06:50.811] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: canvas touchend
+[2026-05-06 14:06:50.815] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 14:06:51.574] GET 192.168.1.4 [L] [boot] entry done
+[2026-05-06 14:06:51.581] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=168334
+[2026-05-06 14:06:51.588] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(8)}
+[2026-05-06 14:06:51.595] GET 192.168.1.4 [L] [WASM] redirect len=168334 -> box2d.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 14:06:51.605] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=271539
+[2026-05-06 14:06:51.660] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(19)}
+[2026-05-06 14:06:51.666] GET 192.168.1.4 [L] [WASM] redirect len=271539 -> mecanim.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 14:06:51.680] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 14:06:51.692] GET 192.168.1.4 [W] [UI.instrument] hooks installed
+[2026-05-06 14:06:51.696] GET 192.168.1.4 [W] [UI.read#1] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:51.703] GET 192.168.1.4 [W] [UI.read#2] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:51.708] GET 192.168.1.4 [W] [UI.read#3] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:51.711] GET 192.168.1.4 [W] [UI.read#4] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:51.716] GET 192.168.1.4 [W] [UI.read#1] GetMouseButton (0) → false
+[2026-05-06 14:06:51.724] GET 192.168.1.4 [W] [UI.keep#1] readback: mousePos={x:0,y:0} GetMouseButton(0)=false touchCount=0 z$[0]=false
+[2026-05-06 14:06:51.739] GET 192.168.1.4 [L] [UI.warmup] Input state injected (idle), UI ready=true
+[2026-05-06 14:06:51.747] GET 192.168.1.4 [L] [UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=400 cssH=862)
+[2026-05-06 14:06:51.755] GET 192.168.1.4 [E] {"promise":{},"type":3}
+[2026-05-06 14:06:51.765] GET 192.168.1.4 [L] [wx-ad-bridge] hooked pc.Texture.prototype.setSource (attempt 2)
+[2026-05-06 14:06:51.770] GET 192.168.1.4 [L] [first-screen] logo drawn 256x256
+[2026-05-06 14:06:51.785] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=box2d.wasm.br
+[2026-05-06 14:06:51.793] GET 192.168.1.4 [L] [WASM] OK exports first=i,j,k
+[2026-05-06 14:06:51.822] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=mecanim.wasm.br
+[2026-05-06 14:06:51.882] GET 192.168.1.4 [L] [WASM] OK exports first=t,u,v
+[2026-05-06 14:06:51.902] GET 192.168.1.4 [L] π: Not logging event starting as no endpoint URL is provided!
+[2026-05-06 14:06:51.917] GET 192.168.1.4 [I] %cProject Settings loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:51.942] GET 192.168.1.4 [L] [setSource#1] tex.name=texture_grabPass arg.ctor=e isImg=false isCanvas=true isVideo=false isAB=false tag=undefined src=undefined w=1316x2835
+[2026-05-06 14:06:51.962] GET 192.168.1.4 [L] [setSource#1] post: tex._width=1316 _levels[0]=e
+[2026-05-06 14:06:51.980] GET 192.168.1.4 [W] setInnerAudioOption() is not implemented on wx
+[2026-05-06 14:06:51.986] GET 192.168.1.4 [L] [XXAUDIO] setInnerAudioOption mixWithOther=true
+[2026-05-06 14:06:51.991] GET 192.168.1.4 [L] [XXAUDIO] AudioContext instantiated, count=1
+[2026-05-06 14:06:51.996] GET 192.168.1.4 [L] [setSource#2] tex.name=UnityAttenuationTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:52.001] GET 192.168.1.4 [L] [setSource#2] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:52.006] GET 192.168.1.4 [L] [setSource#3] tex.name=UnitySpotTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:52.010] GET 192.168.1.4 [L] [setSource#3] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:52.015] GET 192.168.1.4 [L] [setSource#4] tex.name=unityNHxRoughnessTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 14:06:52.021] GET 192.168.1.4 [L] [setSource#4] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 14:06:52.027] GET 192.168.1.4 [I] %cBundle chain loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:52.032] GET 192.168.1.4 [L] [setSource#5] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x256
+[2026-05-06 14:06:52.039] GET 192.168.1.4 [L] [setSource#5] post: tex._width=512 _levels[0]=nr
+[2026-05-06 14:06:52.044] GET 192.168.1.4 [L] [setSource#6] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=1024x1024
+[2026-05-06 14:06:52.050] GET 192.168.1.4 [L] [setSource#6] post: tex._width=1024 _levels[0]=nr
+[2026-05-06 14:06:52.058] GET 192.168.1.4 [L] [setSource#7] tex.name=0 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=51x58
+[2026-05-06 14:06:52.063] GET 192.168.1.4 [L] [setSource#7] post: tex._width=51 _levels[0]=nr
+[2026-05-06 14:06:52.068] GET 192.168.1.4 [L] [setSource#8] tex.name=警告边框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=288x512
+[2026-05-06 14:06:52.074] GET 192.168.1.4 [L] [setSource#8] post: tex._width=288 _levels[0]=nr
+[2026-05-06 14:06:52.081] GET 192.168.1.4 [L] [setSource#9] tex.name=操纵底 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x512
+[2026-05-06 14:06:52.088] GET 192.168.1.4 [L] [setSource#9] post: tex._width=512 _levels[0]=nr
+[2026-05-06 14:06:52.092] GET 192.168.1.4 [L] [first-screen] splash stopped at setSource#10 (luna render began)
+[2026-05-06 14:06:52.097] GET 192.168.1.4 [L] [setSource#10] tex.name=矿石 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=119x135
+[2026-05-06 14:06:52.102] GET 192.168.1.4 [L] [setSource#10] post: tex._width=119 _levels[0]=nr
+[2026-05-06 14:06:52.107] GET 192.168.1.4 [L] [setSource#11] tex.name=道具框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=158x158
+[2026-05-06 14:06:52.112] GET 192.168.1.4 [L] [setSource#11] post: tex._width=158 _levels[0]=nr
+[2026-05-06 14:06:52.121] GET 192.168.1.4 [L] [setSource#12] tex.name=image13 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=110x110
+[2026-05-06 14:06:52.129] GET 192.168.1.4 [L] [setSource#12] post: tex._width=110 _levels[0]=nr
+[2026-05-06 14:06:52.154] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=38078 mime=audio/mpeg b64Len=50772
+[2026-05-06 14:06:52.158] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 14:06:52.175] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=33062 mime=audio/mpeg b64Len=44084
+[2026-05-06 14:06:52.181] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=120390 mime=audio/mpeg b64Len=160520
+[2026-05-06 14:06:52.186] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=47691 mime=audio/mpeg b64Len=63588
+[2026-05-06 14:06:52.207] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=9657 mime=audio/mpeg b64Len=12876
+[2026-05-06 14:06:52.219] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=27629 mime=audio/mpeg b64Len=36840
+[2026-05-06 14:06:52.241] GET 192.168.1.4 [I] %cSimple assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:52.247] GET 192.168.1.4 [I] %cComplex assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:52.251] GET 192.168.1.4 [I] %cPrefabs loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:52.255] GET 192.168.1.4 [I] %cScenes loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 14:06:52.259] GET 192.168.1.4 [W] Missing motion for state "New State". Make sure it's intentional and clip wasn't excluded by mistake. Otherwise it won't play.
+[2026-05-06 14:06:52.263] GET 192.168.1.4 [L] zh_CN英文名称
+[2026-05-06 14:06:52.270] GET 192.168.1.4 [L] {"$boxed":true,"fn":{},"v":-1}
+[2026-05-06 14:06:52.275] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:52.291] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:52.309] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:52.316] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:52.321] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:52.327] GET 192.168.1.4 [W] [UI.read#5] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:52.337] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:52.360] GET 192.168.1.4 [W] [UI.read#6] get mousePosition → obj{x:0,y:0}
+[2026-05-06 14:06:52.392] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:52.415] GET 192.168.1.4 [W] [UI.read#2] GetMouseButton (0) → false
+[2026-05-06 14:06:52.421] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:52.429] GET 192.168.1.4 [W] [UI.read#1] GetKey (119) → false
+[2026-05-06 14:06:52.457] GET 192.168.1.4 [W] [UI.read#2] GetKey (273) → false
+[2026-05-06 14:06:52.473] GET 192.168.1.4 [W] [UI.read#3] GetKey (115) → false
+[2026-05-06 14:06:52.479] GET 192.168.1.4 [W] [UI.read#4] GetKey (274) → false
+[2026-05-06 14:06:52.490] GET 192.168.1.4 [W] [UI.read#5] GetKey (97) → false
+[2026-05-06 14:06:52.497] GET 192.168.1.4 [W] [UI.read#6] GetKey (276) → false
+[2026-05-06 14:06:52.505] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:52.519] GET 192.168.1.4 [W] [UI.read#3] GetMouseButton (0) → false
+[2026-05-06 14:06:52.530] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonUp (0) → false
+[2026-05-06 14:06:52.538] GET 192.168.1.4 [W] [UI.read#4] GetMouseButton (0) → false
+[2026-05-06 14:06:52.545] GET 192.168.1.4 [W] [UI.read#1] GetKeyDown (106) → false
+[2026-05-06 14:06:52.551] GET 192.168.1.4 [L] π: Not logging event started as no endpoint URL is provided!
+[2026-05-06 14:06:52.561] GET 192.168.1.4 [L] [ambient] probe.data= [0.16788379848003387,-0.016591649502515793,-0.011379829607903957,0.0065696099773049355,0.004985158797353506,-0.008635048754513264,0.00973481871187687,-0.0103005301207304,0.023336190730333328,0.21073630452156067,0.02701665088534355,-0.018886100500822067,0.010903730057179928,0.008416964672505856,-0.014579039998352528,0.014163370244204998,-0.015723219141364098,0.03351214900612831,0.28994131088256836,0.10996650159358978,-0.03480939939618111,0.020094219595193863,0.016304729506373405,-0.02824404090642929,0.01814264990389347,-0.023746440187096596,0.04080035910010338]
+[2026-05-06 14:06:52.573] GET 192.168.1.4 [L] [ambient] skyColor= [0.21199999749660492,0.22699999809265137,0.2590000033378601,1] equator= [0.11400000005960464,0.125,0.13300000131130219,1] ground= [0.04699999839067459,0.0430000014603138,0.03500000014901161,1]
+[2026-05-06 14:06:52.582] GET 192.168.1.4 [L] [ambient] zero flags: probe= false sky= false eq= false gr= false
+[2026-05-06 14:06:52.587] GET 192.168.1.4 [L] [ambient] patched (attempt 1)
+[2026-05-06 14:06:52.606] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:52.632] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonDown (0) → false
+[2026-05-06 14:06:52.637] GET 192.168.1.4 [W] [UI.read#5] GetMouseButton (0) → false
+[2026-05-06 14:06:52.642] GET 192.168.1.4 [W] [UI.read#6] GetMouseButton (0) → false
+[2026-05-06 14:06:52.646] GET 192.168.1.4 [W] [UI.read#2] GetKeyDown (106) → false
+[2026-05-06 14:06:52.652] GET 192.168.1.4 [L] π: Not logging event frame as no endpoint URL is provided!
+[2026-05-06 14:06:52.671] GET 192.168.1.4 [W] [UI.read#3] GetKeyDown (106) → false
+[2026-05-06 14:06:52.691] GET 192.168.1.4 [W] [UI.read#4] GetKeyDown (106) → false
+[2026-05-06 14:06:52.723] GET 192.168.1.4 [W] [UI.read#5] GetKeyDown (106) → false
+[2026-05-06 14:06:52.767] GET 192.168.1.4 [W] [UI.read#6] GetKeyDown (106) → false
+[2026-05-06 14:06:52.791] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=50
+[2026-05-06 14:06:52.827] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=50
+[2026-05-06 14:06:52.840] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=50
+[2026-05-06 14:06:52.852] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=50
+[2026-05-06 14:06:52.857] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=50
+[2026-05-06 14:06:52.863] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=200
+[2026-05-06 14:06:52.868] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=200
+[2026-05-06 14:06:52.876] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=200
+[2026-05-06 14:06:52.883] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=50
+[2026-05-06 14:06:52.893] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=200
+[2026-05-06 14:06:53.336] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=200
+[2026-05-06 14:06:54.678] GET 192.168.1.4 [L] [deep] canvas._bus={"touchend":1,"webglcontextlost":1,"webglcontextrestored":1}
+[2026-05-06 14:06:54.761] GET 192.168.1.4 [L] [deep] doc._bus={"focusChange":1,"visibilitychange":1}
+[2026-05-06 14:06:54.861] GET 192.168.1.4 [L] [deep] body._bus={"keydown":1,"keyup":1,"click":1,"touchstart":1}
+[2026-05-06 14:06:55.139] GET 192.168.1.4 [L] [deep] docEl._bus={}
+[2026-05-06 14:06:55.157] GET 192.168.1.4 [L] [deep] win._bus={"DOMContentLoaded":3,"bridge:ready":1,"luna:unsafe:mute":1,"luna:unsafe:unmute":1,"luna:unsafe:pause":1,"luna:unsafe:resume":1,"luna:resume":2,"luna:start":1,"luna:initialized":1,"luna:started":3,"luna:build":2,"luna:unmute":1,"luna:mute":1,"luna:pause":1,"luna:ended":2,"message":1,"error":1,"visibilitychange":1,"mousedown":2,"touchend":1,"mouseup":1,"mousemove":1,"wheel":1}
+[2026-05-06 14:06:55.224] GET 192.168.1.4 [L] [deep] win._bus mousedown x2: [#0:()=>{this.context.resume(),this.suspended=!1,this.events.fire("resume",this.resumeFromAwake),this.resumeFromAwake=!1,window.removeEventListener("mousedown",this.resumeContext),window.removeEventListener("touchend",this.resumeContext)} ||| #1:function () { [native code] }]
+[2026-05-06 14:06:55.262] GET 192.168.1.4 [L] [deep] win._bus mousemove x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:55.273] GET 192.168.1.4 [L] [deep] win._bus mouseup x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:55.300] GET 192.168.1.4 [L] [deep] win._bus touchstart=NONE
+[2026-05-06 14:06:55.318] GET 192.168.1.4 [L] [deep] win._bus touchend x1: [#0:()=>{this.context.resume(),this.suspended=!1,this.events.fire("resume",this.resumeFromAwake),this.resumeFromAwake=!1,window.removeEventListener("mousedown",this.resumeContext),window.removeEventListener("touchend",this.resumeContext)}]
+[2026-05-06 14:06:55.334] GET 192.168.1.4 [L] [deep] canvas._bus touchstart=NONE
+[2026-05-06 14:06:55.355] GET 192.168.1.4 [L] [deep] canvas._bus touchmove=NONE
+[2026-05-06 14:06:55.387] GET 192.168.1.4 [L] [deep] canvas._bus touchend x1: [#0:function tryJump() { if (!shouldJump) return; shouldJump = false; doJump(); }]
+[2026-05-06 14:06:55.403] GET 192.168.1.4 [L] [deep] canvas._bus mousedown=NONE
+[2026-05-06 14:06:55.413] GET 192.168.1.4 [L] [deep] canvas._bus mousemove=NONE
+[2026-05-06 14:06:55.420] GET 192.168.1.4 [L] [deep] canvas._bus mouseup=NONE
+[2026-05-06 14:06:55.425] GET 192.168.1.4 [L] [deep] body._bus touchstart x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:55.430] GET 192.168.1.4 [L] [deep] body._bus touchmove=NONE
+[2026-05-06 14:06:55.436] GET 192.168.1.4 [L] [deep] body._bus touchend=NONE
+[2026-05-06 14:06:55.441] GET 192.168.1.4 [L] [deep] body._bus click x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:55.446] GET 192.168.1.4 [L] [deep] body._bus keydown x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:55.450] GET 192.168.1.4 [L] [deep] body._bus keyup x1: [#0:function () { [native code] }]
+[2026-05-06 14:06:55.454] GET 192.168.1.4 [L] [deep] body._bus mousedown=NONE
+[2026-05-06 14:06:55.459] GET 192.168.1.4 [L] [deep] app.mouse=en=undefined tgt=e btns=[false,false,false] lastBtns=[false,false,false]
+[2026-05-06 14:06:55.466] GET 192.168.1.4 [L] [deep] app.touch=NULL
+[2026-05-06 14:06:55.470] GET 192.168.1.4 [L] [deep] app.keyboard=en=undefined tgt=undefined
+[2026-05-06 14:06:55.475] GET 192.168.1.4 [W] [UI.read#1] get anyKey → false
+[2026-05-06 14:06:55.480] GET 192.168.1.4 [W] [UI.read#1] get anyKeyDown → false
+[2026-05-06 14:06:55.485] GET 192.168.1.4 [L] [deep] pc.platform={}
+[2026-05-06 14:06:55.489] GET 192.168.1.4 [L] [deep] pcApp touch/input/mouse fields: keyboard,mouse,touch
+[2026-05-06 14:06:55.494] GET 192.168.1.4 [L] [deep] mouse.events.types=mouseup,mousedown,mousemove,mousewheel
+[2026-05-06 14:06:55.499] GET 192.168.1.4 [L] [deep] HTMLImageElement defined=function name=Ctor hasSymbolHasInstance=YES
+[2026-05-06 14:06:55.504] GET 192.168.1.4 [L] [deep] hasInstance probe threw: doc is not defined
+[2026-05-06 14:06:55.509] GET 192.168.1.4 [L] [deep] LightmapSettings.manager.lightmaps.length=0
+[2026-05-06 14:06:55.513] GET 192.168.1.4 [L] [deep] scene._renderers.length=165 collected MIs=159
+[2026-05-06 14:06:55.518] GET 192.168.1.4 [L] [deep] MI total=159 withLightmap=0 without=159 sceneIdxs=[]
+[2026-05-06 14:06:55.522] GET 192.168.1.4 [L] [deep] LM-fallback: noLMData=true forced=0 / withLM=0
+[2026-05-06 14:06:55.527] GET 192.168.1.4 [L] [deep] shader state by name: {"Sprites/Default":{"total":87,"hasMat":87,"hasShader":87,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Custom/NavPathArrowNoAplha":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton Fill":{"total":70,"hasMat":70,"hasShader":70,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0}}
+[2026-05-06 14:06:55.532] GET 192.168.1.4 [L] [deep] sample MIs: [{"idx":0,"name":"bg","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":1,"name":"外墙-上左","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":2,"name":"外墙-上右","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":3,"name":"地块-金币","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"nu
+[2026-05-06 14:06:55.536] GET 192.168.1.4 [L] [deep] done
+[2026-05-06 14:06:55.540] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=200
+[2026-05-06 14:06:56.594] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:01.713] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:06.718] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:11.692] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:16.705] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:21.733] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:26.738] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:31.833] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:36.833] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:41.817] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:46.844] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:51.947] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 14:07:56.897] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!

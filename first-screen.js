@@ -14,10 +14,11 @@
 (function bootSplash() {
   const g = GameGlobal;
   let c = g.canvas;
-  if (!c) { try { c = g.canvas = wx.createCanvas(); } catch (e) { return; } }
+  if (!c) { try { c = g.canvas = wx.createCanvas(); } catch (e) { console.log('[first-screen] no canvas, abort'); return; } }
   let gl = null;
   try { gl = c.getContext('webgl2') || c.getContext('webgl'); } catch (e) {}
-  if (!gl) return;
+  if (!gl) { console.log('[first-screen] no gl context, abort'); return; }
+  console.log('[first-screen] init canvas=' + c.width + 'x' + c.height);
 
   const sysInfo = (wx.getSystemInfoSync && wx.getSystemInfoSync()) || {};
   const dpr = sysInfo.pixelRatio || 2;
@@ -36,10 +37,13 @@
       gl.clear(gl.COLOR_BUFFER_BIT);
 
       // 进度条 (居中, 0% → 80% 静态片段, 取 40% 为视觉中点)
+      // GL scissor 坐标系: 左下角原点, Y 越大越靠上.
+      // barY = H * 0.18 = 距屏幕底部 18% = 从顶部数 82% (屏幕下方靠下).
+      // 之前 0.62 算反了 (62% 距底部 = 38% 从顶部 = 屏幕中上, 跟 logo 重叠).
       const barFullW = Math.floor(W * 0.50);
       const barH = Math.max(6, Math.floor(H * 0.008));
       const barX = Math.floor((W - barFullW) / 2);
-      const barY = Math.floor(H * 0.62); // logo 在 50% 中线, 进度条在 62% (约原 CSS margin-top:40px)
+      const barY = Math.floor(H * 0.18);
 
       gl.enable(gl.SCISSOR_TEST);
       // 进度条槽 (深灰)
@@ -52,15 +56,40 @@
       gl.clearColor(0.306, 0.741, 0.824, 1.0);
       gl.clear(gl.COLOR_BUFFER_BIT);
       gl.disable(gl.SCISSOR_TEST);
-    } catch (e) {}
+      // 强制 GL 提交到 swap chain — 单帧 splash 不靠 RAF, 必须 flush 才能上屏 (wx 试玩 runtime 实证).
+      try { gl.flush(); } catch (e) {}
+    } catch (e) { console.log('[first-screen] drawBackdrop err:', e && e.message); }
   }
   drawBackdropAndBar();
+  // **swap chain present**: wx 试玩 runtime 上单帧 GL.clear 不直接上屏 — backbuffer 要等 RAF 才 swap.
+  // 用 1 次 RAF 触发 swap (luna PC 第一次 RAF 之前显示给用户), 不持续重绘 (setInterval 50ms 实测拖 luna 2.7s).
+  // 第二个 RAF 再画一次防止首帧丢 (有些设备首 RAF 在 GL state 未稳态时触发).
+  const _raf = (typeof requestAnimationFrame === 'function')
+              ? requestAnimationFrame
+              : (c.requestAnimationFrame ? c.requestAnimationFrame.bind(c) : null);
+  if (_raf) {
+    _raf(function () {
+      if (g.__lunaSplashStop) return;
+      drawBackdropAndBar();
+      _raf(function () {
+        if (g.__lunaSplashStop) return;
+        drawBackdropAndBar();
+      });
+    });
+  }
+  console.log('[first-screen] backdrop+bar drawn (raf=' + !!_raf + ')');
 
   // ---- step 2: 异步加载 logo + GL 一次性绘制 ----
+  // **manifest 加载坑**: 试玩 runtime 上 require('./x.json') 抛 module-not-defined.
+  // 必须用 wx.getFileSystemManager().readFileSync 读包内 JSON 文本再 JSON.parse.
   function pickLogoEntry() {
     let manifest;
-    try { manifest = require('./manifest.json'); } catch (e) { return null; }
-    if (!manifest || !manifest.loadingLogos) return null;
+    try {
+      const fs = wx.getFileSystemManager();
+      const txt = fs.readFileSync('manifest.json', 'utf8');
+      manifest = JSON.parse(txt);
+    } catch (e) { console.log('[first-screen] manifest read err:', e && e.message); return null; }
+    if (!manifest || !manifest.loadingLogos) { console.log('[first-screen] manifest no loadingLogos'); return null; }
     const sys = (wx.getSystemInfoSync && wx.getSystemInfoSync()) || {};
     const lang = sys.language || 'zh_CN';
     const norm = lang.replace('_', '-');
@@ -71,7 +100,10 @@
   }
 
   function drawLogoImage(img) {
-    if (!img || g._splashStopped) return; // luna 已接管就别画了
+    if (!img) { console.log('[first-screen] logo: no img'); return; }
+    // 注: luna 接管信号是 GameGlobal.__lunaSplashStop (wx-ad-bridge 在 setSource#1 时设),
+    // 但 logo 加载常在 setSource#1 之前就 onload, 所以这里允许画一次 (即便 stop 已设).
+    if (g.__lunaSplashStop) { console.log('[first-screen] logo: already stopped, skip'); return; }
     try {
       // 极简纹理 quad shader
       const vsrc = 'attribute vec2 p; attribute vec2 t; varying vec2 vt;' +
@@ -128,23 +160,50 @@
 
       // 重画背景 + 进度条作底, 再画 logo (避免 GL 状态切换后底层丢)
       drawBackdropAndBar();
-      gl.useProgram(prog);
-      gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      function paintLogoOnce() {
+        gl.useProgram(prog);
+        gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        try { gl.flush(); } catch (e) {}
+      }
+      paintLogoOnce();
       gl.disable(gl.BLEND);
+      console.log('[first-screen] logo drawn ' + img.width + 'x' + img.height);
+
+      // **不要 RAF loop**: 跟 luna PC 共享 GL ctx, 持续画会污染 luna 渲染状态导致黑方块.
+      // 单帧画 + 1 次 RAF 触发 swap chain present, 然后绝对不再碰 GL.
+      const _rafLogo = (typeof requestAnimationFrame === 'function')
+                     ? requestAnimationFrame
+                     : (c.requestAnimationFrame ? c.requestAnimationFrame.bind(c) : null);
+      if (_rafLogo) {
+        _rafLogo(function () {
+          if (g.__lunaSplashStop) return;
+          // RAF 同步重画一次让首帧 logo 真上屏
+          drawBackdropAndBar();
+          gl.enable(gl.BLEND);
+          gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+          paintLogoOnce();
+          gl.disable(gl.BLEND);
+          gl.disable(gl.SCISSOR_TEST);
+        });
+      }
     } catch (e) {
-      // 单帧 GL 失败不致命, 至少 step 1 的进度条还在
+      console.log('[first-screen] drawLogo err:', e && e.message);
     }
   }
 
   try {
     const entry = pickLogoEntry();
+    if (!entry) { console.log('[first-screen] no logo entry in manifest'); return; }
+    console.log('[first-screen] logo entry:', entry.rel);
     if (entry && wx.createImage) {
       const img = wx.createImage();
       img.onload = function () { drawLogoImage(img); };
-      img.onerror = function () {};
+      img.onerror = function (e) { console.log('[first-screen] logo onerror:', JSON.stringify(e)); };
       img.src = entry.rel;
+    } else {
+      console.log('[first-screen] wx.createImage missing');
     }
-  } catch (e) {}
+  } catch (e) { console.log('[first-screen] logo load err:', e && e.message); }
 })();
