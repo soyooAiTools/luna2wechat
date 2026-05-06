@@ -20,7 +20,8 @@ for (const rel of order) {
   catch (e) { console.error('[boot] require fail:', rel, e && e.stack || e); }
 }
 
-// 18_bootstrap 用 globalThis.startGame; 试玩 runtime 的 globalThis !== GameGlobal/window — 桥接.
+// bootstrap chunk 末尾已被 postprocess 注入 startGame 全局挂载 (单一可靠路径);
+// 这里再做一次 globalThis → GameGlobal 兜底桥接, 防御不同 wx baseLib 行为差异.
 try {
   if (typeof GameGlobal.startGame !== 'function'
       && typeof globalThis !== 'undefined'
@@ -29,11 +30,9 @@ try {
   }
 } catch (e) { console.error('[boot] startGame bridge FAIL', e && e.stack || e); }
 
-const subpkgs = [
-  './subpackage-bundle/12_compressed_asset.js',
-  './subpackage-bundle/13_compressed_asset.js',
-  './subpackage-bundle/14_compressed_asset.js',
-];
+// 分包列表由 postprocess 根据实际 chunk 序号动态生成 — 不同 luna 版本编号不同 (12/13/14 vs 11/12/13).
+// 试玩 runtime 不支持 wx.loadSubpackage, 所有 chunk 直接 require 进主包.
+const subpkgs = require('./subpackage-list.js');
 for (const rel of subpkgs) {
   try { require(rel); }
   catch (e) { console.error('[boot] require fail:', rel, e && e.stack || e); }

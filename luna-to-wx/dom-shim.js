@@ -42,12 +42,9 @@
         const img = (typeof wx !== 'undefined' && wx.createImage) ? wx.createImage() : null;
         if (img) img.src = url;
       } catch (e) {}
-      // wx.request fire-and-forget (副):多一条独立通道,不依赖 complete 回调
-      try {
-        if (typeof wx !== 'undefined' && typeof wx.request === 'function') {
-          wx.request({ url: url, method: 'GET', enableHttp2: false, enableCache: false });
-        }
-      } catch (e) {}
+      // 注: 试玩广告 runtime 的 wx.request 是 throwing stub ("is not implemented on wx") —
+      // 副通道会触发 W warning, 反而污染日志, 所以这里只走 createImage 主路.
+      // dom-shim 后面统一把 wx.request silencer 化, luna 自己调也不会再打 warning.
     }
     setInterval(function () {
       // 每 tick 最多发 5 条,避免短时间 burst 又触发并发上限
@@ -77,6 +74,29 @@
     console.error = function () { send('E', arguments); _origErr.apply(null, arguments); };
     console.info  = function () { send('I', arguments); _origInfo.apply(null, arguments); };
     console.log('[probe] HTTP probe attached → ' + PROBE_HOST);
+  } catch (e) {}
+
+  // 试玩广告 runtime 的若干 wx API 是 throwing stub ("is not implemented on wx") —
+  // 进入函数体即 console.warn, 无论 try/catch 都是 W 噪音.
+  // 统一替换为 silent noop, luna/dom-shim 任何路径调都不再产生 warning.
+  // 注: probe 走 wx.createImage 主路, 不依赖 wx.request, 不会受影响.
+  // wx 上的 API 经常是 non-writable / non-configurable, 直接赋值会 silently fail —
+  // 必须用 Object.defineProperty 强行覆盖, 失败再退到赋值兜底.
+  try {
+    if (typeof wx !== 'undefined' && !wx.__stubsSilenced) {
+      const _stubKeys = ['request', 'setInnerAudioOption'];
+      const _makeNoop = (k) => function (opts) {
+        try { if (opts && typeof opts.fail === 'function') opts.fail({ errMsg: k + ': silenced by dom-shim' }); } catch (e) {}
+        try { if (opts && typeof opts.complete === 'function') opts.complete({ errMsg: k + ': silenced by dom-shim' }); } catch (e) {}
+      };
+      for (const k of _stubKeys) {
+        if (typeof wx[k] !== 'function') continue;
+        const noop = _makeNoop(k);
+        try { Object.defineProperty(wx, k, { value: noop, writable: true, configurable: true }); }
+        catch (e) { try { wx[k] = noop; } catch (_) {} }
+      }
+      wx.__stubsSilenced = true;
+    }
   } catch (e) {}
 
   // luna-runtime/19_pi_runtime.js 的 Bridge.ready cb 会写 Luna.Unity.LifeCycle.GameEnded =,

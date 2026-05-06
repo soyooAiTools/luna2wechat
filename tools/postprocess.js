@@ -55,6 +55,7 @@ const PLACEMENT = {
   // 微信下不需要
   analytics:          'skip',
   loading_image_call: 'skip',  // 已交给 first-screen.js
+  i18n_analytics:     'skip',  // luna 7.x 把 base64 编码的 i18n 上报路径当 <script> 内容输出, wx 解析抛 ReferenceError
 
   unknown:            'main',  // 默认放主包,后续人工核对
 };
@@ -84,6 +85,10 @@ function classify(attrs, body) {
   if (body.includes('window.pi') || /pc\.TextGenerator/.test(body)) return 'pi_runtime';
   // 行 51 那个 "function t(t,e){...charCodeAt..." 是字符串/buffer 工具
   if (body.length < 6000 && /charCodeAt|String\.fromCharCode/.test(body)) return 'helper_buffer';
+  // luna 7.x i18n analytics chunk: 整个 <script> body 只有一行 base64 字符串字面量 (上报路径编码后的产物),
+  // 浏览器吞掉 ReferenceError 静默, 但 wx 试玩 runtime 解析 → "X is not defined" → 启动期 [E] 噪音.
+  // 特征: 短 body (40-300 字节), 全 base64 字符 (含 = 填充), 无任何 JS 语法/标点.
+  if (/^\s*[A-Za-z0-9+/=]{40,300}\s*$/.test(body)) return 'i18n_analytics';
   return 'unknown';
 }
 
@@ -199,19 +204,24 @@ for (const name of TPL_INCLUDE) {
   }
 }
 
-// ---------- 5b. auto-patch 18_bootstrap.js: startGame → 全局 ----------
+// ---------- 5b. auto-patch bootstrap chunk: startGame → 全局 ----------
 // function startGame() {} 在试玩 require 模块作用域不会自动挂全局,必须显式 attach,
-// 否则 luna 内部调 window.startGame() 报 TypeError → 黑屏。
-const bootstrapPath = path.join(OUT, 'luna-runtime', '18_bootstrap.js');
-if (fs.existsSync(bootstrapPath)) {
+// 否则 luna 内部调 window.startGame() 报 TypeError → 黑屏.
+// 不同 luna 版本 bootstrap chunk 的 idx 不同 (17 / 18 ...), 必须按 kind 找实际路径,
+// 不能写死文件名.
+const bootstrapEntry = manifest.main.find(x => x.kind === 'bootstrap');
+if (bootstrapEntry) {
+  const bootstrapPath = path.join(OUT, bootstrapEntry.rel);
   const PATCH = `;(typeof GameGlobal!=='undefined'?GameGlobal:globalThis).startGame=startGame;`;
   const cur = fs.readFileSync(bootstrapPath, 'utf8');
   if (!cur.includes('startGame=startGame')) {
     fs.writeFileSync(bootstrapPath, cur.replace(/\s*$/, '\n' + PATCH + '\n'));
   }
+} else {
+  console.warn('postprocess: no chunk classified as bootstrap — startGame patch skipped');
 }
 
-// ---------- 6. generate require list (read by game.js at runtime) ----------
+// ---------- 6. generate require lists (read by game.js at runtime) ----------
 const requireList = manifest.main
   .sort((a, b) => a.idx - b.idx)
   .map(x => `./${x.rel.replace(/\\/g, '/')}`);
@@ -225,8 +235,35 @@ fs.writeFileSync(
   'module.exports = ' + JSON.stringify(requireList, null, 2) + ';\n',
 );
 
+// 分包列表 (game.js 用 require 直接引入主包) — 不同 luna 版本 chunk 序号不同 (12/13/14 vs 11/12/13),
+// 必须按实际 manifest.subpackage 动态生成, 不能写死.
+const subpkgList = manifest.subpackage
+  .sort((a, b) => a.idx - b.idx)
+  .map(x => `./${x.rel.replace(/\\/g, '/')}`);
+fs.writeFileSync(
+  path.join(OUT, 'subpackage-list.js'),
+  'module.exports = ' + JSON.stringify(subpkgList, null, 2) + ';\n',
+);
+
 manifest.scripts = scripts.map(s => ({ idx: s.idx, line: s.startLine, kind: s.kind, len: s.len }));
 fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
+
+// ---------- 6b. auto-extract WASM (Box2D / Mecanim) ----------
+// luna 内部 box2d/mecanim emscripten WASM 必须落成 .wasm.br 静态文件,
+// 否则 dom-shim 的 redirect 表 lookup 成功但 instantiate(file) 找不到文件 → load wasm failed → 黑屏.
+// 单独 spawn 子进程跑 (extract-wasm.cjs 是异步, 与 postprocess 主流程耦合复杂),
+// 失败 (不存在 brotli runtime / 没找到 WASM) 视为 warning 不阻断.
+try {
+  const { spawnSync } = require('child_process');
+  const r = spawnSync(process.execPath, [path.join(__dirname, 'extract-wasm.cjs'), OUT], {
+    stdio: ['ignore', 'inherit', 'inherit'],
+  });
+  if (r.status !== 0) {
+    console.warn(`postprocess: extract-wasm exited with status=${r.status} — WASM 可能未抠出, 真机会 [WASM] load wasm failed`);
+  }
+} catch (e) {
+  console.warn('postprocess: extract-wasm step skipped:', e && e.message);
+}
 
 // ---------- 7. summary ----------
 const fmt = n => (n < 100 * 1024 ? `${(n / 1024).toFixed(1)}KB` : `${(n / 1024 / 1024).toFixed(2)}MB`);
