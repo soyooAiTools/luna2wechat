@@ -35,9 +35,9 @@ node tools/postprocess.js channelXxx.html out/
 
 输出树结构跟源工程一致：`luna-runtime/00..20_*.js` + `subpackage-bundle/12..14_compressed_asset.js` + `manifest.json` + `assets/inline/{data,src122}/*` + `main-require-order.json`。脚本按 chunk 内容结构分类（不依赖 channel 字符串），新 channel 无需写分支。
 
-### postprocess.js 已自动做的四件事（别误清）
+### postprocess.js 已自动做的六件事（别误清）
 
-postprocess.js 内部已处理四件**漏了就黑屏**的事——但 PoC 后人工清理时容易误删，记住别动：
+postprocess.js 内部已处理六件**漏了就黑屏 / 显著拖慢启动**的事——但 PoC 后人工清理时容易误删，记住别动：
 
 **1. bootstrap chunk 末尾的 startGame 全局挂载**（已自动注入）
 
@@ -66,9 +66,40 @@ postprocess 末尾会 `spawnSync('node', [extract-wasm.cjs, OUT])`，自动从 c
 
 luna 7.x 后期版本会把 base64 编码的 i18n 上报路径直接当 `<script>` 内容输出（chunk body 只有一行 base64 字符串字面量）。浏览器吞 ReferenceError 静默，但 wx 试玩 runtime 解析时会抛 → 启动期 `[E] is not defined` 噪音。postprocess 的 classify() 用规则 `/^\s*[A-Za-z0-9+/=]{40,300}\s*$/.test(body)` 识别 → 归入 `kind=='i18n_analytics'` → PLACEMENT='skip' → 不进 main-require-order → 不 require → 无错。
 
+**5. 自动提取 loading logo + 进度条**（luna `<div id="application-preloader">` DOM 在 wx 试玩 runtime 不工作）
+
+postprocess 解析 `lang_config` chunk 里的 `languageSettings` JSON，提取每个 locale 的 `loadingImgBase64` 落到 `assets/inline/loading-logo-<md5>.png`（多 locale 同图自动 md5 dedup, zh-CN/default 通常字节相同共用一份）。pngjs 可选依赖（`npm i -g pngjs`）：> 80KB 的 PNG 自动 resize 到 256×256（实测打怪升武器_unity 175KB → 67KB, -62%）。`manifest.loadingLogos` 写入索引让 first-screen.js 按 `wx.getSystemInfoSync().language` 选 logo。
+
+**6. 自动 strip `lang_config` 里的 loadingImgBase64 冗余**（启动期最大头优化）
+
+logo PNG 已落 `.png` 文件 + first-screen.js 路径加载，但原 `lang_config` chunk 里的 `loadingImgBase64` 字段值仍在（占整个 chunk 99.6% 体积）。base64 PNG 在 wx 试玩 runtime 下完全没用（DOM 不存在，luna 通过 SET_LOADING_IMAGE 调用挂 `<img>` 的逻辑被 _skipped/）。postprocess 提取后立即把字段值 strip 为 ""。
+
+实测打怪升武器_unity:
+- `lang_config.js` 564KB → 2.5KB（-99.6%）
+- 主包 0.74MB → 0.20MB（-540KB）
+- boot 链 JS parse 节省 200-500ms
+- `setSource#1` 1.24s → 0.97s（-270ms 实测）
+
+这是当前 skill 工具最大单点提速。
+
 **game.json 不能写 `subpackages` 字段**：试玩 runtime 不支持 wx.loadSubpackage,且预览阶段 IDE 会校验 `subpackages[0].root` 必须有 game.js,我们用 require 直接进主包,所以 game.json 里**不能有 subpackages 字段**(写了 preview fail "未找到 subpackages[0]['root'] 对应的 /subpackage-bundle/game.js 文件")。模板已删,自动化生成时也不要回填.
 
 实证（2026-05-06 打怪升武器_unity.html）：第一版 game.json 留 subpackages → preview 校验 fail；第二版删 subpackages → preview 通过但黑屏（17_bootstrap startGame patch 没注入，因 postprocess 写死 18_）；第三版手工注入 patch → 通过。这一坑后已根因修复，自动化跑无需手工补。
+
+### dom-shim 启动期 UI warmup + resize dispatch（首次扫码首次触屏漂移修复）
+
+**现象**：第一次扫码（wx 缓存全清）进游戏后**第一次**触屏 → 角色行进方向漂移 ~5-10 度，第二次触屏起正常 + 后续扫码全部正常。**unity 渠道（普通 web playable）完全正常 — 仅 wx 试玩广告 runtime 出现**。
+
+**根因**：web 浏览器在 canvas 建立时自动 dispatch `resize` 事件让 luna PC.app 同步 Canvas Scaler viewport。**wx 试玩 runtime 不会自动 dispatch** → luna PC 第一帧用默认 viewport (推测 750×1334)，Canvas Scaler 第一帧 raycast 用错 viewport → 首次 OnPointerDown 路由错位 → 角色走错方向。
+
+**修复**（dom-shim 末尾，commit 522528c）：
+1. setInterval 50ms × 100 retry 直到 `UnityEngine.Input` 创建（luna runtime ready）
+2. 调 `g.__warmupUIInject()`：装 read hook + 注入 `active=false` idle 状态让 luna 第一帧看到完整 Input 表面
+3. 主动 dispatch 三个事件：`resize` / `orientationchange` / `visibilitychange`，传给 `GameGlobal._winBus.emit` + `globalThis.dispatchEvent` 双路径
+
+注：dom-shim 注入坐标本身数学完全正确（CSS 像素 + Y 翻转 cssHeight=862），偏移在 luna scene EventSystem raycast 层。dom-shim 不能改 luna scene 内部，只能外围 dispatch 标准事件让 luna 自身重设状态。
+
+**通用经验**：任何"web 上正常 + wx 试玩 runtime 上首次 bug"的现象，第一直觉先 dispatch 浏览器自动 emit 但 wx 不 emit 的事件（resize / orientationchange / pageshow / focus / blur 等）。
 
 ## 适配清单（按依赖顺序）
 
@@ -939,5 +970,5 @@ dom-shim 超 65KB 应警觉——每加一段都问"必要吗"。实际硬墙是
 8. **接音频** — v19e 的 AudioShim/AudioContextShim 整段照搬，**不**碰
 9. **接视频**（如有 VideoTexture）— v20 deferred-start 整段拷 asset-inject `makeVideoDecoderProxy` + wx-ad-bridge `startVideoDirtyTimer` + dom-shim GL `texImage2D` wrap
 10. **真机扫码** — 画面 / 轮盘 / 松手停 / 声音 / 视频 / 0 fatal error 六项
-11. **启动加速三件套** — 关 `setEnableDebug` + 删 game.js 自己的 console wrap + first-screen splash 单帧
+11. **启动加速四件套** — 关 `setEnableDebug` + 删 game.js 自己的 console wrap + first-screen splash 单帧 + (新) postprocess 自动 strip lang_config 里 loadingImgBase64 (实测 -270ms boot)
 12. **0 error 后**才考虑视觉优化（ambient/lightmap/shader 等 wx-ad-bridge 修正）
