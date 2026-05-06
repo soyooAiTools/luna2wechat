@@ -1,0 +1,2004 @@
+[2026-05-06 13:32:27.429] GET 192.168.1.4 [L] [probe] HTTP probe attached → 192.168.1.3:53017
+[2026-05-06 13:32:27.434] GET 192.168.1.4 [L] [bootShim] canvas sized to 1316x2835 css= 400x862 dpr= 3.29
+[2026-05-06 13:32:27.438] GET 192.168.1.4 [L] [video-tex] wrapped getContext on canvas (first instance)
+[2026-05-06 13:32:27.442] GET 192.168.1.4 [W] [bootShim] wx touch handlers wired: {"start":true,"move":true,"end":true,"cancel":true}
+[2026-05-06 13:32:27.445] GET 192.168.1.4 [L] [video-tex] wrapped GL texImage2D/texSubImage2D
+[2026-05-06 13:32:27.559] GET 192.168.1.4 [L] used langugae: default
+[2026-05-06 13:32:27.561] GET 192.168.1.4 [L] π: Not logging event load as no endpoint URL is provided!
+[2026-05-06 13:32:27.564] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: hook bundle handlers (NONESSENTIAL swallow)
+[2026-05-06 13:32:27.568] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: register luna:build
+[2026-05-06 13:32:27.571] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: ambient lighting probe+fix
+[2026-05-06 13:32:27.616] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: canvas touchend
+[2026-05-06 13:32:27.619] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 13:32:27.622] GET 192.168.1.4 [L] [boot] entry done
+[2026-05-06 13:32:27.626] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=168334
+[2026-05-06 13:32:27.629] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(8)}
+[2026-05-06 13:32:28.397] GET 192.168.1.4 [L] [WASM] redirect len=168334 -> box2d.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 13:32:28.402] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=271539
+[2026-05-06 13:32:28.406] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(19)}
+[2026-05-06 13:32:28.410] GET 192.168.1.4 [L] [WASM] redirect len=271539 -> mecanim.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 13:32:28.413] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 13:32:28.447] GET 192.168.1.4 [W] [UI.instrument] hooks installed
+[2026-05-06 13:32:28.450] GET 192.168.1.4 [W] [UI.read#1] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:32:28.454] GET 192.168.1.4 [W] [UI.read#2] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:32:28.457] GET 192.168.1.4 [W] [UI.read#3] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:32:28.461] GET 192.168.1.4 [W] [UI.read#4] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:32:28.496] GET 192.168.1.4 [W] [UI.read#1] GetMouseButton (0) → false
+[2026-05-06 13:32:28.500] GET 192.168.1.4 [W] [UI.keep#1] readback: mousePos={x:0,y:0} GetMouseButton(0)=false touchCount=0 z$[0]=false
+[2026-05-06 13:32:28.504] GET 192.168.1.4 [L] [UI.warmup] Input state injected (idle), UI ready=true
+[2026-05-06 13:32:28.507] GET 192.168.1.4 [L] [UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=400 cssH=862)
+[2026-05-06 13:32:28.511] GET 192.168.1.4 [E] {"promise":{},"type":3}
+[2026-05-06 13:32:28.538] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=box2d.wasm.br
+[2026-05-06 13:32:28.542] GET 192.168.1.4 [L] [WASM] OK exports first=i,j,k
+[2026-05-06 13:32:28.545] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=mecanim.wasm.br
+[2026-05-06 13:32:28.549] GET 192.168.1.4 [L] [wx-ad-bridge] hooked pc.Texture.prototype.setSource (attempt 2)
+[2026-05-06 13:32:28.553] GET 192.168.1.4 [L] [WASM] OK exports first=t,u,v
+[2026-05-06 13:32:28.576] GET 192.168.1.4 [L] π: Not logging event starting as no endpoint URL is provided!
+[2026-05-06 13:32:28.580] GET 192.168.1.4 [I] %cProject Settings loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:32:28.584] GET 192.168.1.4 [L] [first-screen] splash stopped on first setSource (luna render began)
+[2026-05-06 13:32:28.587] GET 192.168.1.4 [L] [setSource#1] tex.name=texture_grabPass arg.ctor=e isImg=false isCanvas=true isVideo=false isAB=false tag=undefined src=undefined w=1316x2835
+[2026-05-06 13:32:28.591] GET 192.168.1.4 [L] [setSource#1] post: tex._width=1316 _levels[0]=e
+[2026-05-06 13:32:28.596] GET 192.168.1.4 [W] setInnerAudioOption() is not implemented on wx
+[2026-05-06 13:32:28.599] GET 192.168.1.4 [L] [XXAUDIO] setInnerAudioOption mixWithOther=true
+[2026-05-06 13:32:28.602] GET 192.168.1.4 [L] [XXAUDIO] AudioContext instantiated, count=1
+[2026-05-06 13:32:28.606] GET 192.168.1.4 [L] [setSource#2] tex.name=UnityAttenuationTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 13:32:28.609] GET 192.168.1.4 [L] [setSource#2] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 13:32:28.634] GET 192.168.1.4 [L] [setSource#3] tex.name=UnitySpotTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 13:32:28.638] GET 192.168.1.4 [L] [setSource#3] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 13:32:28.641] GET 192.168.1.4 [L] [setSource#4] tex.name=unityNHxRoughnessTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 13:32:28.643] GET 192.168.1.4 [L] [setSource#4] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 13:32:28.646] GET 192.168.1.4 [I] %cBundle chain loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:32:28.669] GET 192.168.1.4 [L] [setSource#5] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x256
+[2026-05-06 13:32:28.673] GET 192.168.1.4 [L] [setSource#5] post: tex._width=512 _levels[0]=nr
+[2026-05-06 13:32:28.677] GET 192.168.1.4 [L] [setSource#6] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=1024x1024
+[2026-05-06 13:32:28.680] GET 192.168.1.4 [L] [setSource#6] post: tex._width=1024 _levels[0]=nr
+[2026-05-06 13:32:28.685] GET 192.168.1.4 [L] [setSource#7] tex.name=0 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=51x58
+[2026-05-06 13:32:28.702] GET 192.168.1.4 [L] [setSource#7] post: tex._width=51 _levels[0]=nr
+[2026-05-06 13:32:28.705] GET 192.168.1.4 [L] [setSource#8] tex.name=警告边框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=288x512
+[2026-05-06 13:32:28.710] GET 192.168.1.4 [L] [setSource#8] post: tex._width=288 _levels[0]=nr
+[2026-05-06 13:32:28.713] GET 192.168.1.4 [L] [setSource#9] tex.name=操纵底 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x512
+[2026-05-06 13:32:28.716] GET 192.168.1.4 [L] [setSource#9] post: tex._width=512 _levels[0]=nr
+[2026-05-06 13:32:28.733] GET 192.168.1.4 [L] [setSource#10] tex.name=矿石 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=119x135
+[2026-05-06 13:32:28.736] GET 192.168.1.4 [L] [setSource#10] post: tex._width=119 _levels[0]=nr
+[2026-05-06 13:32:28.740] GET 192.168.1.4 [L] [setSource#11] tex.name=道具框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=158x158
+[2026-05-06 13:32:28.743] GET 192.168.1.4 [L] [setSource#11] post: tex._width=158 _levels[0]=nr
+[2026-05-06 13:32:28.746] GET 192.168.1.4 [L] [setSource#12] tex.name=image13 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=110x110
+[2026-05-06 13:32:28.768] GET 192.168.1.4 [L] [setSource#12] post: tex._width=110 _levels[0]=nr
+[2026-05-06 13:32:28.772] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=38078 mime=audio/mpeg b64Len=50772
+[2026-05-06 13:32:28.775] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 13:32:28.778] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=33062 mime=audio/mpeg b64Len=44084
+[2026-05-06 13:32:28.781] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=120390 mime=audio/mpeg b64Len=160520
+[2026-05-06 13:32:28.801] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=47691 mime=audio/mpeg b64Len=63588
+[2026-05-06 13:32:28.804] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 13:32:28.808] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=9657 mime=audio/mpeg b64Len=12876
+[2026-05-06 13:32:28.811] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=27629 mime=audio/mpeg b64Len=36840
+[2026-05-06 13:32:28.814] GET 192.168.1.4 [I] %cSimple assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:32:28.832] GET 192.168.1.4 [I] %cComplex assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:32:28.836] GET 192.168.1.4 [I] %cPrefabs loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:32:28.840] GET 192.168.1.4 [I] %cScenes loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:32:28.843] GET 192.168.1.4 [W] Missing motion for state "New State". Make sure it's intentional and clip wasn't excluded by mistake. Otherwise it won't play.
+[2026-05-06 13:32:28.846] GET 192.168.1.4 [L] zh_CN英文名称
+[2026-05-06 13:32:28.864] GET 192.168.1.4 [L] {"$boxed":true,"fn":{},"v":-1}
+[2026-05-06 13:32:28.867] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonUp (0) → false
+[2026-05-06 13:32:28.871] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonUp (0) → false
+[2026-05-06 13:32:28.874] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonUp (0) → false
+[2026-05-06 13:32:28.877] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonUp (0) → false
+[2026-05-06 13:32:28.884] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonUp (0) → false
+[2026-05-06 13:32:28.887] GET 192.168.1.4 [W] [UI.read#5] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:32:28.891] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonDown (0) → false
+[2026-05-06 13:32:28.894] GET 192.168.1.4 [W] [UI.read#6] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:32:28.898] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonDown (0) → false
+[2026-05-06 13:32:28.915] GET 192.168.1.4 [W] [UI.read#2] GetMouseButton (0) → false
+[2026-05-06 13:32:28.918] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonDown (0) → false
+[2026-05-06 13:32:28.922] GET 192.168.1.4 [W] [UI.read#1] GetKey (119) → false
+[2026-05-06 13:32:28.926] GET 192.168.1.4 [W] [UI.read#2] GetKey (273) → false
+[2026-05-06 13:32:28.928] GET 192.168.1.4 [W] [UI.read#3] GetKey (115) → false
+[2026-05-06 13:32:28.947] GET 192.168.1.4 [W] [UI.read#4] GetKey (274) → false
+[2026-05-06 13:32:28.950] GET 192.168.1.4 [W] [UI.read#5] GetKey (97) → false
+[2026-05-06 13:32:28.953] GET 192.168.1.4 [W] [UI.read#6] GetKey (276) → false
+[2026-05-06 13:32:28.957] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonDown (0) → false
+[2026-05-06 13:32:28.960] GET 192.168.1.4 [W] [UI.read#3] GetMouseButton (0) → false
+[2026-05-06 13:32:28.979] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonUp (0) → false
+[2026-05-06 13:32:28.982] GET 192.168.1.4 [W] [UI.read#4] GetMouseButton (0) → false
+[2026-05-06 13:32:28.985] GET 192.168.1.4 [W] [UI.read#1] GetKeyDown (106) → false
+[2026-05-06 13:32:28.989] GET 192.168.1.4 [L] π: Not logging event started as no endpoint URL is provided!
+[2026-05-06 13:32:28.994] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonDown (0) → false
+[2026-05-06 13:32:29.011] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonDown (0) → false
+[2026-05-06 13:32:29.015] GET 192.168.1.4 [W] [UI.read#5] GetMouseButton (0) → false
+[2026-05-06 13:32:29.019] GET 192.168.1.4 [W] [UI.read#6] GetMouseButton (0) → false
+[2026-05-06 13:32:29.023] GET 192.168.1.4 [W] [UI.read#2] GetKeyDown (106) → false
+[2026-05-06 13:32:29.028] GET 192.168.1.4 [L] π: Not logging event frame as no endpoint URL is provided!
+[2026-05-06 13:32:29.044] GET 192.168.1.4 [L] [ambient] probe.data= [0.16788379848003387,-0.016591649502515793,-0.011379829607903957,0.0065696099773049355,0.004985158797353506,-0.008635048754513264,0.00973481871187687,-0.0103005301207304,0.023336190730333328,0.21073630452156067,0.02701665088534355,-0.018886100500822067,0.010903730057179928,0.008416964672505856,-0.014579039998352528,0.014163370244204998,-0.015723219141364098,0.03351214900612831,0.28994131088256836,0.10996650159358978,-0.03480939939618111,0.020094219595193863,0.016304729506373405,-0.02824404090642929,0.01814264990389347,-0.023746440187096596,0.04080035910010338]
+[2026-05-06 13:32:29.048] GET 192.168.1.4 [L] [ambient] skyColor= [0.21199999749660492,0.22699999809265137,0.2590000033378601,1] equator= [0.11400000005960464,0.125,0.13300000131130219,1] ground= [0.04699999839067459,0.0430000014603138,0.03500000014901161,1]
+[2026-05-06 13:32:29.052] GET 192.168.1.4 [L] [ambient] zero flags: probe= false sky= false eq= false gr= false
+[2026-05-06 13:32:29.056] GET 192.168.1.4 [L] [ambient] patched (attempt 1)
+[2026-05-06 13:32:29.060] GET 192.168.1.4 [W] [UI.read#3] GetKeyDown (106) → false
+[2026-05-06 13:32:29.076] GET 192.168.1.4 [W] [UI.read#4] GetKeyDown (106) → false
+[2026-05-06 13:32:29.080] GET 192.168.1.4 [W] [UI.read#5] GetKeyDown (106) → false
+[2026-05-06 13:32:29.084] GET 192.168.1.4 [W] [UI.read#6] GetKeyDown (106) → false
+[2026-05-06 13:32:29.088] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=50
+[2026-05-06 13:32:29.092] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=50
+[2026-05-06 13:32:29.108] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=50
+[2026-05-06 13:32:29.112] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=50
+[2026-05-06 13:32:29.115] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=50
+[2026-05-06 13:32:29.118] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=200
+[2026-05-06 13:32:29.122] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=200
+[2026-05-06 13:32:29.140] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=200
+[2026-05-06 13:32:29.240] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=50
+[2026-05-06 13:32:29.547] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=200
+[2026-05-06 13:32:30.028] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=200
+[2026-05-06 13:32:30.278] GET 192.168.1.4 [W] [touch#1] type=touchstart touches=1 x=136.70213317871094 y=244.83282470703125
+[2026-05-06 13:32:30.282] GET 192.168.1.4 [W] [touch#1] BEFORE app.mouse=en=undefined tgt=e btns=[false,false,false] app.touch=NULL
+[2026-05-06 13:32:30.286] GET 192.168.1.4 [L] π: Not logging event interaction as no endpoint URL is provided!
+[2026-05-06 13:32:30.290] GET 192.168.1.4 [W] [touch#1] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=true z$=[true,false,false] A$=[true,false,false] mousePos={x:136.70213317871094,y:617.1671752929688} touches.len=1 active=true
+[2026-05-06 13:32:30.293] GET 192.168.1.4 [W] [touch#1] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:32:30.297] GET 192.168.1.4 [W] [UI.read#1] GetTouch (0) → mockT pos={x:136.70213317871094,y:617.1671752929688} phase=0 fingerId=0
+[2026-05-06 13:32:30.300] GET 192.168.1.4 [W] [UI.read#2] GetTouch (0) → mockT pos={x:136.70213317871094,y:617.1671752929688} phase=0 fingerId=0
+[2026-05-06 13:32:30.303] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=120390 mime=audio/mpeg
+[2026-05-06 13:32:30.306] GET 192.168.1.4 [W] [touch#2] type=touchmove touches=1 x=136.70213317871094 y=244.83282470703125
+[2026-05-06 13:32:30.310] GET 192.168.1.4 [W] [touch#2] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:32:30.319] GET 192.168.1.4 [W] [touch#2] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:136.70213317871094,y:617.1671752929688} touches.len=1 active=true
+[2026-05-06 13:32:30.323] GET 192.168.1.4 [W] [touch#2] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:32:30.327] GET 192.168.1.4 [W] [touch#3] type=touchend touches=0 x=136.70213317871094 y=244.83282470703125
+[2026-05-06 13:32:30.330] GET 192.168.1.4 [W] [touch#3] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:32:30.333] GET 192.168.1.4 [W] [touch#3] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:136.70213317871094,y:617.1671752929688} touches.len=1 active=true
+[2026-05-06 13:32:30.374] GET 192.168.1.4 [W] [touch#3] AFTER  app.mouse btns=[false,false,false] app.touch tn=NULL
+[2026-05-06 13:32:30.378] GET 192.168.1.4 [W] [UI.read#3] GetTouch (0) → mockT pos={x:136.70213317871094,y:617.1671752929688} phase=3 fingerId=0
+[2026-05-06 13:32:30.382] GET 192.168.1.4 [L] [wx-ad-bridge] InstallFullGame
+[2026-05-06 13:32:30.385] GET 192.168.1.4 [L] π: Not logging event cta as no endpoint URL is provided!
+[2026-05-06 13:32:30.388] GET 192.168.1.4 [W] [开发提示]试玩包内容已结束，线上实际将直接展示试玩结束页
+[2026-05-06 13:32:30.408] GET 192.168.1.4 [L] [wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent
+[2026-05-06 13:32:30.412] GET 192.168.1.4 [L] [wx-ad-bridge] CTA 触发但没配 wxAppId; 商店链接: https://play.google.com/store/apps/details?id=com.arkgamelimited.idle.JP.Android
+[2026-05-06 13:32:30.469] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:31.415] GET 192.168.1.4 [L] [deep] canvas._bus={"touchend":1,"webglcontextlost":1,"webglcontextrestored":1}
+[2026-05-06 13:32:31.420] GET 192.168.1.4 [L] [deep] doc._bus={"focusChange":1,"visibilitychange":1}
+[2026-05-06 13:32:31.424] GET 192.168.1.4 [L] [deep] body._bus={"keydown":1,"keyup":1,"click":1,"touchstart":1}
+[2026-05-06 13:32:31.429] GET 192.168.1.4 [L] [deep] docEl._bus={}
+[2026-05-06 13:32:31.433] GET 192.168.1.4 [L] [deep] win._bus={"DOMContentLoaded":3,"bridge:ready":1,"luna:unsafe:mute":1,"luna:unsafe:unmute":1,"luna:unsafe:pause":1,"luna:unsafe:resume":1,"luna:resume":2,"luna:start":1,"luna:initialized":1,"luna:started":3,"luna:build":2,"luna:unmute":1,"luna:mute":1,"luna:pause":1,"luna:ended":2,"message":1,"error":1,"visibilitychange":1,"mousedown":1,"touchend":0,"mouseup":1,"mousemove":1,"wheel":1}
+[2026-05-06 13:32:31.437] GET 192.168.1.4 [L] [deep] win._bus mousedown x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.440] GET 192.168.1.4 [L] [deep] win._bus mousemove x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.445] GET 192.168.1.4 [L] [deep] win._bus mouseup x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.449] GET 192.168.1.4 [L] [deep] win._bus touchstart=NONE
+[2026-05-06 13:32:31.452] GET 192.168.1.4 [L] [deep] win._bus touchend=NONE
+[2026-05-06 13:32:31.464] GET 192.168.1.4 [L] [deep] canvas._bus touchstart=NONE
+[2026-05-06 13:32:31.467] GET 192.168.1.4 [L] [deep] canvas._bus touchmove=NONE
+[2026-05-06 13:32:31.471] GET 192.168.1.4 [L] [deep] canvas._bus touchend x1: [#0:function tryJump() { if (!shouldJump) return; shouldJump = false; doJump(); }]
+[2026-05-06 13:32:31.475] GET 192.168.1.4 [L] [deep] canvas._bus mousedown=NONE
+[2026-05-06 13:32:31.478] GET 192.168.1.4 [L] [deep] canvas._bus mousemove=NONE
+[2026-05-06 13:32:31.498] GET 192.168.1.4 [L] [deep] canvas._bus mouseup=NONE
+[2026-05-06 13:32:31.501] GET 192.168.1.4 [L] [deep] body._bus touchstart x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.505] GET 192.168.1.4 [L] [deep] body._bus touchmove=NONE
+[2026-05-06 13:32:31.508] GET 192.168.1.4 [L] [deep] body._bus touchend=NONE
+[2026-05-06 13:32:31.511] GET 192.168.1.4 [L] [deep] body._bus click x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.536] GET 192.168.1.4 [L] [deep] body._bus keydown x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.541] GET 192.168.1.4 [L] [deep] body._bus keyup x1: [#0:function () { [native code] }]
+[2026-05-06 13:32:31.545] GET 192.168.1.4 [L] [deep] body._bus mousedown=NONE
+[2026-05-06 13:32:31.550] GET 192.168.1.4 [L] [deep] app.mouse=en=undefined tgt=e btns=[false,false,false] lastBtns=[false,false,false]
+[2026-05-06 13:32:31.555] GET 192.168.1.4 [L] [deep] app.touch=NULL
+[2026-05-06 13:32:31.575] GET 192.168.1.4 [L] [deep] app.keyboard=en=undefined tgt=undefined
+[2026-05-06 13:32:31.578] GET 192.168.1.4 [W] [UI.read#1] get anyKey → false
+[2026-05-06 13:32:31.587] GET 192.168.1.4 [W] [UI.read#1] get anyKeyDown → false
+[2026-05-06 13:32:31.591] GET 192.168.1.4 [L] [deep] pc.platform={}
+[2026-05-06 13:32:31.594] GET 192.168.1.4 [L] [deep] pcApp touch/input/mouse fields: keyboard,mouse,touch
+[2026-05-06 13:32:31.614] GET 192.168.1.4 [L] [deep] mouse.events.types=mouseup,mousedown,mousemove,mousewheel
+[2026-05-06 13:32:31.618] GET 192.168.1.4 [L] [deep] HTMLImageElement defined=function name=Ctor hasSymbolHasInstance=YES
+[2026-05-06 13:32:31.623] GET 192.168.1.4 [L] [deep] hasInstance probe threw: doc is not defined
+[2026-05-06 13:32:31.627] GET 192.168.1.4 [L] [deep] LightmapSettings.manager.lightmaps.length=0
+[2026-05-06 13:32:31.630] GET 192.168.1.4 [L] [deep] scene._renderers.length=165 collected MIs=159
+[2026-05-06 13:32:31.654] GET 192.168.1.4 [L] [deep] MI total=159 withLightmap=0 without=159 sceneIdxs=[]
+[2026-05-06 13:32:31.658] GET 192.168.1.4 [L] [deep] LM-fallback: noLMData=true forced=0 / withLM=0
+[2026-05-06 13:32:31.661] GET 192.168.1.4 [L] [deep] shader state by name: {"Sprites/Default":{"total":87,"hasMat":87,"hasShader":87,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Custom/NavPathArrowNoAplha":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton Fill":{"total":70,"hasMat":70,"hasShader":70,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0}}
+[2026-05-06 13:32:31.667] GET 192.168.1.4 [L] [deep] sample MIs: [{"idx":0,"name":"bg","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":1,"name":"外墙-上左","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":2,"name":"外墙-上右","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":3,"name":"地块-金币","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"nu
+[2026-05-06 13:32:31.671] GET 192.168.1.4 [L] [deep] done
+[2026-05-06 13:32:31.986] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=200
+[2026-05-06 13:32:32.986] GET 192.168.1.4 [W] [touch#4] type=touchstart touches=1 x=210.486328125 y=668.958984375
+[2026-05-06 13:32:32.989] GET 192.168.1.4 [W] [touch#4] BEFORE app.mouse=en=undefined tgt=e btns=[false,false,false] app.touch=NULL
+[2026-05-06 13:32:32.993] GET 192.168.1.4 [W] [touch#4] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=true z$=[true,false,false] A$=[true,false,false] mousePos={x:210.486328125,y:193.041015625} touches.len=1 active=true
+[2026-05-06 13:32:32.997] GET 192.168.1.4 [W] [touch#4] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:32:33.001] GET 192.168.1.4 [W] [UI.read#2] get anyKey → true
+[2026-05-06 13:32:33.012] GET 192.168.1.4 [W] [UI.read#2] get anyKeyDown → true
+[2026-05-06 13:32:33.015] GET 192.168.1.4 [W] [touch#4] UI diff: T$:[false]→[true] || U$:[false]→[true] || X$:[arr[0]]→[arr[1]] || anyKey:[false]→[true] || anyKeyDown:[false]→[true] || touches:[arr[0]]→[arr[1]] || G$:[0]→[1] || J$:[obj{x,y,_data}]→[obj{x,y,z,_data}]
+[2026-05-06 13:32:33.018] GET 192.168.1.4 [W] [UI.read#4] GetTouch (0) → mockT pos={x:210.486328125,y:193.041015625} phase=0 fingerId=0
+[2026-05-06 13:32:33.022] GET 192.168.1.4 [W] [touch#5] type=touchmove touches=1 x=210.486328125 y=668.958984375
+[2026-05-06 13:32:33.025] GET 192.168.1.4 [W] [touch#5] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:32:33.046] GET 192.168.1.4 [W] [touch#5] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:210.486328125,y:193.041015625} touches.len=1 active=true
+[2026-05-06 13:32:33.050] GET 192.168.1.4 [W] [touch#5] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:32:33.053] GET 192.168.1.4 [W] [UI.read#3] get anyKey → true
+[2026-05-06 13:32:33.057] GET 192.168.1.4 [W] [UI.read#3] get anyKeyDown → false
+[2026-05-06 13:32:33.060] GET 192.168.1.4 [W] [touch#5] UI diff: T$:[false]→[true] || X$:[arr[0]]→[arr[1]] || anyKey:[false]→[true] || touches:[arr[0]]→[arr[1]] || G$:[0]→[1] || J$:[obj{x,y,_data}]→[obj{x,y,z,_data}]
+[2026-05-06 13:32:33.112] GET 192.168.1.4 [W] [UI.keep#30] readback: mousePos={x:136.80247497558594,y:226.37017822265625} GetMouseButton(0)=true touchCount=1 z$[0]=true
+[2026-05-06 13:32:33.340] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:32:33.535] GET 192.168.1.4 [W] [UI.keep#100] readback: mousePos={x:102.00525665283203,y:290.8087158203125} GetMouseButton(0)=true touchCount=1 z$[0]=true
+[2026-05-06 13:32:33.995] GET 192.168.1.4 [L] open door
+[2026-05-06 13:32:34.157] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:34.274] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:34.540] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:34.545] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:34.617] GET 192.168.1.4 [L] close door
+[2026-05-06 13:32:34.882] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:35.182] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:35.286] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:35.291] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:35.317] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:35.320] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:35.323] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:35.447] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:35.451] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:36.079] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:36.157] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:36.308] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:36.314] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:36.319] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:36.323] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:36.327] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:36.330] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:36.334] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:36.338] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:36.361] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:36.366] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:36.370] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:36.495] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:36.499] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:36.840] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:37.167] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:37.172] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:37.180] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:37.296] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:37.300] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:37.304] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:37.307] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:37.311] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:37.328] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:37.332] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:37.335] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:37.339] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:37.344] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:37.359] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:37.364] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:37.368] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:37.371] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:37.374] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:37.392] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:37.397] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:37.401] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:37.405] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:37.410] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:37.478] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:37.482] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:37.842] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:37.847] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:38.129] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:38.134] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:38.177] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:38.367] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:32:38.371] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:38.535] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:38.539] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:39.008] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:32:39.012] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:39.235] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:39.369] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:39.543] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:39.548] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:39.887] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:40.241] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:40.362] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:40.421] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:40.572] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:40.576] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:41.261] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:41.406] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:41.428] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:41.433] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:41.437] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:41.572] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:41.577] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:41.928] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:42.242] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:42.246] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:42.258] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:42.381] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:42.564] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:42.568] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:43.085] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:32:43.089] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:43.271] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:43.373] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:32:43.410] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:43.594] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:43.599] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:44.284] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:44.431] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:44.628] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:44.632] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:45.321] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:45.468] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:45.647] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:45.653] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:46.343] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:46.444] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:46.449] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:46.457] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:46.463] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:46.502] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:46.508] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:46.513] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:46.517] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:46.521] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:46.546] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:46.550] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:46.589] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:46.595] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:46.600] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:46.605] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:46.611] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:46.634] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:46.639] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:46.654] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:46.660] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:46.960] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:46.967] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:47.280] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:47.285] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:47.341] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:47.492] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:47.497] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:47.502] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:47.507] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:47.512] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:47.516] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:47.547] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:47.673] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:47.678] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:47.980] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:47.985] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:48.275] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:48.281] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:48.336] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:48.381] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:32:48.473] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:48.702] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:48.707] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:49.163] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:32:49.168] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:49.362] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:49.491] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:49.694] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:49.701] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:50.389] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:50.484] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:50.488] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:32:50.492] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:32:50.496] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:32:50.687] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:50.691] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:51.240] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:51.383] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:51.520] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:51.662] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:51.737] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:51.741] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:51.798] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:52.116] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:52.120] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:52.172] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:32:52.176] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:32:52.356] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:52.434] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:52.562] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:52.762] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:52.766] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:52.784] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:53.353] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:32:53.407] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:53.596] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:53.774] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:53.779] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:54.427] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:54.572] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:54.835] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:54.840] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:55.243] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:55.457] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:55.588] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:55.766] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:55.812] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:55.816] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:56.496] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:56.634] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:56.815] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:56.820] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:57.473] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:32:57.664] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:32:57.782] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:32:57.787] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:32:57.930] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=47691 mime=audio/mpeg
+[2026-05-06 13:32:58.377] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:32:58.414] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:32:59.118] GET 192.168.1.4 [L] [wx-ad-bridge] InstallFullGame
+[2026-05-06 13:32:59.122] GET 192.168.1.4 [L] π: Not logging event cta as no endpoint URL is provided!
+[2026-05-06 13:32:59.125] GET 192.168.1.4 [W] [开发提示]试玩包内容已结束，线上实际将直接展示试玩结束页
+[2026-05-06 13:32:59.128] GET 192.168.1.4 [L] [wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent
+[2026-05-06 13:32:59.131] GET 192.168.1.4 [L] [wx-ad-bridge] CTA 触发但没配 wxAppId; 商店链接: https://play.google.com/store/apps/details?id=com.arkgamelimited.idle.JP.Android
+[2026-05-06 13:32:59.300] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:00.987] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=47691 loop=false
+[2026-05-06 13:33:00.992] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=47691
+[2026-05-06 13:33:03.490] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:03.543] GET 192.168.1.4 [L] [wx-ad-bridge] InstallFullGame
+[2026-05-06 13:33:03.547] GET 192.168.1.4 [L] π: Not logging event cta as no endpoint URL is provided!
+[2026-05-06 13:33:03.551] GET 192.168.1.4 [W] [开发提示]试玩包内容已结束，线上实际将直接展示试玩结束页
+[2026-05-06 13:33:03.556] GET 192.168.1.4 [L] [wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent
+[2026-05-06 13:33:03.559] GET 192.168.1.4 [L] [wx-ad-bridge] CTA 触发但没配 wxAppId; 商店链接: https://play.google.com/store/apps/details?id=com.arkgamelimited.idle.JP.Android
+[2026-05-06 13:33:03.715] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:08.423] GET 192.168.1.4 [L] [probe] HTTP probe attached → 192.168.1.3:53017
+[2026-05-06 13:33:08.427] GET 192.168.1.4 [L] [bootShim] canvas sized to 1316x2835 css= 400x862 dpr= 3.29
+[2026-05-06 13:33:08.431] GET 192.168.1.4 [L] [video-tex] wrapped getContext on canvas (first instance)
+[2026-05-06 13:33:08.436] GET 192.168.1.4 [W] [bootShim] wx touch handlers wired: {"start":true,"move":true,"end":true,"cancel":true}
+[2026-05-06 13:33:08.441] GET 192.168.1.4 [L] [video-tex] wrapped GL texImage2D/texSubImage2D
+[2026-05-06 13:33:08.554] GET 192.168.1.4 [L] used langugae: default
+[2026-05-06 13:33:08.558] GET 192.168.1.4 [L] π: Not logging event load as no endpoint URL is provided!
+[2026-05-06 13:33:08.562] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: hook bundle handlers (NONESSENTIAL swallow)
+[2026-05-06 13:33:08.567] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: register luna:build
+[2026-05-06 13:33:08.570] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: ambient lighting probe+fix
+[2026-05-06 13:33:08.575] GET 192.168.1.4 [L] [wx-ad-bridge] step OK: canvas touchend
+[2026-05-06 13:33:08.579] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 13:33:08.583] GET 192.168.1.4 [L] [boot] entry done
+[2026-05-06 13:33:08.591] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=168334
+[2026-05-06 13:33:08.595] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(8)}
+[2026-05-06 13:33:08.645] GET 192.168.1.4 [L] [WASM] redirect len=168334 -> box2d.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 13:33:08.650] GET 192.168.1.4 [L] [WASM-SHIM] called argType=object len=271539
+[2026-05-06 13:33:08.654] GET 192.168.1.4 [L] [WASM] imports top-level = {a:object(19)}
+[2026-05-06 13:33:08.657] GET 192.168.1.4 [L] [WASM] redirect len=271539 -> mecanim.wasm.br mode=pass defer=setTimeout+unpatch
+[2026-05-06 13:33:08.662] GET 192.168.1.4 [L] π: Not logging event loaded as no endpoint URL is provided!
+[2026-05-06 13:33:09.571] GET 192.168.1.4 [W] [UI.instrument] hooks installed
+[2026-05-06 13:33:09.575] GET 192.168.1.4 [W] [UI.read#1] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:33:09.580] GET 192.168.1.4 [W] [UI.read#2] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:33:09.584] GET 192.168.1.4 [W] [UI.read#3] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:33:09.589] GET 192.168.1.4 [W] [UI.read#4] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:33:09.635] GET 192.168.1.4 [W] [UI.read#1] GetMouseButton (0) → false
+[2026-05-06 13:33:09.640] GET 192.168.1.4 [W] [UI.keep#1] readback: mousePos={x:0,y:0} GetMouseButton(0)=false touchCount=0 z$[0]=false
+[2026-05-06 13:33:09.644] GET 192.168.1.4 [L] [UI.warmup] Input state injected (idle), UI ready=true
+[2026-05-06 13:33:09.649] GET 192.168.1.4 [L] [UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=400 cssH=862)
+[2026-05-06 13:33:09.653] GET 192.168.1.4 [E] {"promise":{},"type":3}
+[2026-05-06 13:33:09.693] GET 192.168.1.4 [L] [wx-ad-bridge] hooked pc.Texture.prototype.setSource (attempt 2)
+[2026-05-06 13:33:09.700] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=box2d.wasm.br
+[2026-05-06 13:33:09.704] GET 192.168.1.4 [L] [WASM] OK exports first=i,j,k
+[2026-05-06 13:33:09.708] GET 192.168.1.4 [L] [WASM] unpatching WebAssembly.instantiate, calling original with path=mecanim.wasm.br
+[2026-05-06 13:33:09.712] GET 192.168.1.4 [L] [WASM] OK exports first=t,u,v
+[2026-05-06 13:33:09.744] GET 192.168.1.4 [L] π: Not logging event starting as no endpoint URL is provided!
+[2026-05-06 13:33:09.748] GET 192.168.1.4 [I] %cProject Settings loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:33:09.752] GET 192.168.1.4 [L] [first-screen] splash stopped on first setSource (luna render began)
+[2026-05-06 13:33:09.756] GET 192.168.1.4 [L] [setSource#1] tex.name=texture_grabPass arg.ctor=e isImg=false isCanvas=true isVideo=false isAB=false tag=undefined src=undefined w=1316x2835
+[2026-05-06 13:33:09.759] GET 192.168.1.4 [L] [setSource#1] post: tex._width=1316 _levels[0]=e
+[2026-05-06 13:33:09.767] GET 192.168.1.4 [W] setInnerAudioOption() is not implemented on wx
+[2026-05-06 13:33:09.771] GET 192.168.1.4 [L] [XXAUDIO] setInnerAudioOption mixWithOther=true
+[2026-05-06 13:33:09.775] GET 192.168.1.4 [L] [XXAUDIO] AudioContext instantiated, count=1
+[2026-05-06 13:33:09.779] GET 192.168.1.4 [L] [setSource#2] tex.name=UnityAttenuationTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 13:33:09.783] GET 192.168.1.4 [L] [setSource#2] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 13:33:09.811] GET 192.168.1.4 [L] [setSource#3] tex.name=UnitySpotTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 13:33:09.815] GET 192.168.1.4 [L] [setSource#3] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 13:33:09.819] GET 192.168.1.4 [L] [setSource#4] tex.name=unityNHxRoughnessTexture arg.ctor=ImageShim isImg=true isCanvas=false isVideo=false isAB=false tag=undefined src=string w=0x0
+[2026-05-06 13:33:09.823] GET 192.168.1.4 [L] [setSource#4] post: tex._width=0 _levels[0]=ImageShim
+[2026-05-06 13:33:09.826] GET 192.168.1.4 [I] %cBundle chain loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:33:09.853] GET 192.168.1.4 [L] [setSource#5] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x256
+[2026-05-06 13:33:09.858] GET 192.168.1.4 [L] [setSource#5] post: tex._width=512 _levels[0]=nr
+[2026-05-06 13:33:09.862] GET 192.168.1.4 [L] [setSource#6] tex.name=null arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=1024x1024
+[2026-05-06 13:33:09.866] GET 192.168.1.4 [L] [setSource#6] post: tex._width=1024 _levels[0]=nr
+[2026-05-06 13:33:09.870] GET 192.168.1.4 [L] [setSource#7] tex.name=0 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=51x58
+[2026-05-06 13:33:09.897] GET 192.168.1.4 [L] [setSource#7] post: tex._width=51 _levels[0]=nr
+[2026-05-06 13:33:09.904] GET 192.168.1.4 [L] [setSource#8] tex.name=警告边框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=288x512
+[2026-05-06 13:33:09.910] GET 192.168.1.4 [L] [setSource#8] post: tex._width=288 _levels[0]=nr
+[2026-05-06 13:33:09.915] GET 192.168.1.4 [L] [setSource#9] tex.name=操纵底 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=512x512
+[2026-05-06 13:33:09.920] GET 192.168.1.4 [L] [setSource#9] post: tex._width=512 _levels[0]=nr
+[2026-05-06 13:33:09.924] GET 192.168.1.4 [L] [setSource#10] tex.name=矿石 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=119x135
+[2026-05-06 13:33:09.928] GET 192.168.1.4 [L] [setSource#10] post: tex._width=119 _levels[0]=nr
+[2026-05-06 13:33:09.933] GET 192.168.1.4 [L] [setSource#11] tex.name=道具框 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=158x158
+[2026-05-06 13:33:09.938] GET 192.168.1.4 [L] [setSource#11] post: tex._width=158 _levels[0]=nr
+[2026-05-06 13:33:09.942] GET 192.168.1.4 [L] [setSource#12] tex.name=image13 arg.ctor=nr isImg=true isCanvas=false isVideo=false isAB=false tag=IMG src=string w=110x110
+[2026-05-06 13:33:09.953] GET 192.168.1.4 [L] [setSource#12] post: tex._width=110 _levels[0]=nr
+[2026-05-06 13:33:09.958] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=38078 mime=audio/mpeg b64Len=50772
+[2026-05-06 13:33:09.961] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 13:33:09.965] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=33062 mime=audio/mpeg b64Len=44084
+[2026-05-06 13:33:09.970] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=120390 mime=audio/mpeg b64Len=160520
+[2026-05-06 13:33:09.989] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=47691 mime=audio/mpeg b64Len=63588
+[2026-05-06 13:33:09.993] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=5477 mime=audio/mpeg b64Len=7304
+[2026-05-06 13:33:09.997] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=9657 mime=audio/mpeg b64Len=12876
+[2026-05-06 13:33:10.002] GET 192.168.1.4 [L] [XXAUDIO] decode bytes=27629 mime=audio/mpeg b64Len=36840
+[2026-05-06 13:33:10.006] GET 192.168.1.4 [I] %cSimple assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:33:10.024] GET 192.168.1.4 [I] %cComplex assets loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:33:10.029] GET 192.168.1.4 [I] %cPrefabs loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:33:10.032] GET 192.168.1.4 [I] %cScenes loaded successfully background-color: black; color: white; padding: 1em;
+[2026-05-06 13:33:10.036] GET 192.168.1.4 [W] Missing motion for state "New State". Make sure it's intentional and clip wasn't excluded by mistake. Otherwise it won't play.
+[2026-05-06 13:33:10.040] GET 192.168.1.4 [L] zh_CN英文名称
+[2026-05-06 13:33:10.058] GET 192.168.1.4 [L] {"$boxed":true,"fn":{},"v":-1}
+[2026-05-06 13:33:10.062] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonUp (0) → false
+[2026-05-06 13:33:10.066] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonUp (0) → false
+[2026-05-06 13:33:10.069] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonUp (0) → false
+[2026-05-06 13:33:10.072] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonUp (0) → false
+[2026-05-06 13:33:10.081] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonUp (0) → false
+[2026-05-06 13:33:10.085] GET 192.168.1.4 [W] [UI.read#5] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:33:10.088] GET 192.168.1.4 [W] [UI.read#1] GetMouseButtonDown (0) → false
+[2026-05-06 13:33:10.091] GET 192.168.1.4 [W] [UI.read#6] get mousePosition → obj{x:0,y:0}
+[2026-05-06 13:33:10.094] GET 192.168.1.4 [W] [UI.read#2] GetMouseButtonDown (0) → false
+[2026-05-06 13:33:10.138] GET 192.168.1.4 [W] [UI.read#2] GetMouseButton (0) → false
+[2026-05-06 13:33:10.142] GET 192.168.1.4 [W] [UI.read#3] GetMouseButtonDown (0) → false
+[2026-05-06 13:33:10.145] GET 192.168.1.4 [W] [UI.read#1] GetKey (119) → false
+[2026-05-06 13:33:10.148] GET 192.168.1.4 [W] [UI.read#2] GetKey (273) → false
+[2026-05-06 13:33:10.152] GET 192.168.1.4 [W] [UI.read#3] GetKey (115) → false
+[2026-05-06 13:33:10.162] GET 192.168.1.4 [W] [UI.read#4] GetKey (274) → false
+[2026-05-06 13:33:10.166] GET 192.168.1.4 [W] [UI.read#5] GetKey (97) → false
+[2026-05-06 13:33:10.169] GET 192.168.1.4 [W] [UI.read#6] GetKey (276) → false
+[2026-05-06 13:33:10.172] GET 192.168.1.4 [W] [UI.read#4] GetMouseButtonDown (0) → false
+[2026-05-06 13:33:10.175] GET 192.168.1.4 [W] [UI.read#3] GetMouseButton (0) → false
+[2026-05-06 13:33:10.184] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonUp (0) → false
+[2026-05-06 13:33:10.187] GET 192.168.1.4 [W] [UI.read#4] GetMouseButton (0) → false
+[2026-05-06 13:33:10.190] GET 192.168.1.4 [W] [UI.read#1] GetKeyDown (106) → false
+[2026-05-06 13:33:10.194] GET 192.168.1.4 [L] π: Not logging event started as no endpoint URL is provided!
+[2026-05-06 13:33:10.197] GET 192.168.1.4 [W] [UI.read#5] GetMouseButtonDown (0) → false
+[2026-05-06 13:33:10.203] GET 192.168.1.4 [W] [UI.read#6] GetMouseButtonDown (0) → false
+[2026-05-06 13:33:10.206] GET 192.168.1.4 [W] [UI.read#5] GetMouseButton (0) → false
+[2026-05-06 13:33:10.209] GET 192.168.1.4 [W] [UI.read#6] GetMouseButton (0) → false
+[2026-05-06 13:33:10.213] GET 192.168.1.4 [W] [UI.read#2] GetKeyDown (106) → false
+[2026-05-06 13:33:10.216] GET 192.168.1.4 [L] π: Not logging event frame as no endpoint URL is provided!
+[2026-05-06 13:33:10.231] GET 192.168.1.4 [L] [ambient] probe.data= [0.16788379848003387,-0.016591649502515793,-0.011379829607903957,0.0065696099773049355,0.004985158797353506,-0.008635048754513264,0.00973481871187687,-0.0103005301207304,0.023336190730333328,0.21073630452156067,0.02701665088534355,-0.018886100500822067,0.010903730057179928,0.008416964672505856,-0.014579039998352528,0.014163370244204998,-0.015723219141364098,0.03351214900612831,0.28994131088256836,0.10996650159358978,-0.03480939939618111,0.020094219595193863,0.016304729506373405,-0.02824404090642929,0.01814264990389347,-0.023746440187096596,0.04080035910010338]
+[2026-05-06 13:33:10.235] GET 192.168.1.4 [L] [ambient] skyColor= [0.21199999749660492,0.22699999809265137,0.2590000033378601,1] equator= [0.11400000005960464,0.125,0.13300000131130219,1] ground= [0.04699999839067459,0.0430000014603138,0.03500000014901161,1]
+[2026-05-06 13:33:10.238] GET 192.168.1.4 [L] [ambient] zero flags: probe= false sky= false eq= false gr= false
+[2026-05-06 13:33:10.241] GET 192.168.1.4 [L] [ambient] patched (attempt 1)
+[2026-05-06 13:33:10.246] GET 192.168.1.4 [W] [UI.read#3] GetKeyDown (106) → false
+[2026-05-06 13:33:10.250] GET 192.168.1.4 [W] [UI.read#4] GetKeyDown (106) → false
+[2026-05-06 13:33:10.254] GET 192.168.1.4 [W] [UI.read#5] GetKeyDown (106) → false
+[2026-05-06 13:33:10.257] GET 192.168.1.4 [W] [UI.read#6] GetKeyDown (106) → false
+[2026-05-06 13:33:10.260] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=50
+[2026-05-06 13:33:10.263] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=50
+[2026-05-06 13:33:10.288] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=50
+[2026-05-06 13:33:10.292] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=50
+[2026-05-06 13:33:10.296] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=50
+[2026-05-06 13:33:10.299] GET 192.168.1.4 [W] [UI.read.cnt] GetKey total=200
+[2026-05-06 13:33:10.302] GET 192.168.1.4 [W] [touch#1] type=touchstart touches=1 x=194.14894104003906 y=724.6200561523438
+[2026-05-06 13:33:10.323] GET 192.168.1.4 [W] [touch#1] BEFORE app.mouse=en=undefined tgt=e btns=[false,false,false] app.touch=NULL
+[2026-05-06 13:33:10.326] GET 192.168.1.4 [L] π: Not logging event interaction as no endpoint URL is provided!
+[2026-05-06 13:33:10.330] GET 192.168.1.4 [W] [touch#1] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=true z$=[true,false,false] A$=[true,false,false] mousePos={x:194.14894104003906,y:137.37994384765625} touches.len=1 active=true
+[2026-05-06 13:33:10.334] GET 192.168.1.4 [W] [touch#1] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:33:10.337] GET 192.168.1.4 [W] [UI.read#1] GetTouch (0) → mockT pos={x:194.14894104003906,y:137.37994384765625} phase=0 fingerId=0
+[2026-05-06 13:33:10.357] GET 192.168.1.4 [W] [UI.read#2] GetTouch (0) → mockT pos={x:194.14894104003906,y:137.37994384765625} phase=0 fingerId=0
+[2026-05-06 13:33:10.361] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=120390 mime=audio/mpeg
+[2026-05-06 13:33:10.364] GET 192.168.1.4 [W] [touch#2] type=touchmove touches=1 x=194.14894104003906 y=724.6200561523438
+[2026-05-06 13:33:10.368] GET 192.168.1.4 [W] [touch#2] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:33:10.371] GET 192.168.1.4 [W] [touch#2] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:194.14894104003906,y:137.37994384765625} touches.len=1 active=true
+[2026-05-06 13:33:10.393] GET 192.168.1.4 [W] [touch#2] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:33:10.397] GET 192.168.1.4 [W] [touch#3] type=touchmove touches=1 x=194.14894104003906 y=724.6200561523438
+[2026-05-06 13:33:10.401] GET 192.168.1.4 [W] [touch#3] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:33:10.404] GET 192.168.1.4 [W] [touch#3] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:194.14894104003906,y:137.37994384765625} touches.len=1 active=true
+[2026-05-06 13:33:10.409] GET 192.168.1.4 [W] [touch#3] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:33:10.427] GET 192.168.1.4 [W] [touch#4] type=touchmove touches=1 x=194.14894104003906 y=724.6200561523438
+[2026-05-06 13:33:10.430] GET 192.168.1.4 [W] [touch#4] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:33:10.434] GET 192.168.1.4 [W] [touch#4] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:194.14894104003906,y:137.37994384765625} touches.len=1 active=true
+[2026-05-06 13:33:10.437] GET 192.168.1.4 [W] [touch#4] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:33:10.441] GET 192.168.1.4 [W] [touch#5] type=touchmove touches=1 x=192.4874725341797 y=721.2119750976562
+[2026-05-06 13:33:10.446] GET 192.168.1.4 [W] [touch#5] BEFORE app.mouse=en=undefined tgt=e btns=[true,false,false] app.touch=NULL
+[2026-05-06 13:33:10.449] GET 192.168.1.4 [W] [touch#5] UI inj: touchCount=1 GetMouseButton(0)=true GetMouseButtonDown(0)=false z$=[true,false,false] A$=[false,false,false] mousePos={x:192.4874725341797,y:140.78802490234375} touches.len=1 active=true
+[2026-05-06 13:33:10.453] GET 192.168.1.4 [W] [touch#5] AFTER  app.mouse btns=[true,false,false] app.touch tn=NULL
+[2026-05-06 13:33:10.457] GET 192.168.1.4 [W] [UI.read#3] GetTouch (0) → mockT pos={x:181.48619079589844,y:160.42919921875} phase=1 fingerId=0
+[2026-05-06 13:33:10.461] GET 192.168.1.4 [W] [UI.read#4] GetTouch (0) → mockT pos={x:166.0884552001953,y:180.60150146484375} phase=1 fingerId=0
+[2026-05-06 13:33:10.481] GET 192.168.1.4 [W] [UI.keep#30] readback: mousePos={x:137.59144592285156,y:218.622802734375} GetMouseButton(0)=true touchCount=1 z$[0]=true
+[2026-05-06 13:33:10.485] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonDown total=200
+[2026-05-06 13:33:10.489] GET 192.168.1.4 [W] [UI.read.cnt] get mousePosition total=200
+[2026-05-06 13:33:10.584] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=50
+[2026-05-06 13:33:10.686] GET 192.168.1.4 [W] [UI.keep#100] readback: mousePos={x:83.72359466552734,y:254.85711669921875} GetMouseButton(0)=true touchCount=1 z$[0]=true
+[2026-05-06 13:33:10.721] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButtonUp total=200
+[2026-05-06 13:33:11.060] GET 192.168.1.4 [L] open door
+[2026-05-06 13:33:11.181] GET 192.168.1.4 [W] [UI.read.cnt] GetMouseButton total=200
+[2026-05-06 13:33:11.253] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:11.377] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:11.619] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:11.624] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:11.788] GET 192.168.1.4 [L] close door
+[2026-05-06 13:33:12.264] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:12.350] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:12.391] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:12.574] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:12.578] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:12.601] GET 192.168.1.4 [L] [deep] canvas._bus={"touchend":1,"webglcontextlost":1,"webglcontextrestored":1}
+[2026-05-06 13:33:12.605] GET 192.168.1.4 [L] [deep] doc._bus={"focusChange":1,"visibilitychange":1}
+[2026-05-06 13:33:12.608] GET 192.168.1.4 [L] [deep] body._bus={"keydown":1,"keyup":1,"click":1,"touchstart":1}
+[2026-05-06 13:33:12.612] GET 192.168.1.4 [L] [deep] docEl._bus={}
+[2026-05-06 13:33:12.616] GET 192.168.1.4 [L] [deep] win._bus={"DOMContentLoaded":3,"bridge:ready":1,"luna:unsafe:mute":1,"luna:unsafe:unmute":1,"luna:unsafe:pause":1,"luna:unsafe:resume":1,"luna:resume":2,"luna:start":1,"luna:initialized":1,"luna:started":3,"luna:build":2,"luna:unmute":1,"luna:mute":1,"luna:pause":1,"luna:ended":2,"message":1,"error":1,"visibilitychange":1,"mousedown":1,"touchend":0,"mouseup":1,"mousemove":1,"wheel":1}
+[2026-05-06 13:33:12.635] GET 192.168.1.4 [L] [deep] win._bus mousedown x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.639] GET 192.168.1.4 [L] [deep] win._bus mousemove x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.642] GET 192.168.1.4 [L] [deep] win._bus mouseup x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.646] GET 192.168.1.4 [L] [deep] win._bus touchstart=NONE
+[2026-05-06 13:33:12.649] GET 192.168.1.4 [L] [deep] win._bus touchend=NONE
+[2026-05-06 13:33:12.670] GET 192.168.1.4 [L] [deep] canvas._bus touchstart=NONE
+[2026-05-06 13:33:12.674] GET 192.168.1.4 [L] [deep] canvas._bus touchmove=NONE
+[2026-05-06 13:33:12.678] GET 192.168.1.4 [L] [deep] canvas._bus touchend x1: [#0:function tryJump() { if (!shouldJump) return; shouldJump = false; doJump(); }]
+[2026-05-06 13:33:12.682] GET 192.168.1.4 [L] [deep] canvas._bus mousedown=NONE
+[2026-05-06 13:33:12.685] GET 192.168.1.4 [L] [deep] canvas._bus mousemove=NONE
+[2026-05-06 13:33:12.690] GET 192.168.1.4 [L] [deep] canvas._bus mouseup=NONE
+[2026-05-06 13:33:12.694] GET 192.168.1.4 [L] [deep] body._bus touchstart x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.697] GET 192.168.1.4 [L] [deep] body._bus touchmove=NONE
+[2026-05-06 13:33:12.700] GET 192.168.1.4 [L] [deep] body._bus touchend=NONE
+[2026-05-06 13:33:12.703] GET 192.168.1.4 [L] [deep] body._bus click x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.723] GET 192.168.1.4 [L] [deep] body._bus keydown x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.726] GET 192.168.1.4 [L] [deep] body._bus keyup x1: [#0:function () { [native code] }]
+[2026-05-06 13:33:12.729] GET 192.168.1.4 [L] [deep] body._bus mousedown=NONE
+[2026-05-06 13:33:12.732] GET 192.168.1.4 [L] [deep] app.mouse=en=undefined tgt=e btns=[false,false,false] lastBtns=[false,false,false]
+[2026-05-06 13:33:12.736] GET 192.168.1.4 [L] [deep] app.touch=NULL
+[2026-05-06 13:33:12.757] GET 192.168.1.4 [L] [deep] app.keyboard=en=undefined tgt=undefined
+[2026-05-06 13:33:12.761] GET 192.168.1.4 [W] [UI.read#1] get anyKey → false
+[2026-05-06 13:33:12.765] GET 192.168.1.4 [W] [UI.read#1] get anyKeyDown → false
+[2026-05-06 13:33:12.768] GET 192.168.1.4 [L] [deep] pc.platform={}
+[2026-05-06 13:33:12.771] GET 192.168.1.4 [L] [deep] pcApp touch/input/mouse fields: keyboard,mouse,touch
+[2026-05-06 13:33:12.791] GET 192.168.1.4 [L] [deep] mouse.events.types=mouseup,mousedown,mousemove,mousewheel
+[2026-05-06 13:33:12.795] GET 192.168.1.4 [L] [deep] HTMLImageElement defined=function name=Ctor hasSymbolHasInstance=YES
+[2026-05-06 13:33:12.798] GET 192.168.1.4 [L] [deep] hasInstance probe threw: doc is not defined
+[2026-05-06 13:33:12.802] GET 192.168.1.4 [L] [deep] LightmapSettings.manager.lightmaps.length=0
+[2026-05-06 13:33:12.805] GET 192.168.1.4 [L] [deep] scene._renderers.length=175 collected MIs=169
+[2026-05-06 13:33:12.825] GET 192.168.1.4 [L] [deep] MI total=169 withLightmap=0 without=169 sceneIdxs=[]
+[2026-05-06 13:33:12.829] GET 192.168.1.4 [L] [deep] LM-fallback: noLMData=true forced=0 / withLM=0
+[2026-05-06 13:33:12.832] GET 192.168.1.4 [L] [deep] shader state by name: {"Sprites/Default":{"total":97,"hasMat":97,"hasShader":97,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Custom/NavPathArrowNoAplha":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton Fill":{"total":70,"hasMat":70,"hasShader":70,"hasMiShader":0,"hasImpl":0,"hasProgram":0},"Spine/Skeleton":{"total":1,"hasMat":1,"hasShader":1,"hasMiShader":0,"hasImpl":0,"hasProgram":0}}
+[2026-05-06 13:33:12.835] GET 192.168.1.4 [L] [deep] sample MIs: [{"idx":0,"name":"bg","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":1,"name":"外墙-上左","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":2,"name":"外墙-上右","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"num:0","_EnableExternalAlpha":"num:0","_Color":"arr[4]:1.00,1.00,1.00,1.00","_RendererColor":"arr[4]:1.00,1.00,1.00,1.00","_MainTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_Flip":"arr[4]:1.00,1.00,1.00,1.00","_AlphaTex_ST":"arr[4]:1.00,1.00,0.00,0.00","_MainTex":"tex?:obj:device,$id,name,_width","_AlphaTex":"tex?:obj:device,$id,name,_width"}},{"idx":3,"name":"地块-金币","shader":"Sprites/Default","visible":true,"cull":true,"paramKeys":9,"params":{"PixelSnap":"nu
+[2026-05-06 13:33:12.841] GET 192.168.1.4 [L] [deep] done
+[2026-05-06 13:33:13.286] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:13.369] GET 192.168.1.4 [W] [UI.read.cnt] GetKeyDown total=200
+[2026-05-06 13:33:13.421] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:13.426] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:13.431] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:13.435] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:13.457] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:13.462] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:13.466] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:13.470] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:13.474] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:13.489] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:13.493] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:13.497] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:13.501] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:13.507] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:13.529] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:13.533] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:13.536] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:13.540] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:13.557] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:13.561] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:13.861] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:13.866] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:13.893] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:13.897] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:14.181] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:14.186] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:14.551] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:14.555] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:14.638] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:14.856] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:14.859] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:15.062] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:15.155] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:15.159] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:15.536] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:15.661] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:15.666] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:15.670] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:15.674] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:15.832] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:15.836] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:16.173] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:16.478] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:16.482] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:16.537] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:16.676] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:16.680] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:16.684] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:16.688] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:16.691] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:16.703] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:16.709] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:16.874] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:16.877] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:17.233] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:17.546] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:17.550] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:17.561] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:17.694] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:17.699] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:17.704] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:17.708] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:17.712] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:17.734] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:17.738] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:17.742] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:17.746] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:17.750] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:17.869] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:17.874] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:18.230] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:18.313] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:18.317] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:18.579] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:18.629] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:18.633] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:18.662] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:18.706] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:18.879] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:18.883] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:19.538] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:19.543] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:19.577] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:19.627] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:19.722] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:19.726] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:19.729] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:19.732] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:19.944] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:19.947] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:20.253] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:20.550] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:20.555] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:20.622] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:20.767] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:20.955] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:20.959] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:21.430] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:21.434] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:21.641] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:21.758] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:21.762] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:21.766] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:21.769] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:21.783] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:21.786] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:22.013] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:22.017] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:22.675] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:22.793] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:22.798] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:22.802] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:22.808] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:22.812] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:22.837] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:22.842] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:22.848] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:22.853] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:22.881] GET 192.168.1.4 [L] Monster got hit for 1 damage.
+[2026-05-06 13:33:22.886] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:22.891] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:22.895] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:22.899] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:22.973] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:22.977] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:23.334] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:23.338] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:23.654] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:23.658] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:23.959] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:24.263] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:24.267] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:24.455] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:24.459] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:24.536] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:25.151] GET 192.168.1.4 [L] open door
+[2026-05-06 13:33:25.785] GET 192.168.1.4 [L] close door
+[2026-05-06 13:33:25.800] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:25.834] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:25.837] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:25.863] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:25.867] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:25.917] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:25.921] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:25.940] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:25.944] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:25.947] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:25.987] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:25.991] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:26.031] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:26.075] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:26.079] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:26.121] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:26.125] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:26.471] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:26.475] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:27.486] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:28.778] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:28.815] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:28.867] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:28.872] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:28.917] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:28.922] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.050] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:29.054] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.084] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:29.089] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.143] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:29.148] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.189] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:29.194] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.244] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:29.248] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.269] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:29.274] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:29.574] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:29.596] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:29.602] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.004] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.012] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.016] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.038] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.043] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.061] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.065] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.082] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.086] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.133] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.137] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.142] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:31.175] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.179] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.244] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:31.247] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:31.252] GET 192.168.1.4 [L] ����ɹ� ִ��һ������---
+[2026-05-06 13:33:31.471] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=9657 mime=audio/mpeg
+[2026-05-06 13:33:31.552] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:31.556] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:32.132] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=9657 loop=false
+[2026-05-06 13:33:32.138] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=9657
+[2026-05-06 13:33:32.694] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:32.792] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=38078 mime=audio/mpeg
+[2026-05-06 13:33:33.042] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:33.070] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:33.074] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:33.096] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:33.100] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:33.406] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:33.410] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:33.458] GET 192.168.1.4 [L] open door
+[2026-05-06 13:33:33.722] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:33.852] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:33.856] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:33.859] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:33.863] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:34.047] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:34.051] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:34.403] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:34.429] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:34.518] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:34.574] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:34.581] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:34.587] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:34.592] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:34.595] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:34.618] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:34.623] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:34.627] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:34.631] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:34.666] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:34.713] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:34.717] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:34.781] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:34.785] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:35.089] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:35.094] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:35.223] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=38078 loop=false
+[2026-05-06 13:33:35.226] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=38078
+[2026-05-06 13:33:35.266] GET 192.168.1.4 [L] close door
+[2026-05-06 13:33:35.374] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:35.378] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:35.382] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:35.505] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:35.711] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:35.715] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:36.083] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:36.238] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:36.242] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:36.245] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:36.249] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:36.252] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:36.256] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:36.259] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:36.262] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:36.265] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:36.280] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:36.284] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:36.286] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:36.289] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:36.293] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:36.426] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:36.430] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:36.619] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:36.719] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:36.722] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:36.854] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:36.976] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:36.979] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:36.982] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:36.985] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:36.989] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:37.042] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:37.046] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:37.080] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:37.142] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:37.146] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:37.359] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:37.417] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:37.421] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:37.535] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:37.614] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:37.718] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:37.721] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:37.724] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:37.727] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:37.731] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:37.853] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:37.856] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:37.916] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:37.921] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:38.006] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:38.336] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:38.590] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:38.626] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:38.630] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:38.732] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:38.736] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:38.739] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:38.742] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:38.745] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:38.968] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:38.972] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:39.329] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:39.382] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:39.453] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:39.457] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:39.460] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:39.464] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:39.467] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:39.615] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:39.646] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:39.650] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:39.678] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:39.739] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:39.743] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:40.069] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:40.106] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:40.204] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:40.395] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:40.399] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:40.629] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:40.807] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:40.971] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:40.975] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:40.979] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:40.983] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:40.988] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:41.019] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:41.023] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:41.027] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:41.031] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:41.080] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:41.213] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:41.219] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:41.542] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:41.584] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:41.591] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:41.644] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:41.844] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:41.850] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:41.876] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:41.881] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:42.219] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:42.368] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:42.373] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:33:42.378] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:42.381] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:42.385] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:33:42.607] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:42.612] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:43.019] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:43.025] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:43.036] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:43.040] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:43.067] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:43.070] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:43.315] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:43.319] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:44.068] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:44.071] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:44.228] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:44.380] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:44.384] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:44.387] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:44.390] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:44.549] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:44.555] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:44.611] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:44.616] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:44.907] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:44.974] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:45.125] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:45.129] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:45.132] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:45.135] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:45.138] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:45.144] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:45.147] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:45.150] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:45.153] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:45.156] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:45.214] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:45.219] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:45.275] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:45.336] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:45.341] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:45.754] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:45.760] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:45.889] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:45.894] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:45.897] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:45.901] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:45.906] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:45.930] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:45.935] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:45.939] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:45.943] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:45.949] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:45.962] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:45.965] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:45.970] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:45.975] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:45.980] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:45.992] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:45.997] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:46.002] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:46.007] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:46.012] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:46.060] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:46.066] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:46.072] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:46.078] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:46.083] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:46.088] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:46.092] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:46.096] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:46.651] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:46.668] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:46.673] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:46.678] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:46.682] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:46.687] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:46.691] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:46.771] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:46.775] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:46.827] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:46.832] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:47.398] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:47.427] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:47.550] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:47.555] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:47.558] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:47.561] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:47.565] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:47.585] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:47.589] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:47.819] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:47.822] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:47.935] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:48.132] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:48.186] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:48.323] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:48.506] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:48.510] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:48.530] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:48.534] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:48.872] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:48.983] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:49.014] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:49.205] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:49.210] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:49.259] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:49.263] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:49.587] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:49.640] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:49.710] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:49.714] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:49.718] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:49.724] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:49.913] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:49.917] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:50.172] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:50.312] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:50.448] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:50.451] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:33:50.455] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:50.458] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:50.461] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:33:50.677] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:50.681] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:52.156] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:52.160] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:52.512] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:52.646] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:52.650] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:52.653] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:52.656] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:52.843] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:52.847] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:53.243] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:53.373] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:53.377] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:53.380] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:53.383] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:53.386] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:53.569] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:53.573] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:53.628] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:53.631] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:53.635] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:53.638] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:53.972] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:54.108] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:54.112] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:54.116] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:54.119] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:54.122] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:54.327] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:54.331] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:54.704] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:54.709] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:54.844] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:54.848] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:54.851] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:54.855] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:54.860] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:54.869] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:54.872] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:54.876] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:54.880] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:54.883] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:54.903] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:54.906] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:54.909] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:54.913] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:54.917] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:55.035] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:55.039] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:55.427] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:55.574] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:55.578] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:55.582] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:55.585] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:55.588] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:55.597] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:55.600] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:55.603] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:55.607] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:55.610] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:55.760] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:55.764] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:55.976] GET 192.168.1.4 [L] open door
+[2026-05-06 13:33:56.167] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:56.314] GET 192.168.1.4 [L] Monster got hit for 5 damage.
+[2026-05-06 13:33:56.318] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:33:56.322] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:56.325] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:33:56.329] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:33:56.433] GET 192.168.1.4 [L] close door
+[2026-05-06 13:33:56.502] GET 192.168.1.4 [L] open door
+[2026-05-06 13:33:56.506] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:56.509] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.267] GET 192.168.1.4 [L] close door
+[2026-05-06 13:33:57.290] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.328] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.331] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.366] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.370] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.405] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.408] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.441] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.444] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.478] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.481] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.516] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.520] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.523] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:33:57.590] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.595] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.673] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.676] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.749] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.753] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.831] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.835] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.908] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.912] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:57.981] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:57.985] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.058] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:33:58.062] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:33:58.066] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.069] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.131] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.136] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.202] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.206] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.278] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.282] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.355] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.361] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.441] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.446] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.529] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.535] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.575] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.580] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.645] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.650] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.720] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.725] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.787] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.791] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.856] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:58.862] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.915] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:58.919] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:33:59.167] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:33:59.171] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:33:59.700] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:33:59.789] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:02.106] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:02.826] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:02.898] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:02.962] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:02.965] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.028] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.033] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.099] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.103] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.168] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.172] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.238] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.242] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.306] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.310] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.377] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.380] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.413] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.416] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.480] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.483] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.549] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.552] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.622] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.627] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.690] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.696] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.764] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.770] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.833] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.837] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:03.905] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:03.909] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:04.282] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:04.288] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:04.798] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:06.801] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:06.860] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:06.863] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:06.922] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:06.926] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:06.988] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:06.993] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.055] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.058] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.062] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:07.151] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.155] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.259] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.263] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.338] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.342] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.407] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.410] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.478] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.482] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.547] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.551] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.624] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.627] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.694] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.701] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.765] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.770] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.834] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.839] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.899] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.905] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:07.971] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:07.977] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:08.040] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:08.045] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:08.105] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:08.110] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:08.197] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:08.201] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:08.266] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:08.272] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:08.276] GET 192.168.1.4 [L] ����ɹ� ִ��һ������---
+[2026-05-06 13:34:08.526] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=9657 mime=audio/mpeg
+[2026-05-06 13:34:08.624] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:08.627] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:09.108] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=9657 loop=false
+[2026-05-06 13:34:09.113] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=9657
+[2026-05-06 13:34:09.132] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:09.752] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:09.920] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=38078 mime=audio/mpeg
+[2026-05-06 13:34:09.956] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:10.239] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:10.243] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:10.290] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:10.293] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:10.323] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:10.327] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:10.393] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:10.397] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:10.426] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:10.430] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:10.763] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:10.768] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:11.148] GET 192.168.1.4 [L] open door
+[2026-05-06 13:34:11.352] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:11.490] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:11.494] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:11.498] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:11.501] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:11.688] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:11.693] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:11.925] GET 192.168.1.4 [L] close door
+[2026-05-06 13:34:12.027] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:12.159] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:12.225] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=38078 loop=false
+[2026-05-06 13:34:12.229] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=38078
+[2026-05-06 13:34:12.297] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:12.301] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:12.305] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:12.307] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:12.311] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:12.333] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:12.337] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:12.341] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:12.345] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:12.348] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:12.368] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:12.371] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:12.374] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:12.377] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:12.380] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:12.400] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:12.403] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:12.505] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:12.509] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:12.960] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:12.964] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:13.003] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:13.031] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:13.152] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:13.155] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:13.158] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:13.162] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:13.165] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:13.210] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:13.213] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:13.217] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:13.220] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:13.223] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:13.271] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:13.275] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:13.278] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:13.425] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:13.430] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:13.738] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:13.743] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:13.856] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:14.017] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:14.023] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:34:14.029] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:14.035] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:14.039] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:34:14.045] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:14.049] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:14.256] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:14.261] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:14.551] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:14.555] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:14.568] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:14.572] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:14.605] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:14.608] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:14.763] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:14.825] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:14.829] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:15.352] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:15.494] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:15.682] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:34:15.686] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:15.690] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:15.693] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:16.088] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:16.186] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:16.326] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:16.329] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:16.333] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:16.336] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:16.380] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:16.383] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:16.388] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:16.392] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:16.395] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:16.442] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:34:16.446] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:16.449] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:16.453] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:34:16.505] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:16.509] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:16.912] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:16.916] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:16.927] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:16.930] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:16.960] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:16.963] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:16.994] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:16.997] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:17.222] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:17.226] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:17.272] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:17.418] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:17.421] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:17.425] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:17.428] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:17.431] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:17.609] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:17.613] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:17.973] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:18.091] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:18.225] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:18.228] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:18.263] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:18.266] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:18.270] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:18.273] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:18.289] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:18.293] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:18.424] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:18.427] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:18.881] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:18.927] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:19.076] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:19.167] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:19.171] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:19.269] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:19.272] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:19.571] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:19.747] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:19.767] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:19.862] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:19.865] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:34:19.869] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:19.872] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:19.875] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:34:20.063] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:20.067] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:20.465] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:20.469] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:20.476] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:20.479] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:20.768] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:20.773] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:20.877] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:21.019] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:21.023] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:21.026] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:21.029] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:21.032] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:21.233] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:21.236] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:21.738] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:21.869] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:21.874] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:21.877] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:21.881] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:21.884] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:21.891] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:21.895] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:21.898] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:21.902] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:21.904] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:21.925] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:21.929] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:21.932] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:21.935] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:21.938] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:21.956] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:21.961] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:21.965] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:21.968] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:21.971] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:21.994] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:22.060] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:22.063] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:22.213] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:22.545] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:22.681] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:22.684] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:34:22.687] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:22.690] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:22.693] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:34:22.903] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:22.907] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:23.615] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:23.744] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:23.748] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:23.750] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:23.753] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:23.756] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:23.932] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:23.936] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:24.428] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:24.557] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:24.561] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:24.564] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:24.568] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:24.571] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:24.774] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:24.778] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:24.781] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:25.269] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:25.397] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:25.402] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:25.405] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:25.408] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:25.412] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:25.422] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:25.425] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:25.429] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:25.432] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:25.435] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:25.454] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:25.458] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:25.461] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:25.464] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:25.468] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:25.589] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:25.593] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:26.067] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:26.215] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:26.220] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:26.225] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:26.229] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:26.240] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:26.243] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:26.246] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:26.249] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:26.252] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:26.270] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:26.274] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:26.277] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:26.280] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:26.283] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:26.303] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:26.306] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:26.309] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:26.313] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:26.316] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:26.336] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:26.341] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:26.345] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:26.348] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:26.354] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:26.370] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:26.401] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:26.405] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:26.574] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:26.892] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:27.056] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:27.064] GET 192.168.1.4 [L] 恶鬼 died.
+[2026-05-06 13:34:27.069] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:27.074] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:27.080] GET 192.168.1.4 [L] 恶鬼 dropped 8 crystals.
+[2026-05-06 13:34:27.236] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:27.241] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:28.023] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:28.156] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:28.160] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:28.163] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:28.166] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:28.170] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:28.367] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:28.371] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:28.940] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:29.082] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:29.086] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:29.089] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:29.093] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:29.097] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:29.306] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:29.310] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:29.772] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:29.805] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:29.912] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:29.915] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:29.919] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:29.923] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:29.927] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:29.949] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:29.952] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:29.956] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:29.959] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:29.962] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:30.119] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:30.122] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:30.598] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:30.741] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:30.744] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:30.748] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:30.751] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:30.755] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:30.944] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:30.948] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:31.429] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:31.559] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:31.563] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:31.566] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:31.569] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:31.571] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:31.754] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:31.757] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:33.268] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:33.273] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:34:33.276] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:33.387] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:33.391] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:33.394] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:33.397] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:33.603] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:33.607] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:34.063] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:34.209] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:34.212] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:34.215] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:34.218] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:34.222] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:34.420] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:34.425] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:34.830] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:34.885] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:35.033] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:35.036] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:35.039] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:35.042] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:35.045] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:35.234] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:35.238] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:35.504] GET 192.168.1.4 [L] open door
+[2026-05-06 13:34:35.698] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:35.837] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:35.841] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:35.844] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:35.847] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:35.850] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:36.043] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:36.047] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:36.554] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:36.638] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:36.685] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:36.689] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:36.693] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:36.697] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:36.701] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:36.729] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:36.733] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:36.738] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:36.742] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:36.746] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:36.815] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:36.819] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:36.910] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:36.915] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:36.921] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:37.006] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.010] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.159] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.164] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.250] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.255] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.298] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.302] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.390] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.394] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.436] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.440] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.518] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.523] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.602] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.606] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.694] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.699] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.789] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.796] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.800] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:37.806] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:37.809] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:37.887] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:37.893] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:37.898] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:37.905] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.973] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:37.977] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.075] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:38.079] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.082] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.160] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.163] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.235] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.241] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.308] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.312] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.377] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.381] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.448] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.453] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.518] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.526] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.630] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.634] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.705] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.710] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.776] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.782] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.846] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.850] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.915] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:38.920] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.984] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:38.989] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.058] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.064] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.099] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.102] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.140] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.143] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.179] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.183] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.216] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.220] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.251] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.254] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.288] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.292] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:39.469] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:34:39.473] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:39.529] GET 192.168.1.4 [L] close door
+[2026-05-06 13:34:39.632] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:39.635] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:39.803] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:40.402] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:42.200] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:43.032] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:44.541] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:44.695] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:44.700] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:44.754] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:44.759] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:44.830] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:44.834] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:44.904] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:44.911] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:44.915] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:44.978] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:44.981] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.016] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.020] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.053] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.056] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.092] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.095] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.127] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.131] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.164] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.167] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.202] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.205] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.239] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.243] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.272] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.276] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.313] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.316] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.350] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.353] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.356] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:45.421] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.424] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.494] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.498] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.568] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.572] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.610] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.613] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.651] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.655] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.689] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:45.692] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:45.868] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:46.042] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:46.047] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:47.410] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:49.130] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.169] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.173] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.209] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.213] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.246] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.249] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.285] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.289] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.325] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.328] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.331] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:49.402] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.406] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.479] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.483] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.555] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.559] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.595] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.600] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.673] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.677] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.756] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.760] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.833] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.837] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.915] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:49.919] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.922] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:49.953] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:49.956] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.032] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.036] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.110] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.113] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.188] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.192] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.264] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.268] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.304] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.308] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.376] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.380] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.454] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.458] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.524] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.529] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.591] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.597] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.666] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.672] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.734] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.739] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.806] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.810] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.873] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.879] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:50.942] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:50.948] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.014] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.019] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.052] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.057] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.119] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.123] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.187] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.193] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.258] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.263] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.327] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.332] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.395] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.399] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.425] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.430] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.493] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.496] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.528] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.531] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.563] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.566] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.628] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.632] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.666] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.670] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:51.701] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:51.705] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:52.023] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:52.028] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:52.203] GET 192.168.1.4 [L] open door
+[2026-05-06 13:34:52.382] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:52.522] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:52.525] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:52.528] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:52.531] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:52.697] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:52.722] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:52.727] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:53.026] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:53.031] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:53.062] GET 192.168.1.4 [L] close door
+[2026-05-06 13:34:53.188] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:53.257] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:53.261] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:53.328] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:53.332] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:53.335] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:53.338] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:53.341] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:53.367] GET 192.168.1.4 [L] Monster got hit for 10 damage.
+[2026-05-06 13:34:53.371] GET 192.168.1.4 [L] 小鬼 died.
+[2026-05-06 13:34:53.374] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:53.377] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=27629 mime=audio/mpeg
+[2026-05-06 13:34:53.380] GET 192.168.1.4 [L] 小鬼 dropped 1 crystals.
+[2026-05-06 13:34:53.543] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:53.546] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:53.674] GET 192.168.1.4 [L] open door
+[2026-05-06 13:34:53.963] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:53.967] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.305] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:54.308] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.541] GET 192.168.1.4 [L] close door
+[2026-05-06 13:34:54.602] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:54.643] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.647] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:54.682] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.686] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:54.717] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.721] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:54.752] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.755] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:54.782] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:54.787] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:54.814] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:54.875] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:34:55.052] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=27629 loop=false
+[2026-05-06 13:34:55.056] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=27629
+[2026-05-06 13:34:55.108] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:55.113] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:55.439] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:57.225] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:58.028] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:58.031] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:58.098] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:58.102] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:58.166] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:58.171] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:58.229] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:58.232] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:58.534] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:58.537] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:59.395] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=5477 mime=audio/mpeg
+[2026-05-06 13:34:59.399] GET 192.168.1.4 [L] ����ɹ� ִ��һ������---
+[2026-05-06 13:34:59.403] GET 192.168.1.4 [L] ������������꣬�޷���������
+[2026-05-06 13:34:59.406] GET 192.168.1.4 [L] [XXAUDIO] play vol=1.00 loop=false bytes=33062 mime=audio/mpeg
+[2026-05-06 13:34:59.410] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:34:59.715] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=5477 loop=false
+[2026-05-06 13:34:59.720] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=5477
+[2026-05-06 13:34:59.916] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:00.561] GET 192.168.1.4 [L] [wx-ad-bridge] InstallFullGame
+[2026-05-06 13:35:00.566] GET 192.168.1.4 [L] π: Not logging event cta as no endpoint URL is provided!
+[2026-05-06 13:35:00.569] GET 192.168.1.4 [W] [开发提示]试玩包内容已结束，线上实际将直接展示试玩结束页
+[2026-05-06 13:35:00.573] GET 192.168.1.4 [L] [wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent
+[2026-05-06 13:35:00.576] GET 192.168.1.4 [L] [wx-ad-bridge] CTA 触发但没配 wxAppId; 商店链接: https://play.google.com/store/apps/details?id=com.arkgamelimited.idle.JP.Android
+[2026-05-06 13:35:00.747] GET 192.168.1.4 [W] [UI.keep] timer stopped after touch released
+[2026-05-06 13:35:01.560] GET 192.168.1.4 [L] [XXAUDIO] ended bytes=33062 loop=false
+[2026-05-06 13:35:01.564] GET 192.168.1.4 [L] [XXAUDIO] stop bytes=33062
+[2026-05-06 13:35:05.043] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:10.070] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:15.071] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:20.033] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:25.120] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:30.171] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!
+[2026-05-06 13:35:35.120] GET 192.168.1.4 [L] π: Not logging event sample as no endpoint URL is provided!

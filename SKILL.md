@@ -567,6 +567,34 @@ if (Test-Path $qr) { Write-Host "QR: $((Get-Item $qr).Length) bytes" } else { Wr
 | `[W] request() is not implemented on wx` / `[W] setInnerAudioOption() is not implemented on wx` | 试玩 runtime 把这些 wx API 实现为 throwing stub, 进函数体即 console.warn | dom-shim 早期用 `Object.defineProperty(wx, k, {value: noop, writable: true, configurable: true})` 强行替换 (直接赋值 silently fail, 因为 non-writable) |
 | `game.json: 未找到 ["subpackages"][0]["root"] 对应的 /subpackage-bundle/game.js 文件` 预览 fail | game.json 里残留 subpackages 字段, 但试玩 runtime 不支持分包, 子包没自己的 game.js | 删掉 game.json 里 `subpackages` 字段, 所有 chunk 用 require 进主包 |
 | `[WASM] redirect len=N -> box2d.wasm.br` 后 `load wasm failed` 黑屏 | dom-shim 表里有 byteLength 映射但 .wasm.br 文件没落盘 | 跑 extract-wasm.cjs 抠 WASM (postprocess.js 已自动 chain). 如果 grep 原 HTML 0 命中 `AGFzbQ`, 多半是新 luna 的 base122+brotli 双层套娃,需要解 decompressString payload 再扫 |
+| 「CTA 按钮没反应」/ 「`wx.notifyMiniProgramPlayableStatus({isEnd:true})` 不生效」 | (a) typo: `Playablestatus` 小写 s → undefined → 静默；(b) 预览环境调用成功但**不绘结束页 UI** (微信侧设计,线上投放才绘) | (a) 改成 `PlayableStatus` 大 S；(b) probe 看 `[wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent` — 出现就是客户端 OK,UI 缺失是预期; 真要验 UI 必须线上投放 |
+
+## 试玩结束信号（CTA → wx.notifyMiniProgramPlayableStatus）
+
+试玩 runtime 上 `wx.notifyMiniProgramPlayableStatus({isEnd:true})` **真实存在且执行成功**（2026-05-06 升武器_unity probe 实证：4 次点击全部 `sent`）。**不在** runtime 缺失清单里。
+
+但**预览环境**（开发者工具扫码）**不绘结束页 UI**——这是微信侧设计：
+- 调用层（probe 看到 `sent`）✓ 在预览生效
+- UI 层（微信内核绘"安装/试玩更多"页）✗ 仅线上广告投放才绘
+
+两层独立。"按钮没反应"通常是把 UI 缺失当成 API 失败，看 probe log 一秒辨。
+
+**典型路径**（参考 `wx-ad-bridge.js` `endUnityGame` + `doJump`）：
+
+```
+Unity CTA 按钮 → Luna.Unity.Playable.InstallFullGame()  (Luna SDK 主入口)
+  → wx-ad-bridge.js: doJump()
+     1. endUnityGame() → wx.notifyMiniProgramPlayableStatus({isEnd:true})  ← 无条件先发
+     2. (如配 wxAppId) wx.navigateToMiniProgram({appId})  ← 否则 fallback 商店链接
+```
+
+**多入口防御**（同一 `endUnityGame` 被多路径触发，避免漏报）：
+- `Luna.Unity.Playable.InstallFullGame` — 主 CTA（开始/中途/结束页按钮通常都接这里）
+- `Luna.Unity.LifeCycle.GameEnded` — 胜负结算（wrap 不覆盖原 `pi.logGameEnd`）
+- `luna:ended` event — 部分路径直接 dispatch 不调 LifeCycle.GameEnded
+- `window.open` (dom-shim) — Unity `Application.OpenURL` 直链按钮的兜底
+
+**对比 Unity 原生小游戏（minigame-unity-webgl-transform）**：那条工具链走 `wx.navigateToMiniProgram({appId})` 跳目标小程序作为 CTA 终点；C# `WX.NotifyMiniProgramPlayableStatus(opt)` 通过 wasm → `unity-sdk/sdk.js: WX_OneWayFunction` → `wx[lowerName]({...config, success, fail, complete})`。两条最终都落到 `wx.notifyMiniProgramPlayableStatus`，runtime 不挑入口。
 
 ## 调试纪律
 

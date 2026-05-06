@@ -806,6 +806,18 @@
     };
   }
 
+  // ---------- window.open 兜底 (Unity Application.OpenURL 路径) ----------
+  // 部分 Luna 工程把按钮接到 Application.OpenURL → JS 层 window.open(url).
+  // 试玩广告 runtime 里 window.open 不存在, 调用直接 silent fail → 按钮没反应.
+  // 这里捕到调用就 fire endUnityGame, 行为对齐 InstallFullGame.
+  if (typeof g.open !== 'function') {
+    g.open = function (url) {
+      console.log('[dom-shim] window.open intercepted url=', url);
+      try { if (typeof GameGlobal.endUnityGame === 'function') GameGlobal.endUnityGame(); } catch (e) {}
+      return null;
+    };
+  }
+
   // ---------- URLSearchParams (playable runtime 不一定有) ----------
   if (typeof g.URLSearchParams === 'undefined') {
     g.URLSearchParams = function URLSearchParams(s) {

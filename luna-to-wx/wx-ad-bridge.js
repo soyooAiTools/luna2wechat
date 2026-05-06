@@ -292,10 +292,36 @@
   // 调用时 wx 自己 console.error("xxx() is not implemented on wx") 而不是 throw,
   // try/catch 包不住 → 根本不调用。试玩广告也不需要这些生命周期, 直接 skip。
 
+  // ---------- 试玩结束信号 (CTA 点击后通知 wx 弹结束页) ----------
+  // **API 在试玩广告 runtime 真实存在且执行成功** (2026-05-06 升武器_unity probe 实证):
+  //   每次点击都看到 `notifyMiniProgramPlayableStatus({isEnd:true}) sent`,
+  //   typeof === 'function' 返 true, 调用没抛, 没短路. 不在 runtime 缺失清单里.
+  //
+  // 注意 1: API 名是 PlayableStatus (大 S), 不是 Playablestatus. 大小写错 → undefined → 静默无操作.
+  // 注意 2: **预览环境调用成功但不绘结束页 UI** — 微信侧设计.
+  //         调用层 (sent log 出) 与 UI 层 (微信内核绘制) 是两回事:
+  //         开发者工具扫码预览不绘 UI, 线上广告投放才绘. 别误以为 "API 不工作".
+  // 注意 3: 基础库 3.5.4+ 调不存在的 wx 方法会 console.error, typeof 检查仍保留作 baseLib 兼容垫.
+  if (typeof GameGlobal.endUnityGame !== 'function') {
+    GameGlobal.endUnityGame = function () {
+      try {
+        if (typeof wx.notifyMiniProgramPlayableStatus === 'function') {
+          wx.notifyMiniProgramPlayableStatus({ isEnd: true });
+          console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus({isEnd:true}) sent');
+        } else {
+          console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus API 缺失 (基础库太老?)');
+        }
+      } catch (e) {
+        console.log('[wx-ad-bridge] notifyMiniProgramPlayableStatus FAIL', e);
+      }
+    };
+  }
+
   // ---------- CTA: 跳转目标 (微信下走小游戏跳转, 没有就 fallback) ----------
+  // isEnd 必须**无条件**先发, 不论后面是否跳小程序; 微信广告平台靠这个回收试玩.
   function doJump() {
+    if (typeof GameGlobal.endUnityGame === 'function') GameGlobal.endUnityGame();
     const cfg = (win.$environment && win.$environment.packageConfig) || {};
-    // 优先支持显式微信跳转配置
     if (cfg.wxAppId) {
       wx.navigateToMiniProgram({
         appId: cfg.wxAppId,
@@ -306,11 +332,8 @@
       });
       return;
     }
-    // 没配 wxAppId, 试着从商店链接里抽 (用户可能后填)
     const url = cfg.androidLink || cfg.iosLink || '';
     console.log('[wx-ad-bridge] CTA 触发但没配 wxAppId; 商店链接:', url);
-    // 标记给 host page; 真正的导出工程要在 packageConfig 里加 wxAppId
-    if (typeof GameGlobal.endUnityGame === 'function') GameGlobal.endUnityGame();
   }
 
   let shouldJump = false;
@@ -330,6 +353,7 @@
       const register = function () {
         if (Luna && Luna.Unity && Luna.Unity.Playable) {
           Luna.Unity.Playable.InstallFullGame = function () {
+            console.log('[wx-ad-bridge] InstallFullGame');
             try { if (win.pi && win.pi.logCta) win.pi.logCta(); } catch (e) {}
             shouldJump = true;
             tryJump();
@@ -337,7 +361,23 @@
         } else {
           console.log('[wx-ad-bridge] Luna.Unity.Playable 未就绪');
         }
+        // 游戏结算 (Win/Lose/end-screen) 也算 CTA 终点 — 发 isEnd, 不跳商店.
+        // Unity 侧 Win/Lose 通常调 LifeCycle.GameEnded; 我们 wrap 原 hook (18_pi_runtime 已注入 luna:ended dispatch),
+        // 在 dispatch 前先发 isEnd, 避免覆盖 logGameEnd 上报路径.
+        if (Luna && Luna.Unity && Luna.Unity.LifeCycle) {
+          const origGE = Luna.Unity.LifeCycle.GameEnded;
+          Luna.Unity.LifeCycle.GameEnded = function () {
+            console.log('[wx-ad-bridge] GameEnded');
+            if (typeof GameGlobal.endUnityGame === 'function') GameGlobal.endUnityGame();
+            if (typeof origGE === 'function') { try { return origGE.apply(this, arguments); } catch (e) { console.log('[wx-ad-bridge] origGE threw', e); } }
+          };
+        }
       };
+      // luna:ended 事件再保一层 (有些路径不走 LifeCycle.GameEnded 而直接 dispatch luna:ended)
+      winOn('luna:ended', function () {
+        console.log('[wx-ad-bridge] luna:ended event');
+        if (typeof GameGlobal.endUnityGame === 'function') GameGlobal.endUnityGame();
+      });
       if (Bridge && typeof Bridge.ready === 'function') {
         try { Bridge.ready(register); } catch (e) { console.log('[wx-ad-bridge] Bridge.ready threw, calling register direct', e && e.message); register(); }
       } else { register(); }
