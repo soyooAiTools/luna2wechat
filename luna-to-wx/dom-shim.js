@@ -469,6 +469,39 @@
       console.warn('[UI.instrument] hooks installed');
     }
 
+    // 暴露 warmup 函数: 启动期外部 RAF chain 调用让 luna PC 第一帧就看到 idle Input 状态
+    g.__warmupUIInject = function () {
+      try {
+        _instrumentUIRead();
+        if (!__uiInjectState) {
+          // 注入空 idle 状态: 没 active touch, mousePosition=(0,0)
+          __uiInjectState = { active: false, ux: 0, uy: 0, dx: 0, dy: 0, phase: 0,
+                              fingerId: 0, mockT: null, isDown: false, isUp: false, endedAt: 0, endedTickCount: null };
+        }
+        _injectUIState();
+        console.log('[UI.warmup] Input state injected (idle), UI ready=' + !!(g.UnityEngine && g.UnityEngine.Input));
+
+        // **首次扫码首次触屏漂移 workaround**: web runtime 下浏览器在 canvas 建立时自动 dispatch 'resize',
+        // luna PC.app 用它来同步 Canvas Scaler viewport. wx 试玩 runtime 没自动 dispatch,
+        // luna PC 第一帧用默认 viewport (750×1334) → Canvas Scaler 第一帧 raycast 错位 → 首次触屏漂移.
+        // 主动 dispatch resize + orientationchange + visibilitychange 三发齐, 让 luna PC 重设 viewport.
+        try {
+          const w = (g._screen && g._screen.cssWidth) || g.innerWidth || 400;
+          const h = (g._screen && g._screen.cssHeight) || g.innerHeight || 862;
+          const events = ['resize', 'orientationchange', 'visibilitychange'];
+          for (const evType of events) {
+            try {
+              const ev = (typeof g.Event === 'function') ? new g.Event(evType) : { type: evType };
+              ev.type = evType;
+              if (g._winBus && typeof g._winBus.emit === 'function') g._winBus.emit(evType, ev);
+              if (typeof g.dispatchEvent === 'function') { try { g.dispatchEvent(ev); } catch (_) {} }
+            } catch (e) {}
+          }
+          console.log('[UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=' + w + ' cssH=' + h + ')');
+        } catch (e) { console.warn('[UI.warmup] resize dispatch FAIL', e && e.message); }
+      } catch (e) { console.warn('[UI.warmup] FAIL', e && e.message); }
+    };
+
     function _injectUIState() {
       const UI = g.UnityEngine && g.UnityEngine.Input;
       if (!UI || !__uiInjectState) return;
@@ -583,6 +616,9 @@
       };
       _instrumentUIRead();
       _injectUIState();
+      // **首次 touch 偏移 workaround**: luna PC EventSystem 第一帧 init 时如果 UnityEngine.Input.touches/mousePosition
+      // 是 undefined, raycast camera 用默认 viewport, 第一次 OnPointerDown 路由错位.
+      // 启动期主动调 _injectUIState 一次让状态非 undefined, 见 dom-shim init 末尾的 warmup tick.
       if (!__uiInjectTimer) {
         __uiInjectTimer = setInterval(function () {
           _injectUIState();
@@ -1596,6 +1632,26 @@
         }
       }
     }
+  } catch (e) {}
+
+  // **首次 touch 偏移 workaround**: luna PC EventSystem 第一帧 init 时若 UnityEngine.Input.touches/mousePosition
+  // 是 undefined, raycast camera 用默认 viewport, 第一次 OnPointerDown 路由错位 → 用户感知首次操控偏移.
+  // 不等到第一次 touch 才装 hook + 注入状态, 启动期 RAF chain retry 直到 luna runtime 设了 UnityEngine.Input,
+  // 主动注入 active=false 的 idle 状态让 EventSystem 第一帧看到完整 Input 表面.
+  try {
+    let _warmupAttempts = 0;
+    const _warmupTick = setInterval(function () {
+      _warmupAttempts++;
+      const UI = g.UnityEngine && g.UnityEngine.Input;
+      if (UI && typeof UI.mousePosition !== 'undefined' || _warmupAttempts > 100) {
+        // luna runtime 已设 UnityEngine.Input, 装 read hook + 注入 idle 状态
+        try {
+          // 直接调 dom-shim 内部函数; 通过 g.__warmupUIInject 路径暴露 (闭包内)
+          if (typeof g.__warmupUIInject === 'function') g.__warmupUIInject();
+        } catch (e) {}
+        clearInterval(_warmupTick);
+      }
+    }, 50);
   } catch (e) {}
 })();
 
