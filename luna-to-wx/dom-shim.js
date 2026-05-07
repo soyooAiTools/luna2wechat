@@ -128,6 +128,76 @@
   if (typeof g.TouchEvent    === 'undefined') g.TouchEvent    = _mkEv({ touches: [], targetTouches: [], changedTouches: [] });
   if (typeof g.PointerEvent  === 'undefined') g.PointerEvent  = _mkEv({ clientX: 0, clientY: 0, pointerId: 1 });
 
+  // iOS 高版本（实测 iOS 18.7.8 + WeChat 8.0.72 + SDK 2.0.15）wx 试玩 runtime 的 JSCore-host
+  // 注入面收紧, web globals 比 Android 更少。luna scene 初始化里有 `new CustomEvent(type)`
+  // → ReferenceError → Bridge.NET InvalidOperationException → scene._renderers=0 → 黑屏。
+  // Android (V8 host) 自带这些 ctor, 不显形。下面这组 polyfill 是 iOS 高版本必备:
+  if (typeof g.CustomEvent === 'undefined') {
+    g.CustomEvent = function CustomEvent(type, params) {
+      params = params || { bubbles: false, cancelable: false, detail: null };
+      let evt; try { evt = new g.Event(type, params); } catch (e) { evt = { type: type }; }
+      evt.detail = params.detail !== undefined ? params.detail : null;
+      evt.bubbles = !!params.bubbles; evt.cancelable = !!params.cancelable;
+      return evt;
+    };
+  }
+  if (typeof g.EventTarget === 'undefined') {
+    g.EventTarget = function EventTarget() {
+      this._listeners = {};
+      this.addEventListener = function (t, cb) { (this._listeners[t] = this._listeners[t] || []).push(cb); };
+      this.removeEventListener = function (t, cb) { const a = this._listeners[t]; if (!a) return; const i = a.indexOf(cb); if (i >= 0) a.splice(i, 1); };
+      this.dispatchEvent = function (e) { const a = this._listeners[e && e.type]; if (!a) return true; for (let i = 0; i < a.length; i++) { try { a[i].call(this, e); } catch (_) {} } return true; };
+    };
+  }
+  if (typeof g.URL === 'undefined') {
+    g.URL = function URL(href) {
+      this.href = String(href || ''); this.origin = ''; this.protocol = ''; this.host = ''; this.pathname = '';
+      this.search = ''; this.hash = '';
+      this.searchParams = { get: () => null, set: () => {}, has: () => false };
+      const m = this.href.match(/^([a-z][a-z0-9+\-.]*:)?(\/\/([^\/]*))?(\/[^?#]*)?(\?[^#]*)?(#.*)?$/i);
+      if (m) { this.protocol = m[1] || ''; this.host = m[3] || ''; this.pathname = m[4] || ''; this.search = m[5] || ''; this.hash = m[6] || ''; this.origin = (this.protocol && this.host) ? (this.protocol + '//' + this.host) : ''; }
+      this.toString = function () { return this.href; };
+    };
+    g.URL.createObjectURL = function () { return 'wxshim://' + Math.random().toString(36).slice(2); };
+    g.URL.revokeObjectURL = function () {};
+  }
+  if (typeof g.Blob === 'undefined') {
+    g.Blob = function Blob(parts, opts) {
+      this.size = 0;
+      if (parts && parts.length) for (let i = 0; i < parts.length; i++) { const p = parts[i]; this.size += (p && p.byteLength) || (p && p.length) || 0; }
+      this.type = (opts && opts.type) || ''; this._parts = parts || [];
+    };
+  }
+  if (typeof g.FormData === 'undefined') {
+    g.FormData = function FormData() { this._data = {}; this.append = function (k, v) { this._data[k] = v; }; this.get = function (k) { return this._data[k]; }; };
+  }
+  if (typeof g.queueMicrotask !== 'function') {
+    g.queueMicrotask = function (cb) { Promise.resolve().then(cb).catch(function (e) { setTimeout(function () { throw e; }); }); };
+  }
+
+  // globals-dump 启动期诊断: 一次性发布该 wx 版本下 web API 注入面的实际状态。
+  // 用 LAN/公网 probe 拿到日志后能立刻看到该 iOS+微信版本组合缺哪些, 决定要不要补 polyfill。
+  // 关键发现: iOS 18.7.8 + WeChat 8.0.72 缺: URLSearchParams,File,MessageChannel,MessagePort,
+  //                                          crypto,performance,XMLHttpRequest,fetch,WebSocket
+  try {
+    const _checkGlobals = ['Event','CustomEvent','EventTarget','URL','URLSearchParams','Blob','File','FormData',
+      'MessageChannel','MessagePort','queueMicrotask','TextEncoder','TextDecoder','Promise','Proxy','Symbol',
+      'Map','Set','WeakMap','WeakSet','BigInt','globalThis','requestAnimationFrame','cancelAnimationFrame',
+      'setTimeout','setInterval','clearTimeout','clearInterval','atob','btoa','crypto','performance',
+      'document','window','navigator','location','history','XMLHttpRequest','fetch','WebSocket'];
+    const _missing = []; const _present = [];
+    for (let _i = 0; _i < _checkGlobals.length; _i++) {
+      const _k = _checkGlobals[_i]; const _t = typeof g[_k];
+      if (_t === 'undefined') _missing.push(_k); else _present.push(_k + ':' + _t);
+    }
+    console.log('[globals-dump] missing=', _missing.join(','));
+    console.log('[globals-dump] present=', _present.join(','));
+    const _sys = (wx.getSystemInfoSync && wx.getSystemInfoSync()) || {};
+    console.log('[globals-dump] iOS-system=', _sys.system || 'unknown',
+                'WeChat-version=', _sys.version || 'unknown',
+                'SDK=', _sys.SDKVersion || 'unknown');
+  } catch (e) { console.warn('[globals-dump] threw', e && e.message); }
+
   // wx.createCanvas() 默认 2x2 — PlayCanvas/Luna 看到无效尺寸不启动渲染循环。
   // 显式设为屏幕尺寸 * pixelRatio (高 DPI 能覆盖纹理); CSS 像素仍由 clientWidth/Height 报告。
   // 注: 若试玩广告需要响应屏幕旋转, 后续要监听 wx.onWindowResize 重设, 现在一次性够用。
@@ -915,8 +985,11 @@
     // byteLength 以 extract-wasm.cjs 输出的 luna-wasm.json 为准；换 Luna 包时重跑脚本会更新两个文件，
     // 然后**回来更新这张 size→file 表**(脚本在末尾 console.error 打印 manifest)。
     // 路径加载 manifest（按 byteLength → 包内文件）。两份都用 .br 压缩省主包体积。
+    // **iOS 18.7.8 + WeChat 8.0.72 实测**: brotli decode 出来的 box2d 是 168336 字节, 比 Android (V8) 的 168334 多 2 字节。
+    // 两个 length 都映射到 box2d.wasm.br, 否则 iOS 高版本黑屏 (emscripten Aborted("unmapped WASM buffer length=168336"))。
     const _wasmFiles = {
       168334: 'box2d.wasm.br',
+      168336: 'box2d.wasm.br',  // iOS 高版本 (brotli decode 多 2 字节)
       271539: 'mecanim.wasm.br',
     };
     // imports 处理模式：'pass'(默认，原样传) / 'clean'(包一层 thunk) / 'noop'(全 noop) / 'noop-arity'(按 arity noop)
@@ -1637,6 +1710,7 @@
       }
       // 其余 keys 保持只补缺(不覆盖 playable runtime 的原版,避免 instanceof 关系漂移)
       const _mirror = ['Event','MouseEvent','WheelEvent','KeyboardEvent','TouchEvent','PointerEvent',
+        'CustomEvent','EventTarget','URL','Blob','FormData',  // iOS 高版本 polyfill, 必须 mirror
         'Audio','HTMLAudioElement','HTMLElement','Element','Node','AudioContext','webkitAudioContext'];
       for (const k of _mirror) {
         if (typeof globalThis[k] === 'undefined' && typeof g[k] !== 'undefined') {
