@@ -17,88 +17,6 @@
   const g = GameGlobal;
   if (!g.canvas) g.canvas = wx.createCanvas();
 
-  // ---- HTTP probe: 队列化串行 wx.request,避免并发上限把启动期日志全丢 ----
-  // 之前发现的根因:并发同时发 100+ wx.request,被 runtime 的 max-concurrent (~5-10) 上限丢光,
-  // 只有稳态后 (escapeGuideCount 这种每帧 spam) 慢速拍发的能进 → 启动期 dom-shim init
-  // / video init / 错误日志全部静默丢失. 修法:
-  //   1. 队列化:同一时刻最多 1 个 wx.request in-flight
-  //   2. 过滤 spam (escapeGuideCount / Skipping event sample 等)
-  //   3. 多 LAN 候选 IP 串行尝试
-  try {
-    // 经验证:wx.request 的 complete 回调在试玩 runtime 不可靠,容易让队列 _inflight 永久卡住.
-    // 改用纯 fire-and-forget,Image transport (wx.createImage().src) 不走 wx.request 并发上限.
-    // 启动期 burst 用 buffer + setInterval 限速 flush 缓解,1 条/20ms 拍发,~5min 排空 5000 条.
-    const PROBE_HOST = '192.168.1.3:53017';
-    const _origLog  = console.log  ? console.log.bind(console)  : function(){};
-    const _origWarn = console.warn ? console.warn.bind(console) : _origLog;
-    const _origErr  = console.error? console.error.bind(console): _origLog;
-    const _origInfo = console.info ? console.info.bind(console) : _origLog;
-    const _spamPatterns = [/escapeGuideCount/, /Skipping event sample/, /^\[XXAUDIO\] gain#/];
-    const _buf = [];
-    function fireOne(line) {
-      const url = 'http://' + PROBE_HOST + '/log?m=' + encodeURIComponent(line.slice(0, 1500));
-      // Image transport (主):不走 wx.request 并发限制
-      try {
-        const img = (typeof wx !== 'undefined' && wx.createImage) ? wx.createImage() : null;
-        if (img) img.src = url;
-      } catch (e) {}
-      // 注: 试玩广告 runtime 的 wx.request 是 throwing stub ("is not implemented on wx") —
-      // 副通道会触发 W warning, 反而污染日志, 所以这里只走 createImage 主路.
-      // dom-shim 后面统一把 wx.request silencer 化, luna 自己调也不会再打 warning.
-    }
-    setInterval(function () {
-      // 每 tick 最多发 5 条,避免短时间 burst 又触发并发上限
-      let n = 5;
-      while (n-- > 0 && _buf.length > 0) fireOne(_buf.shift());
-    }, 20);
-    function fmt(args) {
-      try {
-        return Array.prototype.map.call(args, a => {
-          if (a == null) return String(a);
-          if (typeof a === 'string') return a;
-          if (typeof a === 'number' || typeof a === 'boolean') return String(a);
-          if (a instanceof Error) return (a.message||'') + '|' + (a.stack||'').split('\n').slice(0,3).join('//');
-          try { return JSON.stringify(a); } catch (e) { return '[obj]'; }
-        }).join(' ');
-      } catch (e) { return '[fmt-err]'; }
-    }
-    function send(level, args) {
-      try {
-        const msg = '[' + level + '] ' + fmt(args);
-        for (const re of _spamPatterns) { if (re.test(msg)) return; }
-        if (_buf.length < 10000) _buf.push(msg);
-      } catch (e) {}
-    }
-    console.log   = function () { send('L', arguments); _origLog.apply(null, arguments); };
-    console.warn  = function () { send('W', arguments); _origWarn.apply(null, arguments); };
-    console.error = function () { send('E', arguments); _origErr.apply(null, arguments); };
-    console.info  = function () { send('I', arguments); _origInfo.apply(null, arguments); };
-    console.log('[probe] HTTP probe attached → ' + PROBE_HOST);
-  } catch (e) {}
-
-  // 试玩广告 runtime 的若干 wx API 是 throwing stub ("is not implemented on wx") —
-  // 进入函数体即 console.warn, 无论 try/catch 都是 W 噪音.
-  // 统一替换为 silent noop, luna/dom-shim 任何路径调都不再产生 warning.
-  // 注: probe 走 wx.createImage 主路, 不依赖 wx.request, 不会受影响.
-  // wx 上的 API 经常是 non-writable / non-configurable, 直接赋值会 silently fail —
-  // 必须用 Object.defineProperty 强行覆盖, 失败再退到赋值兜底.
-  try {
-    if (typeof wx !== 'undefined' && !wx.__stubsSilenced) {
-      const _stubKeys = ['request', 'setInnerAudioOption'];
-      const _makeNoop = (k) => function (opts) {
-        try { if (opts && typeof opts.fail === 'function') opts.fail({ errMsg: k + ': silenced by dom-shim' }); } catch (e) {}
-        try { if (opts && typeof opts.complete === 'function') opts.complete({ errMsg: k + ': silenced by dom-shim' }); } catch (e) {}
-      };
-      for (const k of _stubKeys) {
-        if (typeof wx[k] !== 'function') continue;
-        const noop = _makeNoop(k);
-        try { Object.defineProperty(wx, k, { value: noop, writable: true, configurable: true }); }
-        catch (e) { try { wx[k] = noop; } catch (_) {} }
-      }
-      wx.__stubsSilenced = true;
-    }
-  } catch (e) {}
-
   // luna-runtime/19_pi_runtime.js 的 Bridge.ready cb 会写 Luna.Unity.LifeCycle.GameEnded =,
   // Luna.Unity.LifeCycle 在 Bridge.NET 早期没生成 → "Cannot set properties of undefined" throw。
   // 在 dom-shim 早期占位, runtime 后期再覆盖也没问题 (Bridge.NET assignTo 是 Object.assign 风格)。
@@ -128,82 +46,6 @@
   if (typeof g.TouchEvent    === 'undefined') g.TouchEvent    = _mkEv({ touches: [], targetTouches: [], changedTouches: [] });
   if (typeof g.PointerEvent  === 'undefined') g.PointerEvent  = _mkEv({ clientX: 0, clientY: 0, pointerId: 1 });
 
-  // iOS 高版本（实测 iOS 18.7.8 + WeChat 8.0.72 + SDK 2.0.15）wx 试玩 runtime 的 JSCore-host
-  // 注入面收紧, web globals 比 Android 更少。luna scene 初始化里有 `new CustomEvent(type)`
-  // → ReferenceError → Bridge.NET InvalidOperationException → scene._renderers=0 → 黑屏。
-  // Android (V8 host) 自带这些 ctor, 不显形。下面这组 polyfill 是 iOS 高版本必备:
-  if (typeof g.CustomEvent === 'undefined') {
-    g.CustomEvent = function CustomEvent(type, params) {
-      params = params || { bubbles: false, cancelable: false, detail: null };
-      let evt; try { evt = new g.Event(type, params); } catch (e) { evt = { type: type }; }
-      evt.detail = params.detail !== undefined ? params.detail : null;
-      evt.bubbles = !!params.bubbles; evt.cancelable = !!params.cancelable;
-      return evt;
-    };
-  }
-  if (typeof g.EventTarget === 'undefined') {
-    g.EventTarget = function EventTarget() {
-      this._listeners = {};
-      this.addEventListener = function (t, cb) { (this._listeners[t] = this._listeners[t] || []).push(cb); };
-      this.removeEventListener = function (t, cb) { const a = this._listeners[t]; if (!a) return; const i = a.indexOf(cb); if (i >= 0) a.splice(i, 1); };
-      this.dispatchEvent = function (e) { const a = this._listeners[e && e.type]; if (!a) return true; for (let i = 0; i < a.length; i++) { try { a[i].call(this, e); } catch (_) {} } return true; };
-    };
-  }
-  if (typeof g.URL === 'undefined') {
-    g.URL = function URL(href) {
-      this.href = String(href || ''); this.origin = ''; this.protocol = ''; this.host = ''; this.pathname = '';
-      this.search = ''; this.hash = '';
-      this.searchParams = { get: () => null, set: () => {}, has: () => false };
-      const m = this.href.match(/^([a-z][a-z0-9+\-.]*:)?(\/\/([^\/]*))?(\/[^?#]*)?(\?[^#]*)?(#.*)?$/i);
-      if (m) { this.protocol = m[1] || ''; this.host = m[3] || ''; this.pathname = m[4] || ''; this.search = m[5] || ''; this.hash = m[6] || ''; this.origin = (this.protocol && this.host) ? (this.protocol + '//' + this.host) : ''; }
-      this.toString = function () { return this.href; };
-    };
-    g.URL.createObjectURL = function () { return 'wxshim://' + Math.random().toString(36).slice(2); };
-    g.URL.revokeObjectURL = function () {};
-  }
-  if (typeof g.Blob === 'undefined') {
-    g.Blob = function Blob(parts, opts) {
-      this.size = 0;
-      if (parts && parts.length) for (let i = 0; i < parts.length; i++) { const p = parts[i]; this.size += (p && p.byteLength) || (p && p.length) || 0; }
-      this.type = (opts && opts.type) || ''; this._parts = parts || [];
-    };
-  }
-  if (typeof g.FormData === 'undefined') {
-    g.FormData = function FormData() { this._data = {}; this.append = function (k, v) { this._data[k] = v; }; this.get = function (k) { return this._data[k]; }; };
-  }
-  if (typeof g.queueMicrotask !== 'function') {
-    g.queueMicrotask = function (cb) { Promise.resolve().then(cb).catch(function (e) { setTimeout(function () { throw e; }); }); };
-  }
-
-  // globals-dump 启动期诊断: 一次性发布该 wx 版本下 web API 注入面的实际状态。
-  // 用 LAN/公网 probe 拿到日志后能立刻看到该 iOS+微信版本组合缺哪些, 决定要不要补 polyfill。
-  // 关键发现: iOS 18.7.8 + WeChat 8.0.72 缺: URLSearchParams,File,MessageChannel,MessagePort,
-  //                                          crypto,performance,XMLHttpRequest,fetch,WebSocket
-  try {
-    const _checkGlobals = ['Event','CustomEvent','EventTarget','URL','URLSearchParams','Blob','File','FormData',
-      'MessageChannel','MessagePort','queueMicrotask','TextEncoder','TextDecoder','Promise','Proxy','Symbol',
-      'Map','Set','WeakMap','WeakSet','BigInt','globalThis','requestAnimationFrame','cancelAnimationFrame',
-      'setTimeout','setInterval','clearTimeout','clearInterval','atob','btoa','crypto','performance',
-      'document','window','navigator','location','history','XMLHttpRequest','fetch','WebSocket'];
-    const _missing = []; const _present = [];
-    for (let _i = 0; _i < _checkGlobals.length; _i++) {
-      const _k = _checkGlobals[_i]; const _t = typeof g[_k];
-      if (_t === 'undefined') _missing.push(_k); else _present.push(_k + ':' + _t);
-    }
-    console.log('[globals-dump] missing=', _missing.join(','));
-    console.log('[globals-dump] present=', _present.join(','));
-    const _sys = (wx.getSystemInfoSync && wx.getSystemInfoSync()) || {};
-    console.log('[globals-dump] system=', _sys.system || 'unknown',
-                'platform=', _sys.platform || 'unknown',
-                'brand=', _sys.brand || 'unknown',
-                'model=', _sys.model || 'unknown',
-                'WeChat-version=', _sys.version || 'unknown',
-                'SDK=', _sys.SDKVersion || 'unknown',
-                'pixelRatio=', _sys.pixelRatio,
-                'screen=', (_sys.screenWidth || 0) + 'x' + (_sys.screenHeight || 0),
-                'window=', (_sys.windowWidth || 0) + 'x' + (_sys.windowHeight || 0));
-  } catch (e) { console.warn('[globals-dump] threw', e && e.message); }
-
   // wx.createCanvas() 默认 2x2 — PlayCanvas/Luna 看到无效尺寸不启动渲染循环。
   // 显式设为屏幕尺寸 * pixelRatio (高 DPI 能覆盖纹理); CSS 像素仍由 clientWidth/Height 报告。
   // 注: 若试玩广告需要响应屏幕旋转, 后续要监听 wx.onWindowResize 重设, 现在一次性够用。
@@ -222,7 +64,7 @@
     if (g.outerWidth  == null) g.outerWidth  = w;
     if (g.outerHeight == null) g.outerHeight = h;
     g.screen = g.screen || { width: w, height: h, availWidth: w, availHeight: h };
-    console.log('[bootShim/v5b] canvas sized to', g.canvas.width + 'x' + g.canvas.height, 'css=', w + 'x' + h, 'dpr=', dpr);
+    console.log('[bootShim] canvas sized to', g.canvas.width + 'x' + g.canvas.height, 'css=', w + 'x' + h, 'dpr=', dpr);
   } catch (e) {
     console.warn('[bootShim] canvas size fail:', e && e.message);
     g.canvas.width  = 750;
@@ -309,15 +151,10 @@
         gl.texImage2D = function () {
           const a = arguments;
           // 6-arg form: target, level, internalformat, format, type, source
-          // PC 走这条当 source 是 instanceof HTMLImage/Canvas/Video — 我们的 hasInstance hook 让 proxy 也通过.
           if (a.length === 6) {
             const src = a[5];
             if (src && src._isLunaVideo) {
               const fr = typeof src._pullFrame === 'function' ? src._pullFrame() : null;
-              const cnt6 = (GameGlobal.__VID_TEX6 = (GameGlobal.__VID_TEX6 || 0) + 1);
-              if (cnt6 === 1 || cnt6 === 10 || cnt6 === 30 || cnt6 === 100 || cnt6 === 300) {
-                console.log('[video-tex6#' + cnt6 + '] src=' + (src.id || '?') + ' hasFrame=' + (!!fr) + ' fw=' + (fr && fr.width) + ' fh=' + (fr && fr.height));
-              }
               if (fr && fr.data && fr.width && fr.height) {
                 try {
                   return origTex.call(this, a[0], a[1], a[2], fr.width, fr.height, 0, a[3], a[4],
@@ -333,35 +170,6 @@
               // 没帧数据先静默 skip; PC 下一帧还会再来
               if ((GameGlobal.__VID_TEX_NOFRAME = (GameGlobal.__VID_TEX_NOFRAME || 0) + 1) === 1) {
                 console.log('[video-tex] first call but no frame yet, deferring');
-              }
-              return undefined;
-            }
-          }
-          // 9-arg form: target, level, internalformat, width, height, border, format, type, pixels
-          // 防御:若 hasInstance hook 因 playable runtime 锁了 HTMLVideoElement 而失效,PC 会把 proxy 当 pixel data
-          // 传到 9-arg path. 这里把 proxy 转成 frame data,且用真实 frame 的 w/h 替换 PC 算出来的尺寸
-          // (PC 的 w/h 可能是 t._width*i — mipmap level 缩放后的, 跟 frame data 字节数对不上).
-          if (a.length === 9) {
-            const src = a[8];
-            if (src && src._isLunaVideo) {
-              const fr = typeof src._pullFrame === 'function' ? src._pullFrame() : null;
-              const cnt9 = (GameGlobal.__VID_TEX9 = (GameGlobal.__VID_TEX9 || 0) + 1);
-              if (cnt9 === 1 || cnt9 === 10 || cnt9 === 30 || cnt9 === 100 || cnt9 === 300) {
-                console.log('[video-tex9#' + cnt9 + '] src=' + (src.id || '?') + ' hasFrame=' + (!!fr) + ' fw=' + (fr && fr.width) + ' fh=' + (fr && fr.height));
-              }
-              if (fr && fr.data && fr.width && fr.height) {
-                try {
-                  return origTex.call(this, a[0], a[1], a[2], fr.width, fr.height, a[5], a[6], a[7],
-                    fr.data instanceof ArrayBuffer ? new Uint8Array(fr.data) : fr.data);
-                } catch (e) {
-                  if ((GameGlobal.__VID_TEX9_ERR = (GameGlobal.__VID_TEX9_ERR || 0) + 1) <= 3) {
-                    console.warn('[video-tex] 9-arg defense upload failed:', e && e.message);
-                  }
-                  return undefined;
-                }
-              }
-              if ((GameGlobal.__VID_TEX9_NOFRAME = (GameGlobal.__VID_TEX9_NOFRAME || 0) + 1) === 1) {
-                console.log('[video-tex] 9-arg path saw proxy without frame (instanceof hook missed) — defense intercept');
               }
               return undefined;
             }
@@ -392,49 +200,15 @@
         console.log('[video-tex] wrapped GL texImage2D/texSubImage2D');
         return gl;
       };
-      // 把 getContext wrapper 提取成函数, 给所有 canvas (g.canvas + document.createElement('canvas') +
-      // wx.createCanvas() 直接调用) 都装上. PC 渲染 canvas 走 document.createElement('canvas') →
-      // wx.createCanvas(), 不是 g.canvas — 只 wrap g.canvas 的 getContext 完全错过 PC 主 GL ctx.
-      const __wrapCanvasGetContext = (canvas) => {
-        if (!canvas || canvas.__lunaGetCtxWrapped) return canvas;
-        const __origGetContext = canvas.getContext;
-        if (typeof __origGetContext !== 'function') return canvas;
-        try {
-          canvas.getContext = function () {
-            const ctx = __origGetContext.apply(this, arguments);
-            if (ctx && (typeof ctx.texImage2D === 'function')) __wrapGL(ctx);
-            return ctx;
-          };
-          canvas.__lunaGetCtxWrapped = true;
-          if (!GameGlobal.__VID_WRAP_CANVAS_LOG) {
-            GameGlobal.__VID_WRAP_CANVAS_LOG = 1;
-            console.log('[video-tex] wrapped getContext on canvas (first instance)');
-          }
-        } catch (e) {
-          if (!GameGlobal.__VID_WRAP_CANVAS_FAIL) {
-            GameGlobal.__VID_WRAP_CANVAS_FAIL = 1;
-            console.warn('[video-tex] getContext wrap failed:', e && e.message);
-          }
-        }
-        return canvas;
-      };
-      __wrapCanvasGetContext(g.canvas);
-
-      // monkey-patch wx.createCanvas — 后续创建的所有 canvas (PC 渲染 canvas / 离屏 canvas) 都自动带 wrap
-      try {
-        if (typeof wx !== 'undefined' && typeof wx.createCanvas === 'function' && !wx.__lunaCanvasWrapped) {
-          const __origCreateCanvas = wx.createCanvas;
-          wx.createCanvas = function () {
-            const c = __origCreateCanvas.apply(wx, arguments);
-            return __wrapCanvasGetContext(c);
-          };
-          wx.__lunaCanvasWrapped = true;
-        }
-      } catch (e) { console.warn('[video-tex] wx.createCanvas patch failed:', e && e.message); }
-
-      // 兜底: 即使 getContext wrap 没生效, 等 PC 已建好 GL ctx 后我们再 wrap 一次.
-      GameGlobal.__lunaWrapGL = __wrapGL;
-      GameGlobal.__lunaWrapCanvasGetContext = __wrapCanvasGetContext;
+      const __origGetContext = g.canvas.getContext;
+      if (typeof __origGetContext === 'function') {
+        g.canvas.getContext = function () {
+          const ctx = __origGetContext.apply(this, arguments);
+          // 只 wrap webgl/webgl2 上下文; 2d 上下文没有 texImage2D
+          if (ctx && (typeof ctx.texImage2D === 'function')) __wrapGL(ctx);
+          return ctx;
+        };
+      }
     }
 
     // ---------- 触控桥接 wx.onTouch* → canvas._bus → PC TouchDevice ----------
@@ -544,39 +318,6 @@
       }
       console.warn('[UI.instrument] hooks installed');
     }
-
-    // 暴露 warmup 函数: 启动期外部 RAF chain 调用让 luna PC 第一帧就看到 idle Input 状态
-    g.__warmupUIInject = function () {
-      try {
-        _instrumentUIRead();
-        if (!__uiInjectState) {
-          // 注入空 idle 状态: 没 active touch, mousePosition=(0,0)
-          __uiInjectState = { active: false, ux: 0, uy: 0, dx: 0, dy: 0, phase: 0,
-                              fingerId: 0, mockT: null, isDown: false, isUp: false, endedAt: 0, endedTickCount: null };
-        }
-        _injectUIState();
-        console.log('[UI.warmup] Input state injected (idle), UI ready=' + !!(g.UnityEngine && g.UnityEngine.Input));
-
-        // **首次扫码首次触屏漂移 workaround**: web runtime 下浏览器在 canvas 建立时自动 dispatch 'resize',
-        // luna PC.app 用它来同步 Canvas Scaler viewport. wx 试玩 runtime 没自动 dispatch,
-        // luna PC 第一帧用默认 viewport (750×1334) → Canvas Scaler 第一帧 raycast 错位 → 首次触屏漂移.
-        // 主动 dispatch resize + orientationchange + visibilitychange 三发齐, 让 luna PC 重设 viewport.
-        try {
-          const w = (g._screen && g._screen.cssWidth) || g.innerWidth || 400;
-          const h = (g._screen && g._screen.cssHeight) || g.innerHeight || 862;
-          const events = ['resize', 'orientationchange', 'visibilitychange'];
-          for (const evType of events) {
-            try {
-              const ev = (typeof g.Event === 'function') ? new g.Event(evType) : { type: evType };
-              ev.type = evType;
-              if (g._winBus && typeof g._winBus.emit === 'function') g._winBus.emit(evType, ev);
-              if (typeof g.dispatchEvent === 'function') { try { g.dispatchEvent(ev); } catch (_) {} }
-            } catch (e) {}
-          }
-          console.log('[UI.warmup] dispatched resize/orientationchange to nudge Canvas Scaler (cssW=' + w + ' cssH=' + h + ')');
-        } catch (e) { console.warn('[UI.warmup] resize dispatch FAIL', e && e.message); }
-      } catch (e) { console.warn('[UI.warmup] FAIL', e && e.message); }
-    };
 
     function _injectUIState() {
       const UI = g.UnityEngine && g.UnityEngine.Input;
@@ -692,9 +433,6 @@
       };
       _instrumentUIRead();
       _injectUIState();
-      // **首次 touch 偏移 workaround**: luna PC EventSystem 第一帧 init 时如果 UnityEngine.Input.touches/mousePosition
-      // 是 undefined, raycast camera 用默认 viewport, 第一次 OnPointerDown 路由错位.
-      // 启动期主动调 _injectUIState 一次让状态非 undefined, 见 dom-shim init 末尾的 warmup tick.
       if (!__uiInjectTimer) {
         __uiInjectTimer = setInterval(function () {
           _injectUIState();
@@ -882,18 +620,6 @@
     };
   }
 
-  // ---------- window.open 兜底 (Unity Application.OpenURL 路径) ----------
-  // 部分 Luna 工程把按钮接到 Application.OpenURL → JS 层 window.open(url).
-  // 试玩广告 runtime 里 window.open 不存在, 调用直接 silent fail → 按钮没反应.
-  // 这里捕到调用就 fire endUnityGame, 行为对齐 InstallFullGame.
-  if (typeof g.open !== 'function') {
-    g.open = function (url) {
-      console.log('[dom-shim] window.open intercepted url=', url);
-      try { if (typeof GameGlobal.endUnityGame === 'function') GameGlobal.endUnityGame(); } catch (e) {}
-      return null;
-    };
-  }
-
   // ---------- URLSearchParams (playable runtime 不一定有) ----------
   if (typeof g.URLSearchParams === 'undefined') {
     g.URLSearchParams = function URLSearchParams(s) {
@@ -991,11 +717,8 @@
     // byteLength 以 extract-wasm.cjs 输出的 luna-wasm.json 为准；换 Luna 包时重跑脚本会更新两个文件，
     // 然后**回来更新这张 size→file 表**(脚本在末尾 console.error 打印 manifest)。
     // 路径加载 manifest（按 byteLength → 包内文件）。两份都用 .br 压缩省主包体积。
-    // **iOS 18.7.8 + WeChat 8.0.72 实测**: brotli decode 出来的 box2d 是 168336 字节, 比 Android (V8) 的 168334 多 2 字节。
-    // 两个 length 都映射到 box2d.wasm.br, 否则 iOS 高版本黑屏 (emscripten Aborted("unmapped WASM buffer length=168336"))。
     const _wasmFiles = {
       168334: 'box2d.wasm.br',
-      168336: 'box2d.wasm.br',  // iOS 高版本 (brotli decode 多 2 字节)
       271539: 'mecanim.wasm.br',
     };
     // imports 处理模式：'pass'(默认，原样传) / 'clean'(包一层 thunk) / 'noop'(全 noop) / 'noop-arity'(按 arity noop)
@@ -1432,50 +1155,16 @@
     if (typeof o !== 'object' || o == null) return false;
     return o.tagName === 'VIDEO';
   };
-  // 必须无条件 force-override:即使 playable runtime 预定义了 HTMLVideoElement/HTMLImageElement,
-  // 它的原版没有 Symbol.hasInstance hook → PC 的 `n instanceof HTMLVideoElement` 对我们的 proxy 返 false
-  // → PC 走 9-arg path 把 proxy 当 ArrayBufferView 传 → texImage2D 抛 → 视频卡死单帧。
-  //
-  // 三层组合,任何一层走通即可:
-  //   A) 直接 g[key] = ourShim (有些 runtime 上是 writable)
-  //   B) Object.defineProperty 强写 (绕 writable=false,只要 configurable=true)
-  //   C) Patch Symbol.hasInstance on 已有 constructor (绕 readonly+non-configurable)
-  // C 是最强保底:即便 A/B 都失败,只要原 constructor 自身允许 defineProperty 加 well-known symbol,
-  // PC 的 `instanceof HVE` 就会经过我们的 duck check.
-  const _installCtor = (key, val, duckCheck) => {
-    let installed = false;
-    // A) 直接赋值
-    try { g[key] = val; if (g[key] === val) installed = true; } catch (e) {}
-    // B) defineProperty force write
-    if (!installed) {
-      try { Object.defineProperty(g, key, { value: val, configurable: true, writable: true, enumerable: false }); if (g[key] === val) installed = true; } catch (e) {}
-    }
-    // C) hasInstance patch on whatever constructor is currently in g[key]
-    try {
-      const cur = g[key];
-      if (cur && typeof cur === 'function' && cur !== val) {
-        Object.defineProperty(cur, Symbol.hasInstance, {
-          value: function (inst) {
-            if (inst == null) return false;
-            try { return !!duckCheck(inst); } catch (e) { return false; }
-          },
-          configurable: true,
-        });
-        console.log('[dom-shim] patched ' + key + '.@@hasInstance on existing runtime constructor');
-      }
-    } catch (e) { console.warn('[dom-shim] hasInstance patch failed for ' + key + ':', e && e.message); }
-    return installed;
-  };
-  _installCtor('HTMLImageElement', makeShimCtor(ImageShim, isWxImageLike), isWxImageLike);
+  if (typeof g.HTMLImageElement  === 'undefined') g.HTMLImageElement  = makeShimCtor(ImageShim,  isWxImageLike);
   // 浏览器里 Image === HTMLImageElement;打包代码 `new Image()` 走 globalThis 解析,这里同源即可
-  _installCtor('Image', g.HTMLImageElement, isWxImageLike);
-  _installCtor('HTMLVideoElement', makeShimCtor(VideoShim, isVideoLike), isVideoLike);
+  if (typeof g.Image             === 'undefined') g.Image             = g.HTMLImageElement;
+  if (typeof g.HTMLVideoElement  === 'undefined') g.HTMLVideoElement  = makeShimCtor(VideoShim,  isVideoLike);
   if (typeof g.HTMLAudioElement  === 'undefined') g.HTMLAudioElement  = AudioShim;
   // Luna sound handler 在 _loadSimpleAssetsAsync 里 `new Audio()` 即使资源为 0 也走构造路径,
   // 试玩 runtime 没全局 Audio → ReferenceError → 整个 _loadSimpleAssetsAsync reject → 黑屏。
   // 浏览器里 Audio === HTMLAudioElement, 这里复用 AudioShim 即可。
   if (typeof g.Audio             === 'undefined') g.Audio             = AudioShim;
-  _installCtor('HTMLCanvasElement', makeShimCtor(null, isCanvasLike), isCanvasLike);
+  if (typeof g.HTMLCanvasElement === 'undefined') g.HTMLCanvasElement = makeShimCtor(null,        isCanvasLike);
   if (typeof g.HTMLElement       === 'undefined') g.HTMLElement       = function HTMLElement() {};
   if (typeof g.Element           === 'undefined') g.Element           = function Element() {};
   if (typeof g.Node              === 'undefined') g.Node              = function Node() {};
@@ -1702,48 +1391,15 @@
   // 把 dom-shim 暴露的关键构造器同步到 globalThis,且只设 globalThis 上不存在的。
   try {
     if (typeof globalThis !== 'undefined' && globalThis !== g) {
-      // 必须 force-override (不带 typeof undefined guard): playable runtime 已经预定义了
-      // HTMLVideoElement / HTMLImageElement 等到 globalThis,但它们没有 Symbol.hasInstance hook
-      // → PC 的 instanceof 对 proxy/wx-Image 返 false → 走错分支 → 黑屏/视频卡帧。
-      // 必须把带 hasInstance 的 shim 镜像过去覆盖原版。每项独立 try/catch:
-      // 个别 key (常见 Event/MouseEvent) 在 playable runtime 里被锁成 non-configurable readonly,
-      // 单次写入失败会抛 TypeError; 不能让一项 readonly 把后面 16 项都中断。
-      const _forceMirror = ['HTMLImageElement','HTMLVideoElement','HTMLCanvasElement','Image'];
-      for (const k of _forceMirror) {
-        if (typeof g[k] !== 'undefined') {
-          try { globalThis[k] = g[k]; } catch (e) {}
-        }
-      }
-      // 其余 keys 保持只补缺(不覆盖 playable runtime 的原版,避免 instanceof 关系漂移)
       const _mirror = ['Event','MouseEvent','WheelEvent','KeyboardEvent','TouchEvent','PointerEvent',
-        'CustomEvent','EventTarget','URL','Blob','FormData',  // iOS 高版本 polyfill, 必须 mirror
-        'Audio','HTMLAudioElement','HTMLElement','Element','Node','AudioContext','webkitAudioContext'];
+        'Audio','HTMLAudioElement','HTMLImageElement','HTMLVideoElement','HTMLCanvasElement',
+        'HTMLElement','Element','Node','AudioContext','webkitAudioContext','Image'];
       for (const k of _mirror) {
         if (typeof globalThis[k] === 'undefined' && typeof g[k] !== 'undefined') {
           try { globalThis[k] = g[k]; } catch (e) {}
         }
       }
     }
-  } catch (e) {}
-
-  // **首次 touch 偏移 workaround**: luna PC EventSystem 第一帧 init 时若 UnityEngine.Input.touches/mousePosition
-  // 是 undefined, raycast camera 用默认 viewport, 第一次 OnPointerDown 路由错位 → 用户感知首次操控偏移.
-  // 不等到第一次 touch 才装 hook + 注入状态, 启动期 RAF chain retry 直到 luna runtime 设了 UnityEngine.Input,
-  // 主动注入 active=false 的 idle 状态让 EventSystem 第一帧看到完整 Input 表面.
-  try {
-    let _warmupAttempts = 0;
-    const _warmupTick = setInterval(function () {
-      _warmupAttempts++;
-      const UI = g.UnityEngine && g.UnityEngine.Input;
-      if (UI && typeof UI.mousePosition !== 'undefined' || _warmupAttempts > 100) {
-        // luna runtime 已设 UnityEngine.Input, 装 read hook + 注入 idle 状态
-        try {
-          // 直接调 dom-shim 内部函数; 通过 g.__warmupUIInject 路径暴露 (闭包内)
-          if (typeof g.__warmupUIInject === 'function') g.__warmupUIInject();
-        } catch (e) {}
-        clearInterval(_warmupTick);
-      }
-    }, 50);
   } catch (e) {}
 })();
 
